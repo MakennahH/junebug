@@ -1,0 +1,7 @@
+.dark-mode,
+.dark-mode body,
+.dark-mode #app,
+.dark-mode #content-wrapper {
+	color: #fff;
+	background-color: #5f4d63 !important;
+}

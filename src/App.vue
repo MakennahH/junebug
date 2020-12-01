@@ -11,9 +11,9 @@
 import TabBar from "@/components/TabBar.vue";
 
 export default {
-	name: "App",
-	components: {
-		TabBar,
-	},
+  name: "App",
+  components: {
+    TabBar
+  }
 };
 </script>

@@ -1,23 +1,23 @@
 <template>
   <nav id="tabs" class="bar bar-tab">
-    <router-link class="tab-item ripple" to="/">
-      <b-icon icon="house-door" class="icon"></b-icon>
+    <router-link class="tab-item ripple" to="/today">
+      <b-icon icon="house-door-fill" class="icon"></b-icon>
       <span class="tab-label">Home</span>
     </router-link>
     <router-link class="tab-item ripple" to="/calendar">
-      <b-icon icon="calendar2-week" class="icon"></b-icon>
+      <b-icon icon="calendar3-week-fill" class="icon"></b-icon>
       <span class="tab-label">Calendar</span>
     </router-link>
     <router-link class="tab-item ripple" to="/planner">
-      <b-icon icon="journal-text" class="icon"></b-icon>
+      <b-icon icon="file-text-fill" class="icon"></b-icon>
       <span class="tab-label">Planner</span>
     </router-link>
     <router-link class="tab-item ripple" to="/notes">
-      <b-icon icon="pencil" class="icon"></b-icon>
+      <b-icon icon="pen-fill" class="icon"></b-icon>
       <span class="tab-label">Notes</span>
     </router-link>
     <router-link class="tab-item ripple" to="/settings">
-      <b-icon icon="gear" class="icon"></b-icon>
+      <b-icon icon="gear-fill" class="icon"></b-icon>
       <span class="tab-label">Settings</span>
     </router-link>
   </nav>
@@ -27,7 +27,8 @@
 import { Component, Vue } from "vue-property-decorator";
 
 @Component
-export default class TabBar extends Vue {}
+export default class TabBar extends Vue {
+}
 </script>
 
 <style scoped>
@@ -39,7 +40,6 @@ export default class TabBar extends Vue {}
   height: 50px;
   padding: 0;
   table-layout: fixed;
-  border-top: 1px solid #dddddd;
   border-bottom: 0;
 }
 
@@ -49,8 +49,7 @@ export default class TabBar extends Vue {}
   left: 0;
   z-index: 10;
   height: calc(70px + min(12px, env(safe-area-inset-top, 6px)));
-  background-color: #ffffff;
-  border-bottom: 1px solid #dddddd;
+  background-color:#372c3a;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
@@ -63,7 +62,7 @@ export default class TabBar extends Vue {}
   display: table-cell;
   width: 1%;
   height: 50px;
-  color: #919191;
+  color: #ffffff;
   text-align: center;
   vertical-align: middle;
   text-decoration: none;
