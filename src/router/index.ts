@@ -9,150 +9,149 @@ import Login from "../views/Login.vue";
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
-  {
-    path: "/signup",
-    name: "SignUp",
-    component: SignUp,
-  },
-  {
-    path: "/login",
-    name: "Login",
-    component: Login
-  },
-  {
-    path: "/",
-    name: "Home",
-    component: Home,
-  },
-  {
-    path: "/forgotpassword",
-    name: "ForgotPassword",
-    component: ForgotPassword,
-  },
-  {
-    path: "/today",
-    name: "Today",
-    component: () => import("../views/Today.vue"),
-    meta: {
-      tab: "today",
-    }
-  },
-  {
-    path: "/calendar",
-    name: "Calendar",
-    component: () => import("../views/Calendar.vue"),
-    meta: {
-      tab: "calendar",
-    },
-
-  },
-  {
-    path: "/planner",
-    name: "Planner",
-    component: () => import("../views/Planner.vue"),
-    meta: {
-      tab: "planner",
-    }
-  },
-  {
-    path: "/alarms",
-    name: "Alarms",
-    component: () => import("../views/Alarms.vue"),
-    meta: {
-      tab: "planner",
-    }
-  },
-  {
-    path: "/alarms/add",
-    name: "AddAlarm",
-    component: () => import("../views/AddAlarm.vue"),
-    meta: {
-      tab: "planner",
-    }
-  },
-  {
-    path: "/events",
-    name: "Events",
-    component: () => import("../views/Events.vue"),
-    meta: {
-      tab: "planner",
-    }
-  },
-  {
-    path: "/events/add",
-    name: "AddEvent",
-    component: () => import("../views/AddEvent.vue"),
-    meta: {
-      tab: "planner",
-    }
-  },
-  {
-    path: "/tasks",
-    name: "Tasks",
-    component: () => import("../views/Tasks.vue"),
-    meta: {
-      tab: "planner",
-    }
-  },
-  {
-    path: "/tasks/add",
-    name: "AddTask",
-    component: () => import("../views/AddTask.vue"),
-    meta: {
-      tab: "planner",
-    }
-  },
-  {
-    path: "/timelimits",
-    name: "TimeLimits",
-    component: () => import("../views/TimeLimits.vue"),
-    meta: {
-      tab: "planner",
-    }
-  },
-  {
-    path: "/timelimits/add",
-    name: "AddTimeLimit",
-    component: () => import("../views/AddTimeLimit.vue"),
-    meta: {
-      tab: "planner",
-    }
-  },
-  {
-    path: "/notes",
-    name: "Notes",
-    component: () => import("../views/Notes.vue"),
-    meta: {
-      tab: "notes",
-    }
-  },
-  {
-    path: "/notes/add",
-    name: "AddNote",
-    component: () => import("../views/AddNote.vue"),
-    meta: {
-      tab: "notes",
-    }
-  },
-  {
-    path: "/settings",
-    name: "Settings",
-    component: () => import("../views/Settings.vue"),
-    meta: {
-      tab: "settings",
-    }
-  },
-  {
-    path: "*",
-    name: "NotFound",
-    component: NotFound,
-  },
+	{
+		path: "/signup",
+		name: "SignUp",
+		component: SignUp,
+	},
+	{
+		path: "/login",
+		name: "Login",
+		component: Login,
+	},
+	{
+		path: "/",
+		name: "Home",
+		component: Home,
+	},
+	{
+		path: "/forgotpassword",
+		name: "ForgotPassword",
+		component: ForgotPassword,
+	},
+	{
+		path: "/today",
+		name: "Today",
+		component: () => import("../views/Today.vue"),
+		meta: {
+			tab: "today",
+		},
+	},
+	{
+		path: "/calendar",
+		name: "Calendar",
+		component: () => import("../views/Calendar.vue"),
+		meta: {
+			tab: "calendar",
+		},
+	},
+	{
+		path: "/planner",
+		name: "Planner",
+		component: () => import("../views/Planner.vue"),
+		meta: {
+			tab: "planner",
+		},
+	},
+	{
+		path: "/alarms",
+		name: "Alarms",
+		component: () => import("../views/Alarms.vue"),
+		meta: {
+			tab: "planner",
+		},
+	},
+	{
+		path: "/alarms/add",
+		name: "AddAlarm",
+		component: () => import("../views/AddAlarm.vue"),
+		meta: {
+			tab: "planner",
+		},
+	},
+	{
+		path: "/events",
+		name: "Events",
+		component: () => import("../views/Events.vue"),
+		meta: {
+			tab: "planner",
+		},
+	},
+	{
+		path: "/events/add",
+		name: "AddEvent",
+		component: () => import("../views/AddEvent.vue"),
+		meta: {
+			tab: "planner",
+		},
+	},
+	{
+		path: "/tasks",
+		name: "Tasks",
+		component: () => import("../views/Tasks.vue"),
+		meta: {
+			tab: "planner",
+		},
+	},
+	{
+		path: "/tasks/add",
+		name: "AddTask",
+		component: () => import("../views/AddTask.vue"),
+		meta: {
+			tab: "planner",
+		},
+	},
+	{
+		path: "/timelimits",
+		name: "TimeLimits",
+		component: () => import("../views/TimeLimits.vue"),
+		meta: {
+			tab: "planner",
+		},
+	},
+	{
+		path: "/timelimits/add",
+		name: "AddTimeLimit",
+		component: () => import("../views/AddTimeLimit.vue"),
+		meta: {
+			tab: "planner",
+		},
+	},
+	{
+		path: "/notes",
+		name: "Notes",
+		component: () => import("../views/Notes.vue"),
+		meta: {
+			tab: "notes",
+		},
+	},
+	{
+		path: "/notes/add",
+		name: "AddNote",
+		component: () => import("../views/AddNote.vue"),
+		meta: {
+			tab: "notes",
+		},
+	},
+	{
+		path: "/settings",
+		name: "Settings",
+		component: () => import("../views/Settings.vue"),
+		meta: {
+			tab: "settings",
+		},
+	},
+	{
+		path: "*",
+		name: "NotFound",
+		component: NotFound,
+	},
 ];
 
 const router = new VueRouter({
-  mode: "history",
-  base: process.env.BASE_URL,
-  routes
+	mode: "history",
+	base: process.env.BASE_URL,
+	routes,
 });
 
 export default router;
