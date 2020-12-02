@@ -55,6 +55,70 @@ const routes: Array<RouteConfig> = [
     }
   },
   {
+    path: "/alarms",
+    name: "Alarms",
+    component: () => import("../views/Alarms.vue"),
+    meta: {
+      tab: "planner",
+    }
+  },
+  {
+    path: "/alarms/add",
+    name: "AddAlarm",
+    component: () => import("../views/AddAlarm.vue"),
+    meta: {
+      tab: "planner",
+    }
+  },
+  {
+    path: "/events",
+    name: "Events",
+    component: () => import("../views/Events.vue"),
+    meta: {
+      tab: "planner",
+    }
+  },
+  {
+    path: "/events/add",
+    name: "AddEvent",
+    component: () => import("../views/AddEvent.vue"),
+    meta: {
+      tab: "planner",
+    }
+  },
+  {
+    path: "/tasks",
+    name: "Tasks",
+    component: () => import("../views/Tasks.vue"),
+    meta: {
+      tab: "planner",
+    }
+  },
+  {
+    path: "/tasks/add",
+    name: "AddTask",
+    component: () => import("../views/AddTask.vue"),
+    meta: {
+      tab: "planner",
+    }
+  },
+  {
+    path: "/timelimits",
+    name: "TimeLimits",
+    component: () => import("../views/TimeLimits.vue"),
+    meta: {
+      tab: "planner",
+    }
+  },
+  {
+    path: "/timelimits/add",
+    name: "AddTimeLimit",
+    component: () => import("../views/AddTimeLimit.vue"),
+    meta: {
+      tab: "planner",
+    }
+  },
+  {
     path: "/notes",
     name: "Notes",
     component: () => import("../views/Notes.vue"),

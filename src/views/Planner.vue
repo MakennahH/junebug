@@ -8,6 +8,7 @@
         <b-list-group>
           <b-list-group-item
             class="d-flex justify-items-start align-items-center"
+            to="/tasks"
           >
             <div class="text-dark text-left">
               <b-icon
@@ -26,6 +27,7 @@
           </b-list-group-item>
           <b-list-group-item
             class="d-flex justify-items-start align-items-center"
+            to="/events"
           >
             <div class="text-dark text-left">
               <b-icon
@@ -44,6 +46,7 @@
           </b-list-group-item>
           <b-list-group-item
             class="d-flex justify-items-start align-items-center"
+            to="/timelimits"
           >
             <div class="text-dark text-left">
               <b-icon
@@ -62,6 +65,7 @@
           </b-list-group-item>
           <b-list-group-item
             class="d-flex justify-items-start align-items-center"
+            to="/alarms"
           >
             <div class="text-dark text-left">
               <b-icon

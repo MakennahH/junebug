@@ -1,6 +1,9 @@
 <template>
   <div class="notes">
     <div class="base-header text-center">
+      <router-link class="header-button-left" to="/notes" replace>
+        <b-icon icon="chevron-left" variant="light" scale="0.5"></b-icon>
+      </router-link>
       <div>Add a Note</div>
     </div>
     <div class="row has-header">
@@ -13,7 +16,7 @@
           no-resize
         ></b-form-textarea>
         <b-button @click="addNote" class="btn btn-info mt-2" block>
-          Save note
+          Save
         </b-button>
       </form>
     </div>
