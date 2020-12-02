@@ -1,15 +1,15 @@
 <template>
-  <div class="home">
-    <h1>This is a home page</h1>
-  </div>
+  <div class="home"></div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
 
-export default {
-  name: "Home",
-  components: {
-    
+@Component
+export default class Home extends Vue {
+  mounted() {
+    document.querySelector("#tabs")?.classList.add("d-none");
+    this.$router.replace("/login");
   }
-};
+}
 </script>

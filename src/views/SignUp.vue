@@ -29,9 +29,9 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "Signup",
-  components: {},
-};
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+
+@Component
+export default class Signup extends Vue {}
 </script>

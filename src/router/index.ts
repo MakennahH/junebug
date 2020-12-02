@@ -49,8 +49,7 @@ const routes: Array<RouteConfig> = [
   {
     path: "/planner",
     name: "Planner",
-    component: () =>
-      import("../views/Planner.vue"),
+    component: () => import("../views/Planner.vue"),
     meta: {
       tab: "planner",
     }
@@ -58,8 +57,15 @@ const routes: Array<RouteConfig> = [
   {
     path: "/notes",
     name: "Notes",
-    component: () =>
-      import("../views/Notes.vue"),
+    component: () => import("../views/Notes.vue"),
+    meta: {
+      tab: "notes",
+    }
+  },
+  {
+    path: "/notes/add",
+    name: "AddNote",
+    component: () => import("../views/AddNote.vue"),
     meta: {
       tab: "notes",
     }
@@ -67,8 +73,7 @@ const routes: Array<RouteConfig> = [
   {
     path: "/settings",
     name: "Settings",
-    component: () =>
-      import("../views/Settings.vue"),
+    component: () => import("../views/Settings.vue"),
     meta: {
       tab: "settings",
     }
