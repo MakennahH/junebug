@@ -100,14 +100,14 @@ body {
 
 /* button styles */
 
-.btn-text-left .btn{
+.btn-text-left .btn {
 	text-align: left !important;
 }
 
 /* colors */
 
 .purple {
-	color: #570B83;
+	color: #570b83;
 }
 
 .dark-blue {
@@ -120,4 +120,24 @@ body {
 
 .green {
 	color: #eeffdb;
+}
+
+.bg-purple {
+	background-color: #570b83 !important;
+	color: #fff !important;
+}
+
+.bg-dark-blue {
+	background-color: #234c6c !important;
+	color: #fff !important;
+}
+
+.bg-light-blue {
+	background-color: #3a7ca5 !important;
+	color: #fff !important;
+}
+
+.bg-green {
+	background-color: #eeffdb !important;
+	color: #000 !important;
 }

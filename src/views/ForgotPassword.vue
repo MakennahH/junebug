@@ -10,7 +10,7 @@
 			</div>
 			<b-form-input class="form-group-top" type="text" placeholder="email" />
 			<div>
-				<b-button block class="btn btn-info my-2">Recover Account</b-button>
+				<b-button block class="btn my-2" variant="info">Recover Account</b-button>
 				<router-link to="/signup" class="text-info"> Sign up </router-link>
 				<router-link to="/login" class="text-info float-right">
 					Log in

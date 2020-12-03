@@ -10,7 +10,7 @@
 			<b-form-input class="form-group-top" type="password" placeholder="password" />
 			<b-form-input class="form-group-bottom" type="password" placeholder="confirm password" />
 			<div>
-				<b-button block class="btn btn-info my-2">Sign Up</b-button>
+				<b-button block class="btn my-2" variant="info">Sign Up</b-button>
 				<router-link to="/login" class="text-info"> Log In </router-link>
 			</div>
 		</form>

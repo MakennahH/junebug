@@ -8,7 +8,7 @@
 			<b-form-input class="form-group-top" type="text" placeholder="username" />
 			<b-form-input class="form-group-bottom" type="password" placeholder="password" />
 			<div>
-				<b-button to="/today" block class="btn btn-info my-2">Log in</b-button>
+				<b-button to="/today" block class="btn my-2" variant="info">Log in</b-button>
 				<router-link to="/signup" class="text-info"> Sign up </router-link>
 				<router-link to="/forgotpassword" class="text-info float-right">
 					Forgot Password

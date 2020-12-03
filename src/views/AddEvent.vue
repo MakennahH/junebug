@@ -13,13 +13,14 @@
 					<b-form-timepicker class="mb-2" placeholder="Start time"></b-form-timepicker>
 					<b-form-timepicker class="mb-2" placeholder="End time"></b-form-timepicker>
 				</div>
+				<b-form-input class="mb-2" placeholder="With who?"></b-form-input>
 				<b-form-input class="mb-2" placeholder="Location"></b-form-input>
 				<b-form-input class="mb-2" placeholder="What to bring"></b-form-input>
 				<b-form-textarea class="textarea mb-2" v-model="text" placeholder="Extra notes" maxRows="8" no-auto-shrink no-resize></b-form-textarea>
 				<b-form-checkbox class="mb-2">Remind me when to leave</b-form-checkbox>
 				<div>Applies:</div>
 				<b-form-datepicker class="mb-2" placeholder="Calendar date"></b-form-datepicker>
-				<b-button block class="d-flex align-items-center justify-content-between" variant="light" v-b-toggle.recurring>
+				<b-button block class="d-flex align-items-center justify-content-between" v-b-toggle.recurring>
 					<div>Recurring</div>
 					<b-icon icon="chevron-down"></b-icon>
 				</b-button>
@@ -42,7 +43,7 @@
 						</b-button>
 					</b-button-group>
 				</b-collapse>
-				<b-button @click="addEvent" class="btn btn-info mt-2" block>
+				<b-button @click="addEvent" class="btn mt-2" variant="info" block>
 					Save
 				</b-button>
 			</form>

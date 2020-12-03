@@ -24,19 +24,20 @@
 						<b-card class="calendar-day"></b-card>
 						<b-card class="calendar-day"></b-card>
 						<b-card class="calendar-day"></b-card>
-						<b-card no-body class="calendar-day bg-emphasized py-5"></b-card>
-						<b-card no-body class="calendar-day bg-emphasized py-5">
-							<b-icon icon="circle-fill" class="mx-auto purple"> </b-icon>
+						<b-card no-body class="calendar-day bg-emphasized py-3"></b-card>
+						<b-card no-body class="calendar-day bg-emphasized bg-today py-3">
+							<b-icon icon="square-fill" class="mx-auto purple"> </b-icon>
+							<b-icon icon="square-fill" class="mx-auto mt-2" variant="warning"> </b-icon>
 						</b-card>
-						<b-card no-body class="calendar-day bg-emphasized py-5">
-							<b-icon icon="circle-fill" class="mx-auto dark-blue"> </b-icon>
+						<b-card no-body class="calendar-day bg-emphasized py-3">
+							<b-icon icon="square-fill" class="mx-auto dark-blue"> </b-icon>
 						</b-card>
-						<b-card no-body class="calendar-day bg-emphasized py-5"></b-card>
-						<b-card no-body class="calendar-day bg-emphasized py-5"></b-card>
-						<b-card no-body class="calendar-day bg-emphasized py-5">
-							<b-icon icon="circle-fill" class="mx-auto light-blue"> </b-icon>
+						<b-card no-body class="calendar-day bg-emphasized py-3"></b-card>
+						<b-card no-body class="calendar-day bg-emphasized py-3"></b-card>
+						<b-card no-body class="calendar-day bg-emphasized py-3">
+							<b-icon icon="square-fill" class="mx-auto light-blue"> </b-icon>
 						</b-card>
-						<b-card no-body class="calendar-day bg-emphasized py-5"></b-card>
+						<b-card no-body class="calendar-day bg-emphasized py-3"></b-card>
 						<b-card class="calendar-day"></b-card>
 						<b-card class="calendar-day"></b-card>
 						<b-card class="calendar-day"></b-card>
@@ -55,6 +56,12 @@
 						<b-card class="calendar-day"></b-card>
 						<b-card class="calendar-day"></b-card>
 					</div>
+				</b-card>
+				<b-card class="bg-purple mt-2">
+					<div>Expanded description of purple dot</div>
+				</b-card>
+				<b-card class="bg-warning mt-2">
+					<div>Expanded description of yellow dot</div>
 				</b-card>
 			</div>
 		</div>
@@ -77,12 +84,18 @@ export default class Calendar extends Vue {
 	width: 14.2%;
 }
 .dark-mode .calendar-day {
-	border-color: #999;
+	border-color: #444;
 }
 .dark-mode .bg-emphasized {
-	background: #444 !important;
+	background: #555 !important;
+}
+.dark-mode .bg-today {
+	background: #777 !important;
 }
 .bg-emphasized {
 	background: #eeffdb !important;
+}
+.bg-today {
+	background: #d9ffad !important;
 }
 </style>

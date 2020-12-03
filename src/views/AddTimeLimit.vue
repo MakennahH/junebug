@@ -18,7 +18,7 @@
 				</b-button-group>
 				<div>Duration:</div>
 				<b-form-spinbutton :formatter-fn="formatHours" v-model="maxHours" wrap min="1" max="24"></b-form-spinbutton>
-				<b-button @click="addTimeLimit" class="btn btn-info mt-2" block>
+				<b-button @click="addTimeLimit" class="btn mt-2" variant="info" block>
 					Save
 				</b-button>
 			</form>

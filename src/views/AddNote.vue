@@ -9,7 +9,7 @@
 		<div class="row has-header">
 			<form class="col mx-2">
 				<b-form-textarea class="textarea" v-model="text" placeholder="start a note..." no-auto-shrink no-resize></b-form-textarea>
-				<b-button @click="addNote" class="btn btn-info mt-2" block>
+				<b-button @click="addNote" class="btn mt-2" variant="info" block>
 					Save
 				</b-button>
 			</form>
@@ -31,11 +31,5 @@ export default class AddNote extends Vue {
 <style scoped>
 .textarea {
 	height: calc(100vh - 180px);
-}
-
-.dark-mode .textarea {
-	background-color: #222;
-	color: #fff;
-	border-color: #222;
 }
 </style>

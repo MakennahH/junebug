@@ -29,7 +29,8 @@
 					</b-list-group-item>
 					<b-collapse id="meal-reminder">
 						<b-card class=" form-group-middle">
-							<b-form-timepicker size="sm" type="time"></b-form-timepicker>
+							<div>Send reminders every:</div>
+							<b-form-spinbutton :formatter-fn="formatMealHours" size="sm" v-model="maxMealHours" wrap min="1" max="8"></b-form-spinbutton>
 						</b-card>
 					</b-collapse>
 					<b-list-group-item class="d-flex justify-content-between align-items-center" v-b-toggle.drink-reminder>
@@ -54,7 +55,7 @@
 					</b-list-group-item>
 					<b-collapse id="sleep-reminder">
 						<b-card class=" form-group-middle">
-							<b-form-timepicker size="sm" type="time"></b-form-timepicker>
+							<b-form-timepicker size="sm" type="time" v-model="sleepTime"></b-form-timepicker>
 						</b-card>
 					</b-collapse>
 					<b-list-group-item class="d-flex justify-content-between align-items-center" v-b-toggle.meds-reminder>
@@ -85,23 +86,32 @@
 import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class Settings extends Vue {
-	private time: Date = new Date();
-	private meal: Date[] = [];
+	private starttime = "9:00";
+	private sleeptime = "00:00";
+	private mealHours = 4;
 	private drinkHours = 1;
 
 	get startTime() {
-		return this.time;
+		return this.starttime;
 	}
 	set startTime(value) {
-		this.time = value;
+		this.starttime = value;
 	}
 
-	get mealReminders() {
-		return this.meal;
+	get sleepTime() {
+		return this.sleeptime;
 	}
 
-	set mealReminders(value) {
-		this.meal = value;
+	set sleepTime(value) {
+		this.sleeptime = value;
+	}
+
+	get maxMealHours() {
+		return this.mealHours;
+	}
+
+	set maxMealHours(value) {
+		this.mealHours = value;
 	}
 
 	get maxDrinkHours() {
@@ -114,6 +124,10 @@ export default class Settings extends Vue {
 
 	formatDrinkHours() {
 		return this.drinkHours == 1 ? this.drinkHours + " hr" : this.drinkHours + " hrs";
+	}
+
+	formatMealHours() {
+		return this.mealHours == 1 ? this.mealHours + " hr" : this.mealHours + " hrs";
 	}
 }
 </script>

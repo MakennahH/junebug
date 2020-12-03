@@ -29,5 +29,19 @@
 .dark-mode .list-group-item{
 	background-color: #222;
 	color: #fff;
-	border-color: #999;
+	border-color: #444;
+}
+
+.dark-mode .textarea, .dark-mode input, .dark-mode .b-form-datepicker, .dark-mode .b-form-timepicker, .dark-mode .b-form-spinbutton {
+	background-color: #222;
+	color: #fff;
+	border-color: #222;
+}
+
+.dark-mode .b-form-datepicker .btn, .dark-mode .b-form-timepicker .btn, .dark-mode .b-form-spinbutton .btn {
+	color: #fff;
+}
+
+.dark-mode .bg-secondary, .dark-mode .btn-secondary {
+	background-color: #4a535a !important;
 }

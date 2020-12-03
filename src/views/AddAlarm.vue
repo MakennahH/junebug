@@ -8,19 +8,27 @@
 		</div>
 		<div class="row has-header">
 			<form class="col mx-2">
-				<b-form-input class="mb-2" placeholder="Title"></b-form-input>
+				<div>Time:</div>
 				<b-form-timepicker class="mb-2" placeholder="Time"></b-form-timepicker>
+				<div>Title:</div>
+				<b-form-input class="mb-2" placeholder="Title"></b-form-input>
+				<div>Notes:</div>
+				<b-form-textarea class="textarea mb-2" v-model="text" placeholder="Extra notes" maxRows="8" no-auto-shrink no-resize></b-form-textarea>
 				<div>Applies:</div>
 				<b-form-datepicker class="mb-2" placeholder="Calendar date"></b-form-datepicker>
 				<div>Repeat:</div>
 				<b-button-group vertical class="mb-2 w-100">
-					<b-button class="btn text-left" :pressed.sync="yearSelected">
-						Yearly
-						<b-icon v-if="yearSelected" icon="check" class="float-right" variant="light"></b-icon>
+					<b-button class="btn text-left" :pressed.sync="daySelected">
+						Daily
+						<b-icon v-if="daySelected" icon="check" class="float-right" variant="light"></b-icon>
 					</b-button>
 					<b-button class="btn text-left" :pressed.sync="monthSelected">
 						Monthly
 						<b-icon v-if="monthSelected" icon="check" class="float-right" variant="light"></b-icon>
+					</b-button>
+					<b-button class="btn text-left" :pressed.sync="yearSelected">
+						Yearly
+						<b-icon v-if="yearSelected" icon="check" class="float-right" variant="light"></b-icon>
 					</b-button>
 				</b-button-group>
 				<div>Weekly:</div>
@@ -30,7 +38,7 @@
 						<b-icon v-if="selected[weekday.index]" icon="check" class="float-right" variant="light"></b-icon>
 					</b-button>
 				</b-button-group>
-				<b-button @click="addAlarm" class="btn btn-info" block>
+				<b-button @click="addAlarm" class="btn" variant="info" block>
 					Save
 				</b-button>
 			</form>
@@ -43,6 +51,7 @@ import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class AddAlarm extends Vue {
 	private days: boolean[] = [false, false, false, false, false, false, false];
+	private day = false;
 	private month = false;
 	private year = false;
 	private weekdays = [
@@ -66,6 +75,14 @@ export default class AddAlarm extends Vue {
 
 	set selected(value) {
 		this.days = value;
+	}
+
+	get daySelected() {
+		return this.day;
+	}
+
+	set daySelected(value) {
+		this.day = value;
 	}
 
 	get monthSelected() {
