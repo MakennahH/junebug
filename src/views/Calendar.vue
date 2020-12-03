@@ -8,13 +8,13 @@
 				<h3>October</h3>
 				<b-card no-body>
 					<div class="d-flex text-center my-1">
-						<div class="calendar-day text-dark">Sun</div>
-						<div class="calendar-day text-dark">Mon</div>
-						<div class="calendar-day text-dark">Tue</div>
-						<div class="calendar-day text-dark">Wed</div>
-						<div class="calendar-day text-dark">Thu</div>
-						<div class="calendar-day text-dark">Fri</div>
-						<div class="calendar-day text-dark">Sat</div>
+						<div class="calendar-day">Sun</div>
+						<div class="calendar-day">Mon</div>
+						<div class="calendar-day">Tue</div>
+						<div class="calendar-day">Wed</div>
+						<div class="calendar-day">Thu</div>
+						<div class="calendar-day">Fri</div>
+						<div class="calendar-day">Sat</div>
 					</div>
 					<div class="d-flex justify-content-start flex-wrap">
 						<b-card class="calendar-day"></b-card>
@@ -24,19 +24,19 @@
 						<b-card class="calendar-day"></b-card>
 						<b-card class="calendar-day"></b-card>
 						<b-card class="calendar-day"></b-card>
-						<b-card no-body class="calendar-day bg-light py-5"></b-card>
-						<b-card no-body class="calendar-day bg-light py-5">
-							<b-icon icon="circle-fill" variant="primary" class="mx-auto"> </b-icon>
+						<b-card no-body class="calendar-day bg-emphasized py-5"></b-card>
+						<b-card no-body class="calendar-day bg-emphasized py-5">
+							<b-icon icon="circle-fill" class="mx-auto purple"> </b-icon>
 						</b-card>
-						<b-card no-body class="calendar-day bg-light py-5">
-							<b-icon icon="circle-fill" variant="danger" class="mx-auto"> </b-icon>
+						<b-card no-body class="calendar-day bg-emphasized py-5">
+							<b-icon icon="circle-fill" class="mx-auto dark-blue"> </b-icon>
 						</b-card>
-						<b-card no-body class="calendar-day bg-light py-5"></b-card>
-						<b-card no-body class="calendar-day bg-light py-5"></b-card>
-						<b-card no-body class="calendar-day bg-light py-5">
-							<b-icon icon="circle-fill" variant="warning" class="mx-auto"> </b-icon>
+						<b-card no-body class="calendar-day bg-emphasized py-5"></b-card>
+						<b-card no-body class="calendar-day bg-emphasized py-5"></b-card>
+						<b-card no-body class="calendar-day bg-emphasized py-5">
+							<b-icon icon="circle-fill" class="mx-auto light-blue"> </b-icon>
 						</b-card>
-						<b-card no-body class="calendar-day bg-light py-5"></b-card>
+						<b-card no-body class="calendar-day bg-emphasized py-5"></b-card>
 						<b-card class="calendar-day"></b-card>
 						<b-card class="calendar-day"></b-card>
 						<b-card class="calendar-day"></b-card>
@@ -76,7 +76,13 @@ export default class Calendar extends Vue {
 .calendar-day {
 	width: 14.2%;
 }
-.bg-light {
-	background: #e8e2e9 !important;
+.dark-mode .calendar-day {
+	border-color: #999;
+}
+.dark-mode .bg-emphasized {
+	background: #444 !important;
+}
+.bg-emphasized {
+	background: #eeffdb !important;
 }
 </style>

@@ -6,25 +6,5 @@
     "singleQuote": false,
     "printWidth": 200,
     "wrapAttributes": false,
-    "sortAttributes": false,
-    "overrides": [
-        {
-            "files": [
-                "tests/**/*.js",
-                "tests/**/*.ts"
-            ],
-            "options": {
-                "printWidth": 80
-            }
-        },
-        {
-            "files": [
-                ".github/workflows/**/*.yml"
-            ],
-            "options": {
-                "useTabs": false,
-                "tabWidth": 2
-            }
-        }
-    ]
+    "sortAttributes": false
 }

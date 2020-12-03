@@ -3,5 +3,31 @@
 .dark-mode #app,
 .dark-mode #content-wrapper {
 	color: #fff;
-	background-color: #5f4d63 !important;
+	/* background-color: #2F6690 !important; */
+	background-color: #000;
+}
+
+.dark-mode .bar{
+	background-color: #111 !important;
+}
+
+.dark-mode .base-header{
+	background-color: #111 !important;
+}
+
+.dark-mode .card {
+	background-color: #222;
+	color: #fff;
+}
+
+.dark-mode .card-secondary {
+	background-color: #333;
+	color: #fff;
+	border-color: #333;
+}
+
+.dark-mode .list-group-item{
+	background-color: #222;
+	color: #fff;
+	border-color: #999;
 }

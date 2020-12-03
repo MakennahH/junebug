@@ -1,5 +1,5 @@
 <template>
-	<div class="add-alarm">
+	<div class="add-alarm pb-2">
 		<div class="base-header text-center">
 			<router-link class="header-button-left" to="/alarms" replace>
 				<b-icon icon="chevron-left" variant="light" scale="0.5"></b-icon>
@@ -8,7 +8,29 @@
 		</div>
 		<div class="row has-header">
 			<form class="col mx-2">
-				<b-button @click="addAlarm" class="btn btn-info mt-2" block>
+				<b-form-input class="mb-2" placeholder="Title"></b-form-input>
+				<b-form-timepicker class="mb-2" placeholder="Time"></b-form-timepicker>
+				<div>Applies:</div>
+				<b-form-datepicker class="mb-2" placeholder="Calendar date"></b-form-datepicker>
+				<div>Repeat:</div>
+				<b-button-group vertical class="mb-2 w-100">
+					<b-button class="btn text-left" :pressed.sync="yearSelected">
+						Yearly
+						<b-icon v-if="yearSelected" icon="check" class="float-right" variant="light"></b-icon>
+					</b-button>
+					<b-button class="btn text-left" :pressed.sync="monthSelected">
+						Monthly
+						<b-icon v-if="monthSelected" icon="check" class="float-right" variant="light"></b-icon>
+					</b-button>
+				</b-button-group>
+				<div>Weekly:</div>
+				<b-button-group vertical class="mb-2 w-100">
+					<b-button class="btn text-left" v-for="weekday in weekdays" :key="weekday.value" :pressed.sync="selected[weekday.index]">
+						{{ weekday.text }}
+						<b-icon v-if="selected[weekday.index]" icon="check" class="float-right" variant="light"></b-icon>
+					</b-button>
+				</b-button-group>
+				<b-button @click="addAlarm" class="btn btn-info" block>
 					Save
 				</b-button>
 			</form>
@@ -20,9 +42,46 @@
 import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class AddAlarm extends Vue {
+	private days: boolean[] = [false, false, false, false, false, false, false];
+	private month = false;
+	private year = false;
+	private weekdays = [
+		{ text: "Sunday", value: "sunday", index: 0 },
+		{ text: "Monday", value: "monday", index: 1 },
+		{ text: "Tuesday", value: "tuesday", index: 2 },
+		{ text: "Wednesday", value: "wednesday", index: 3 },
+		{ text: "Thursday", value: "thursday", index: 4 },
+		{ text: "Friday", value: "friday", index: 5 },
+		{ text: "Saturday", value: "saturday", index: 6 },
+	];
+
 	addAlarm() {
 		// TODO: save the Alarm
 		this.$router.replace("/alarms");
+	}
+
+	get selected() {
+		return this.days;
+	}
+
+	set selected(value) {
+		this.days = value;
+	}
+
+	get monthSelected() {
+		return this.month;
+	}
+
+	set monthSelected(value) {
+		this.month = value;
+	}
+
+	get yearSelected() {
+		return this.year;
+	}
+
+	set yearSelected(value) {
+		this.year = value;
 	}
 }
 </script>

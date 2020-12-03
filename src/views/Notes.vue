@@ -9,16 +9,16 @@
 		<div class="row has-header">
 			<div class="col mx-2">
 				<b-list-group>
-					<b-list-group-item class="text-dark text-left">
+					<b-list-group-item class=" text-left">
 						This is the start of a note...
 					</b-list-group-item>
-					<b-list-group-item class="text-dark text-left">
+					<b-list-group-item class=" text-left">
 						This is the start of a different note...
 					</b-list-group-item>
-					<b-list-group-item class="text-dark text-left">
+					<b-list-group-item class=" text-left">
 						Milk eggs paper plates 200 lady bugs
 					</b-list-group-item>
-					<b-list-group-item class="text-dark text-left">
+					<b-list-group-item class=" text-left">
 						Dont trust Sarah.
 					</b-list-group-item>
 				</b-list-group>

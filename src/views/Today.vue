@@ -9,9 +9,9 @@
 					<h3>Today:</h3>
 					<!-- <b-form-checkbox switch>I took my meds today</b-form-checkbox> -->
 				</div>
-				<b-list-group class="w-100 text-dark text-left">
+				<b-list-group class="w-100  text-left">
 					<b-list-group-item> 9:00am </b-list-group-item>
-					<b-list-group-item class="bg-info text-light">
+					<b-list-group-item class="card-secondary text-light">
 						10:00am Class
 					</b-list-group-item>
 					<b-list-group-item> 11:00am </b-list-group-item>
@@ -28,6 +28,10 @@
 					<b-list-group-item> 6:00pm </b-list-group-item>
 					<b-list-group-item> 7:00pm </b-list-group-item>
 				</b-list-group>
+				<h3 class="my-2">Upcoming:</h3>
+				<b-card class="card-secondary text-center">
+					<b-card-text>Nothing coming up! Sit back and relax.</b-card-text>
+				</b-card>
 			</div>
 		</div>
 	</div>

@@ -1,5 +1,5 @@
 <template>
-	<div class="notes">
+	<div class="add-note pb-2">
 		<div class="base-header text-center">
 			<router-link class="header-button-left" to="/notes" replace>
 				<b-icon icon="chevron-left" variant="light" scale="0.5"></b-icon>
@@ -31,5 +31,11 @@ export default class AddNote extends Vue {
 <style scoped>
 .textarea {
 	height: calc(100vh - 180px);
+}
+
+.dark-mode .textarea {
+	background-color: #222;
+	color: #fff;
+	border-color: #222;
 }
 </style>

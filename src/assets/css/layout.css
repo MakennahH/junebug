@@ -1,13 +1,13 @@
 /* COLOR PALETTE */
-/* #372c3a dark purple */
-/* #5f4d63 medium purple */
-/* #e8e2e9 lilac purple */
+/* #570B83 purple */
+/* #234C6C darker blue */
+/* #3A7CA5 lighter blue */
+/* #EEFFDB light green */
 
 #app {
 	font-family: Avenir, Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	color: #372c3a;
 	overflow-y: scroll;
 	overflow-x: hidden;
 	touch-action: manipulation;
@@ -37,7 +37,7 @@ body {
 	padding: 12px;
 	height: 45px;
 	text-align: center;
-	background: #372c3a;
+	background: #234c6c;
 	color: #ffffff;
 	backface-visibility: hidden;
 	-webkit-backface-visibility: hidden;
@@ -93,5 +93,31 @@ body {
 /* card styles */
 
 .card-secondary {
-	background-color: #372c3a !important;
+	background-color: #3a7ca5;
+	color: #fff;
+	border-color: #3a7ca5;
+}
+
+/* button styles */
+
+.btn-text-left .btn{
+	text-align: left !important;
+}
+
+/* colors */
+
+.purple {
+	color: #570B83;
+}
+
+.dark-blue {
+	color: #234c6c;
+}
+
+.light-blue {
+	color: #3a7ca5;
+}
+
+.green {
+	color: #eeffdb;
 }
