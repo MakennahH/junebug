@@ -2,7 +2,7 @@
 	<div class="auth-wrapper">
 		<form>
 			<div class="d-flex justify-content-center">
-				<img src="@/assets/logo-ohno.png" height="60" />
+				<img src="@/assets/logo-ohno.png" height="65" />
 			</div>
 			<h1 class="text-center">Uh oh!</h1>
 			<div class="col text-center">

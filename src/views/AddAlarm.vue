@@ -14,6 +14,8 @@
 				<b-form-input class="mb-2" placeholder="Title"></b-form-input>
 				<div>Notes:</div>
 				<b-form-textarea class="textarea mb-2" v-model="text" placeholder="Extra notes" maxRows="8" no-auto-shrink no-resize></b-form-textarea>
+				<div>Snooze Interval:</div>
+				<b-form-spinbutton class="mb-2" :formatter-fn="formatMinutes" size="sm" v-model="maxMinutes" wrap min="5" max="30"></b-form-spinbutton>
 				<div>Applies:</div>
 				<b-form-datepicker class="mb-2" placeholder="Calendar date"></b-form-datepicker>
 				<div>Repeat:</div>
@@ -63,6 +65,7 @@ export default class AddAlarm extends Vue {
 		{ text: "Friday", value: "friday", index: 5 },
 		{ text: "Saturday", value: "saturday", index: 6 },
 	];
+	private minutes = 5;
 
 	addAlarm() {
 		// TODO: save the Alarm
@@ -99,6 +102,18 @@ export default class AddAlarm extends Vue {
 
 	set yearSelected(value) {
 		this.year = value;
+	}
+
+	formatMinutes() {
+		return this.minutes + " minutes";
+	}
+
+	get maxMinutes() {
+		return this.minutes;
+	}
+
+	set maxMinutes(value) {
+		this.minutes = value;
 	}
 }
 </script>

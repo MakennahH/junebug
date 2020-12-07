@@ -2,7 +2,7 @@
 	<div class="auth-wrapper">
 		<form class="col">
 			<div class="d-flex justify-content-center">
-				<img src="@/assets/logo-white.png" height="60" />
+				<img src="@/assets/logo-white.png" height="65" />
 			</div>
 			<h1 class="text-center">Create an account</h1>
 			<b-form-input class="form-group-top" type="text" placeholder="email" />

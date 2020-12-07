@@ -2,7 +2,7 @@
 	<div class="auth-wrapper">
 		<form class="col">
 			<div class="d-flex justify-content-center">
-				<img src="@/assets/logo-white.png" height="60" />
+				<img src="@/assets/logo-white.png" height="65"/>
 			</div>
 			<h1 class="text-center">Forgot Password</h1>
 			<div class="my-2">
