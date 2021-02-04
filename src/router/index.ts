@@ -1,10 +1,10 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 import Home from "../views/Home.vue";
-import NotFound from "../views/NotFound.vue";
-import ForgotPassword from "../views/ForgotPassword.vue";
-import SignUp from "../views/SignUp.vue";
-import Login from "../views/Login.vue";
+import NotFound from "../views/Auth/NotFound.vue";
+import ForgotPassword from "../views/Auth/ForgotPassword.vue";
+import SignUp from "../views/Auth/SignUp.vue";
+import Login from "../views/Auth/Login.vue";
 
 Vue.use(VueRouter);
 
@@ -56,7 +56,7 @@ const routes: Array<RouteConfig> = [
 	{
 		path: "/alarms",
 		name: "Alarms",
-		component: () => import("../views/Alarms.vue"),
+		component: () => import("../views/Alarms/Alarms.vue"),
 		meta: {
 			tab: "planner",
 		},
@@ -64,7 +64,7 @@ const routes: Array<RouteConfig> = [
 	{
 		path: "/alarms/add",
 		name: "AddAlarm",
-		component: () => import("../views/AddAlarm.vue"),
+		component: () => import("../views/Alarms/AddAlarm.vue"),
 		meta: {
 			tab: "planner",
 		},
@@ -72,7 +72,7 @@ const routes: Array<RouteConfig> = [
 	{
 		path: "/events",
 		name: "Events",
-		component: () => import("../views/Events.vue"),
+		component: () => import("../views/Events/Events.vue"),
 		meta: {
 			tab: "planner",
 		},
@@ -80,7 +80,7 @@ const routes: Array<RouteConfig> = [
 	{
 		path: "/events/add",
 		name: "AddEvent",
-		component: () => import("../views/AddEvent.vue"),
+		component: () => import("../views/Events/AddEvent.vue"),
 		meta: {
 			tab: "planner",
 		},
@@ -88,7 +88,7 @@ const routes: Array<RouteConfig> = [
 	{
 		path: "/tasks",
 		name: "Tasks",
-		component: () => import("../views/Tasks.vue"),
+		component: () => import("../views/Tasks/Tasks.vue"),
 		meta: {
 			tab: "planner",
 		},
@@ -96,7 +96,7 @@ const routes: Array<RouteConfig> = [
 	{
 		path: "/tasks/add",
 		name: "AddTask",
-		component: () => import("../views/AddTask.vue"),
+		component: () => import("../views/Tasks/AddTask.vue"),
 		meta: {
 			tab: "planner",
 		},
@@ -104,7 +104,7 @@ const routes: Array<RouteConfig> = [
 	{
 		path: "/timelimits",
 		name: "TimeLimits",
-		component: () => import("../views/TimeLimits.vue"),
+		component: () => import("../views/TimeLimits/TimeLimits.vue"),
 		meta: {
 			tab: "planner",
 		},
@@ -112,23 +112,31 @@ const routes: Array<RouteConfig> = [
 	{
 		path: "/timelimits/add",
 		name: "AddTimeLimit",
-		component: () => import("../views/AddTimeLimit.vue"),
+		component: () => import("../views/TimeLimits/AddTimeLimit.vue"),
 		meta: {
 			tab: "planner",
 		},
 	},
 	{
-		path: "/notes",
-		name: "Notes",
-		component: () => import("../views/Notes.vue"),
+		path: "/notes/add",
+		name: "AddNote",
+		component: () => import("../views/Notes/AddNote.vue"),
 		meta: {
 			tab: "notes",
 		},
 	},
 	{
-		path: "/notes/add",
-		name: "AddNote",
-		component: () => import("../views/AddNote.vue"),
+		path: "/notes",
+		name: "Notes",
+		component: () => import("../views/Notes/Notes.vue"),
+		meta: {
+			tab: "notes",
+		},
+	},
+	{
+		path: "/notes/view",
+		name: "ViewNote",
+		component: () => import("../views/Notes/ViewNote.vue"),
 		meta: {
 			tab: "notes",
 		},
