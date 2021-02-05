@@ -11,7 +11,7 @@
 							<b-icon icon="diamond-half" scale="1.5" variant="info" class="mr-2"></b-icon>
 							Dark mode
 						</div>
-						<toggle-button :width="58" :height="32" switch-color="#FFFFFF" :color="{ checked: '#4EC9A3', unchecked: '#87979A' }" :labels="false" class="m-0" />
+						<toggle-button v-model="darkMode" :width="58" :height="32" switch-color="#FFFFFF" :color="{ checked: '#4EC9A3', unchecked: '#87979A' }" :labels="false" class="m-0" />
 					</b-list-group-item>
 					<b-list-group-item class="d-flex justify-content-between align-items-center">
 						<div>
@@ -90,6 +90,15 @@ export default class Settings extends Vue {
 	private sleeptime = "00:00";
 	private mealHours = 4;
 	private drinkHours = 1;
+	private dark = false;
+
+	get darkMode(){
+		return this.$store.state.darkMode;
+	}
+
+	set darkMode(value){
+		this.$store.commit("setDarkMode", value);
+	}
 
 	get startTime() {
 		return this.starttime;

@@ -1,22 +1,22 @@
 <template>
 	<nav id="tabs" class="bar bar-tab">
-		<router-link class="tab-item ripple" to="/today">
+		<router-link class="tab-item" v-bind:class="{active: isActive('today')}" to="/today">
 			<b-icon icon="house-door-fill" class="icon"></b-icon>
 			<span class="tab-label">Home</span>
 		</router-link>
-		<router-link class="tab-item ripple" to="/calendar">
+		<router-link class="tab-item" v-bind:class="{active: isActive('calendar')}" to="/calendar">
 			<b-icon icon="calendar3-week-fill" class="icon"></b-icon>
 			<span class="tab-label">Calendar</span>
 		</router-link>
-		<router-link class="tab-item ripple" to="/planner">
+		<router-link class="tab-item" v-bind:class="{active: isActive('planner')}" to="/planner">
 			<b-icon icon="file-text-fill" class="icon"></b-icon>
 			<span class="tab-label">Planner</span>
 		</router-link>
-		<router-link class="tab-item ripple" to="/notes">
+		<router-link class="tab-item" v-bind:class="{active: isActive('notes')}" to="/notes">
 			<b-icon icon="pen-fill" class="icon"></b-icon>
 			<span class="tab-label">Notes</span>
 		</router-link>
-		<router-link class="tab-item ripple" to="/settings">
+		<router-link class="tab-item" v-bind:class="{active: isActive('settings')}" to="/settings">
 			<b-icon icon="gear-fill" class="icon"></b-icon>
 			<span class="tab-label">Settings</span>
 		</router-link>
@@ -27,7 +27,11 @@
 import { Component, Vue } from "vue-property-decorator";
 
 @Component
-export default class TabBar extends Vue {}
+export default class TabBar extends Vue {
+	isActive(tab: string){
+		return this.$store.state.tab === tab;
+	}
+}
 </script>
 
 <style scoped>
@@ -69,7 +73,7 @@ export default class TabBar extends Vue {}
 }
 
 .bar-tab .tab-item.active {
-	color: #46c8e1;
+	color: #17a2b8;
 }
 
 .bar-tab .tab-label {

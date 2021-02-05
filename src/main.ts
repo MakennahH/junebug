@@ -55,8 +55,10 @@ new Vue({
 
 router.afterEach((to: Route) => {
 	if (to.meta.tab) {
+		store.commit("setTab", to.meta.tab);
 		document.querySelector("#tabs")?.classList.remove("d-none");
 	} else {
+		store.commit("setTab", "none");
 		document.querySelector("#tabs")?.classList.add("d-none");
 	}
 });
