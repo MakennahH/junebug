@@ -30,6 +30,7 @@
 import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class AddTimeLimit extends Vue {
+	private isEdit = false;
 	private days: boolean[] = [false, false, false, false, false, false, false];
 	private weekdays = [
 		{ text: "Sunday", value: "sunday", index: 0 },
@@ -41,6 +42,12 @@ export default class AddTimeLimit extends Vue {
 		{ text: "Saturday", value: "saturday", index: 6 },
 	];
 	private hours = 1;
+
+	mounted(){
+		// find out if this is supposed to be populated with an object to edit
+		// set isEdit to true
+		// fill v-models with object values
+	}
 
 	addTimeLimit() {
 		// TODO: save the TimeLimit

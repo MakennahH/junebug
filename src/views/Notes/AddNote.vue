@@ -21,6 +21,14 @@
 import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class AddNote extends Vue {
+	private isEdit = false;
+
+	mounted(){
+		// find out if this is supposed to be populated with an object to edit
+		// set isEdit to true
+		// fill v-models with object values
+	}
+
 	addNote() {
 		// TODO: save the note
 		this.$router.replace("/notes");

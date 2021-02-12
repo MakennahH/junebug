@@ -52,6 +52,7 @@
 import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class AddAlarm extends Vue {
+	private isEdit = false;
 	private days: boolean[] = [false, false, false, false, false, false, false];
 	private day = false;
 	private month = false;
@@ -66,6 +67,12 @@ export default class AddAlarm extends Vue {
 		{ text: "Saturday", value: "saturday", index: 6 },
 	];
 	private minutes = 5;
+
+	mounted(){
+		// find out if this is supposed to be populated with an object to edit
+		// set isEdit to true
+		// fill v-models with object values
+	}
 
 	addAlarm() {
 		// TODO: save the Alarm

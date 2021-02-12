@@ -28,8 +28,15 @@
 import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class AddTask extends Vue {
+	private isEdit = false;
 	private hours = 1;
 	private days = 1;
+
+	mounted(){
+		// find out if this is supposed to be populated with an object to edit
+		// set isEdit to true
+		// fill v-models with object values
+	}
 
 	get maxHours() {
 		return this.hours;

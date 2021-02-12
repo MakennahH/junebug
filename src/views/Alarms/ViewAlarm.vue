@@ -1,17 +1,17 @@
 <template>
-	<div class="notes pb-2">
+	<div class="alarms pb-2">
 		<div class="base-header text-center">
-			<router-link class="header-button-left" to="/notes" replace>
+			<router-link class="header-button-left" to="/alarms" replace>
 				<b-icon icon="chevron-left" variant="light" scale="0.5"></b-icon>
 			</router-link>
-			<div>Notes</div>
-			<router-link class="header-button" to="/notes/edit" replace>
+			<div>Alarms</div>
+			<router-link class="header-button" to="/alarms/edit" replace>
 				<b-icon icon="pencil" variant="light" scale="0.7"></b-icon>
 			</router-link>
 		</div>
 		<div class="row has-header">
 			<div class="col mx-2">
-				note contents
+				Alarm contents
 			</div>
 		</div>
 	</div>
@@ -20,6 +20,6 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 @Component({})
-export default class ViewNote extends Vue {
+export default class ViewAlarm extends Vue {
 }
 </script>
