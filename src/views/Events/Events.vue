@@ -10,8 +10,18 @@
 			</router-link>
 		</div>
 		<div class="row has-header">
-			<div class="col mx-2">
-				<b-card class="card-secondary text-center">
+			<div class="col">
+				<b-list-group v-if="events.length > 0" class="mx-2">
+					<b-list-group-item v-for="(event, key) in events" :key="key" :to="'events/view/' + key" replace>
+						<div class="d-flex justify-content-between">
+							<strong>{{ event.title }}</strong>
+							<div class="text-info">{{ event.startTime }} - {{ event.endTime }}</div>
+						</div>
+						<div>{{ event.location }}</div>
+						<div>{{ event.whatToBring }}</div>
+					</b-list-group-item>
+				</b-list-group>
+				<b-card v-else class="card-secondary text-center mx-2">
 					<b-card-text>You have no events saved.</b-card-text>
 				</b-card>
 			</div>
@@ -23,6 +33,7 @@
 import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class Events extends Vue {
+	private events = [];
 	mounted() {
 		// TODO: display info
 	}

@@ -10,8 +10,17 @@
 			</router-link>
 		</div>
 		<div class="row has-header">
-			<div class="col mx-2">
-				<b-card class="card-secondary text-center">
+			<div class="col">
+				<b-list-group v-if="timeLimits.length > 0" class="mx-2">
+					<b-list-group-item v-for="(timelimit, key) in timeLimits" :key="key" :to="'timelimits/view/' + key" replace>
+						<div class="d-flex justify-content-between">
+							<strong>{{ timelimit.title }}</strong>
+							<div class="text-info">{{ timelimit.duration }}</div>
+						</div>
+						<div class="text-truncate">{{ timelimit.days }}</div>
+					</b-list-group-item>
+				</b-list-group>
+				<b-card v-else class="card-secondary text-center mx-2">
 					<b-card-text>You have no time limits saved.</b-card-text>
 				</b-card>
 			</div>
@@ -23,6 +32,13 @@
 import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class Timelimits extends Vue {
+	private timeLimits = [
+		{
+			title: "Test",
+			duration: "2 hours",
+			days: "Mon Tue Wed Thu Fri"
+		}
+	];
 	mounted() {
 		// TODO: display info
 	}

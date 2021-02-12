@@ -10,8 +10,17 @@
 			</router-link>
 		</div>
 		<div class="row has-header">
-			<div class="col mx-2">
-				<b-card class="card-secondary text-center">
+			<div class="col">
+				<b-list-group v-if="tasks.length > 0" class="mx-2">
+					<b-list-group-item v-for="(task, key) in tasks" :key="key" :to="'tasks/view/' + key" replace>
+						<div class="d-flex justify-content-between">
+							<strong>{{ task.title }}</strong>
+							<div class="text-info">{{ task.dueDate }} {{ task.dueTime }}</div>
+						</div>
+						<div class="text-truncate">{{ task.desc }}</div>
+					</b-list-group-item>
+				</b-list-group>
+				<b-card v-else class="card-secondary text-center mx-2">
 					<b-card-text>You have no tasks saved.</b-card-text>
 				</b-card>
 			</div>
@@ -23,6 +32,14 @@
 import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class Tasks extends Vue {
+	private tasks = [
+		{
+			title: "Test task",
+			dueDate: "Jan 9",
+			dueTime: "11:59PM",
+			desc: "This is a very long description that should trail off right about now",
+		},
+	];
 	mounted() {
 		// TODO: display info
 	}

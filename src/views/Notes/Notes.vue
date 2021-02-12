@@ -8,11 +8,14 @@
 		</div>
 		<div class="row has-header">
 			<div class="col">
-				<b-list-group class="mx-2">
-					<b-list-group-item v-for="(note, key) in allNotes" :key="key" class="text-left text-truncate" :to="'notes/view/' + key" replace>
+				<b-list-group v-if="notes.length > 0" class="mx-2">
+					<b-list-group-item v-for="(note, key) in notes" :key="key" class="text-left text-truncate" :to="'notes/view/' + key" replace>
 						{{ note }}
 					</b-list-group-item>
 				</b-list-group>
+				<b-card v-else class="card-secondary text-center mx-2">
+					<b-card-text>You have no notes saved.</b-card-text>
+				</b-card>
 			</div>
 		</div>
 	</div>
@@ -22,7 +25,7 @@
 import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class Notes extends Vue {
-	private allNotes = ["It was the best of times, it was the worst of times", "According to all known laws of aviation, it is impossible"];
+	private notes = ["It was the best of times, it was the worst of times", "According to all known laws of aviation, it is impossible"];
 	mounted() {
 		// TODO: display notes
 	}
