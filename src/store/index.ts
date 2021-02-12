@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     tab: "none",
     darkMode: false,
+    // notes: new NotesModel();
   },
   mutations: {
     setTab(state, tab: string){

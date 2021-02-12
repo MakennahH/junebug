@@ -134,7 +134,7 @@ const routes: Array<RouteConfig> = [
 		},
 	},
 	{
-		path: "/notes/view",
+		path: "/notes/view/:id",
 		name: "ViewNote",
 		component: () => import("../views/Notes/ViewNote.vue"),
 		meta: {
