@@ -4,7 +4,7 @@
 			<router-link class="header-button-left" to="/notes" replace>
 				<b-icon icon="chevron-left" variant="light" scale="0.5"></b-icon>
 			</router-link>
-			<div>Add a Note</div>
+			<div>{{ isEdit ? "Edit Note" : "Add a Note"}}</div>
 		</div>
 		<div class="row has-header">
 			<form class="col mx-2">
@@ -21,7 +21,7 @@
 import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class AddNote extends Vue {
-	private isEdit = false;
+	private isEdit = this.$route.params.id;
 
 	mounted(){
 		// find out if this is supposed to be populated with an object to edit
@@ -30,7 +30,7 @@ export default class AddNote extends Vue {
 	}
 
 	addNote() {
-		// TODO: save the note
+		// TODO: save the note + date created/edited
 		this.$router.replace("/notes");
 	}
 }

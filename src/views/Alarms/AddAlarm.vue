@@ -4,7 +4,7 @@
 			<router-link class="header-button-left" to="/alarms" replace>
 				<b-icon icon="chevron-left" variant="light" scale="0.5"></b-icon>
 			</router-link>
-			<div>Add an Alarm</div>
+			<div>{{ isEdit ? "Edit Alarm" : "Add an Alarm"}}</div>
 		</div>
 		<div class="row has-header">
 			<form class="col mx-2">
@@ -20,22 +20,22 @@
 				<b-form-datepicker class="mb-2" placeholder="Calendar date"></b-form-datepicker>
 				<div>Repeat:</div>
 				<b-button-group vertical class="mb-2 w-100">
-					<b-button class="btn text-left" :pressed.sync="daySelected">
+					<b-button variant="outline-secondary" class="btn text-left" :pressed.sync="daySelected">
 						Daily
 						<b-icon v-if="daySelected" icon="check" class="float-right" variant="light"></b-icon>
 					</b-button>
-					<b-button class="btn text-left" :pressed.sync="monthSelected">
+					<b-button variant="outline-secondary" class="btn text-left" :pressed.sync="monthSelected">
 						Monthly
 						<b-icon v-if="monthSelected" icon="check" class="float-right" variant="light"></b-icon>
 					</b-button>
-					<b-button class="btn text-left" :pressed.sync="yearSelected">
+					<b-button variant="outline-secondary" class="btn text-left" :pressed.sync="yearSelected">
 						Yearly
 						<b-icon v-if="yearSelected" icon="check" class="float-right" variant="light"></b-icon>
 					</b-button>
 				</b-button-group>
 				<div>Weekly:</div>
 				<b-button-group vertical class="mb-2 w-100">
-					<b-button class="btn text-left" v-for="weekday in weekdays" :key="weekday.value" :pressed.sync="selected[weekday.index]">
+					<b-button variant="outline-secondary" class="btn text-left" v-for="weekday in weekdays" :key="weekday.value" :pressed.sync="selected[weekday.index]">
 						{{ weekday.text }}
 						<b-icon v-if="selected[weekday.index]" icon="check" class="float-right" variant="light"></b-icon>
 					</b-button>
@@ -52,7 +52,7 @@
 import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class AddAlarm extends Vue {
-	private isEdit = false;
+	private isEdit = this.$route.params.id;
 	private days: boolean[] = [false, false, false, false, false, false, false];
 	private day = false;
 	private month = false;

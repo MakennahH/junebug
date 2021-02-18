@@ -4,14 +4,14 @@
 			<router-link class="header-button-left" to="/timelimits" replace>
 				<b-icon icon="chevron-left" variant="light" scale="0.5"></b-icon>
 			</router-link>
-			<div>Add a TimeLimit</div>
+			<div>{{ isEdit ? "Edit Time Limit" : "Add a Time Limit"}}</div>
 		</div>
 		<div class="row has-header">
 			<form class="col mx-2">
 				<b-form-input placeholder="Title" class="mb-2"></b-form-input>
 				<div>Applies:</div>
 				<b-button-group vertical block class="mb-2 w-100">
-					<b-button class="text-left" v-for="weekday in weekdays" :key="weekday.value" :pressed.sync="selected[weekday.index]" block>
+					<b-button variant="outline-secondary" class="text-left" v-for="weekday in weekdays" :key="weekday.value" :pressed.sync="selected[weekday.index]" block>
 						{{ weekday.text }}
 						<b-icon v-if="selected[weekday.index]" icon="check" class="float-right" variant="light"></b-icon>
 					</b-button>
@@ -30,7 +30,7 @@
 import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class AddTimeLimit extends Vue {
-	private isEdit = false;
+	private isEdit = this.$route.params.id;
 	private days: boolean[] = [false, false, false, false, false, false, false];
 	private weekdays = [
 		{ text: "Sunday", value: "sunday", index: 0 },

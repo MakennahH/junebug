@@ -4,7 +4,7 @@
 			<router-link class="header-button-left" to="/events" replace>
 				<b-icon icon="chevron-left" variant="light" scale="0.5"></b-icon>
 			</router-link>
-			<div>Add an Event</div>
+			<div>{{ isEdit ? "Edit Event" : "Add an Event"}}</div>
 		</div>
 		<div class="row has-header">
 			<form class="col mx-2">
@@ -20,32 +20,30 @@
 				<b-form-checkbox class="mb-2">Remind me when to leave</b-form-checkbox>
 				<div>Applies:</div>
 				<b-form-datepicker class="mb-2" placeholder="Calendar date"></b-form-datepicker>
-				<b-button block class="d-flex align-items-center justify-content-between" v-b-toggle.recurring>
+				<b-button variant="outline-secondary" block class="d-flex align-items-center justify-content-between" v-b-toggle.recurring>
 					<div>Recurring</div>
 					<b-icon icon="chevron-down"></b-icon>
 				</b-button>
 				<b-collapse id="recurring">
 					<b-button-group vertical class="mb-2 w-100">
-						<b-button class="btn text-left" :pressed.sync="yearSelected">
+						<b-button variant="outline-secondary" class="btn text-left" :pressed.sync="yearSelected">
 							Yearly
 							<b-icon v-if="yearSelected" icon="check" class="float-right" variant="light"></b-icon>
 						</b-button>
-						<b-button class="btn text-left" :pressed.sync="monthSelected">
+						<b-button variant="outline-secondary" class="btn text-left" :pressed.sync="monthSelected">
 							Monthly
 							<b-icon v-if="monthSelected" icon="check" class="float-right" variant="light"></b-icon>
 						</b-button>
 					</b-button-group>
 					<div>Weekly:</div>
 					<b-button-group vertical class="mb-2 w-100">
-						<b-button class="btn text-left" v-for="weekday in weekdays" :key="weekday.value" :pressed.sync="selected[weekday.index]">
+						<b-button variant="outline-secondary" class="btn text-left" v-for="weekday in weekdays" :key="weekday.value" :pressed.sync="selected[weekday.index]">
 							{{ weekday.text }}
 							<b-icon v-if="selected[weekday.index]" icon="check" class="float-right" variant="light"></b-icon>
 						</b-button>
 					</b-button-group>
 				</b-collapse>
-				<b-button @click="addEvent" class="btn mt-2" variant="info" block>
-					Save
-				</b-button>
+				<b-button @click="addEvent" class="btn mt-2" variant="info" block> Save </b-button>
 			</form>
 		</div>
 	</div>
@@ -55,7 +53,7 @@
 import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class AddEvent extends Vue {
-	private isEdit = false;
+	private isEdit = this.$route.params.id;
 	private days: boolean[] = [false, false, false, false, false, false, false];
 	private month = false;
 	private year = false;
@@ -69,7 +67,7 @@ export default class AddEvent extends Vue {
 		{ text: "Saturday", value: "saturday", index: 6 },
 	];
 
-	mounted(){
+	mounted() {
 		// find out if this is supposed to be populated with an object to edit
 		// set isEdit to true
 		// fill v-models with object values

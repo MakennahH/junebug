@@ -4,7 +4,7 @@
 			<router-link class="header-button-left" to="/tasks" replace>
 				<b-icon icon="chevron-left" variant="light" scale="0.5"></b-icon>
 			</router-link>
-			<div>Add a Task</div>
+			<div>{{ isEdit ? "Edit Task" : "Add a Task"}}</div>
 		</div>
 		<div class="row has-header">
 			<form class="col mx-2">
@@ -28,7 +28,7 @@
 import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class AddTask extends Vue {
-	private isEdit = false;
+	private isEdit = this.$route.params.id;
 	private hours = 1;
 	private days = 1;
 

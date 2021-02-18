@@ -12,6 +12,7 @@
 		<div class="row has-header">
 			<div class="col">
 				<b-list-group v-if="tasks.length > 0" class="mx-2">
+					<!-- closest deadlines bubble to the top, within 12 hours timestamp is red --> 
 					<b-list-group-item v-for="(task, key) in tasks" :key="key" :to="'tasks/view/' + key" replace>
 						<div class="d-flex justify-content-between">
 							<strong>{{ task.title }}</strong>
