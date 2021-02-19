@@ -4,14 +4,12 @@
 			<router-link class="header-button-left" to="/notes" replace>
 				<b-icon icon="chevron-left" variant="light" scale="0.5"></b-icon>
 			</router-link>
-			<div>{{ isEdit ? "Edit Note" : "Add a Note"}}</div>
+			<div>{{ this.isEdit ? "Edit Note" : "Add a Note" }}</div>
 		</div>
 		<div class="row has-header">
 			<form class="col mx-2">
-				<b-form-textarea class="textarea" v-model="text" placeholder="start a note..." no-auto-shrink no-resize></b-form-textarea>
-				<b-button @click="addNote" class="btn mt-2" variant="info" block>
-					Save
-				</b-button>
+				<b-form-textarea class="textarea" v-model="contents" placeholder="start a note..." no-auto-shrink no-resize></b-form-textarea>
+				<b-button @click="addNote" class="btn mt-2" variant="info" block> Save </b-button>
 			</form>
 		</div>
 	</div>
@@ -19,19 +17,30 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { NoteModel } from "../../models/scheduling";
 @Component({})
 export default class AddNote extends Vue {
-	private isEdit = this.$route.params.id;
+	private isEdit = ''; 
+	private note = new NoteModel();
 
 	mounted(){
-		// find out if this is supposed to be populated with an object to edit
-		// set isEdit to true
-		// fill v-models with object values
+		this.isEdit = this.$route.params.id;
+	}
+
+	get contents() {
+		return this.note.contents || "";
+	}
+
+	set contents(value: string) {
+		if (this.note) {
+			this.note.contents = value;
+		}
 	}
 
 	addNote() {
 		// TODO: save the note + date created/edited
-		this.$router.replace("/notes");
+		console.log(this.note);
+		//this.$router.replace("/notes");
 	}
 }
 </script>
