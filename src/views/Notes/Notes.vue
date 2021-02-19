@@ -25,7 +25,8 @@
 import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class Notes extends Vue {
-	private notes = ["It was the best of times, it was the worst of times", "According to all known laws of aviation, it is impossible"];
+	private notes = [];
+	// ["It was the best of times, it was the worst of times", "According to all known laws of aviation, it is impossible"];
 	mounted() {
 		// TODO: display notes
 	}

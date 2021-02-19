@@ -5,8 +5,9 @@
 		</div>
 		<div class="row has-header">
 			<div class="col mx-2">
-				<h3>October</h3>
+				<h3>{{month}}</h3>
 				<b-card no-body>
+					{{day}}
 					<div class="d-flex text-center my-1">
 						<div class="calendar-day">Sun</div>
 						<div class="calendar-day">Mon</div>
@@ -69,10 +70,14 @@
 </template>
 
 <script lang="ts">
+import moment from "moment";
 import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class Calendar extends Vue {
+	private month = moment().format('MMMM');
+	private day = moment().format('Do');
+
 	mounted() {
 		// TODO: display info
 	}
