@@ -1,13 +1,14 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
+import SchedulingModule from "@/stores/scheduling";
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
     tab: "none",
     darkMode: false,
-    // notes: new NotesModel();
   },
   mutations: {
     setTab(state, tab: string){
@@ -25,5 +26,7 @@ export default new Vuex.Store({
     }
   },
   actions: {},
-  modules: {}
+  modules: {
+    scheduling: SchedulingModule,
+  }
 });

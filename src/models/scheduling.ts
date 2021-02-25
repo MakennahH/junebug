@@ -1,3 +1,19 @@
+export default class SchedulingModel {
+    notes: NoteModel[];
+    alarms: AlarmModel[];
+    events: EventModel[];
+    tasks: TaskModel[];
+    timelimits: TimeLimitModel[];
+
+    constructor(){
+        this.notes = [];
+        this.alarms = [];
+        this.events = [];
+        this.tasks = [];
+        this.timelimits = [];
+    }
+}
+
 export class NoteModel{
     id: string;
     contents: string;

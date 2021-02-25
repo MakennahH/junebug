@@ -7,10 +7,11 @@
 			</router-link>
 		</div>
 		<div class="row has-header">
-			<div class="col">
+			<div class="col" v-if="!isLoading">
 				<b-list-group v-if="notes.length > 0" class="mx-2">
 					<b-list-group-item v-for="(note, key) in notes" :key="key" class="text-left text-truncate" :to="'notes/view/' + key" replace>
-						{{ note }}
+						{{ note.contents }}
+						{{ note.lastEdited }}
 					</b-list-group-item>
 				</b-list-group>
 				<b-card v-else class="card-secondary text-center mx-2">
@@ -23,12 +24,22 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+
 @Component({})
 export default class Notes extends Vue {
-	private notes = [];
-	// ["It was the best of times, it was the worst of times", "According to all known laws of aviation, it is impossible"];
+	private loading = true;
+
+	get isLoading(){
+		return this.loading;
+	}
+
+	get notes(){
+		return this.$store.state.scheduling.notes;
+	}
+	
 	mounted() {
-		// TODO: display notes
+		this.loading = true;
+		this.$store.dispatch("getNotes").finally(() => (this.loading = false));
 	}
 }
 </script>

@@ -18,6 +18,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { NoteModel } from "../../models/scheduling";
+import moment from "moment"
 @Component({})
 export default class AddNote extends Vue {
 	private isEdit = ''; 
@@ -38,9 +39,9 @@ export default class AddNote extends Vue {
 	}
 
 	addNote() {
-		// TODO: save the note + date created/edited
-		console.log(this.note);
-		//this.$router.replace("/notes");
+		this.$store.dispatch("addNote",{ contents: this.note.contents, lastEdited: moment(this.note.lastEdited).format('H:mmA MMM Do YYYY') }).then(() => {
+			this.$router.replace('/notes');
+		});
 	}
 }
 </script>

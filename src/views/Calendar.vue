@@ -5,9 +5,8 @@
 		</div>
 		<div class="row has-header">
 			<div class="col mx-2">
-				<h3>{{month}}</h3>
+				<h3>{{ month }}</h3>
 				<b-card no-body>
-					{{day}}
 					<div class="d-flex text-center my-1">
 						<div class="calendar-day">Sun</div>
 						<div class="calendar-day">Mon</div>
@@ -26,18 +25,11 @@
 						<b-card class="calendar-day"></b-card>
 						<b-card class="calendar-day"></b-card>
 						<b-card no-body class="calendar-day bg-emphasized py-3"></b-card>
-						<b-card no-body class="calendar-day bg-emphasized bg-today py-3">
-							<b-icon icon="square-fill" class="mx-auto purple"> </b-icon>
-							<b-icon icon="square-fill" class="mx-auto mt-2" variant="warning"> </b-icon>
-						</b-card>
-						<b-card no-body class="calendar-day bg-emphasized py-3">
-							<b-icon icon="square-fill" class="mx-auto dark-blue"> </b-icon>
-						</b-card>
+						<b-card no-body class="calendar-day bg-emphasized bg-today py-3"></b-card>
 						<b-card no-body class="calendar-day bg-emphasized py-3"></b-card>
 						<b-card no-body class="calendar-day bg-emphasized py-3"></b-card>
-						<b-card no-body class="calendar-day bg-emphasized py-3">
-							<b-icon icon="square-fill" class="mx-auto light-blue"> </b-icon>
-						</b-card>
+						<b-card no-body class="calendar-day bg-emphasized py-3"></b-card>
+						<b-card no-body class="calendar-day bg-emphasized py-3"></b-card>
 						<b-card no-body class="calendar-day bg-emphasized py-3"></b-card>
 						<b-card class="calendar-day"></b-card>
 						<b-card class="calendar-day"></b-card>
@@ -75,8 +67,8 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class Calendar extends Vue {
-	private month = moment().format('MMMM');
-	private day = moment().format('Do');
+	private month = moment().format("MMMM");
+	private day = moment().format("Do");
 
 	mounted() {
 		// TODO: display info

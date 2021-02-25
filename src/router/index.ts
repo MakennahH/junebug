@@ -63,7 +63,7 @@ const routes: Array<RouteConfig> = [
 	},
 	{
 		path: "/alarms/edit/:id",
-		name: "AddAlarm",
+		name: "EditAlarm",
 		component: () => import("../views/Alarms/AddAlarm.vue"),
 		meta: {
 			tab: "planner",
@@ -95,7 +95,7 @@ const routes: Array<RouteConfig> = [
 	},
 	{
 		path: "/events/edit/:id",
-		name: "AddEvent",
+		name: "EditEvent",
 		component: () => import("../views/Events/AddEvent.vue"),
 		meta: {
 			tab: "planner",
@@ -127,7 +127,7 @@ const routes: Array<RouteConfig> = [
 	},
 	{
 		path: "/tasks/edit/:id",
-		name: "AddTask",
+		name: "EditTask",
 		component: () => import("../views/Tasks/AddTask.vue"),
 		meta: {
 			tab: "planner",
@@ -159,7 +159,7 @@ const routes: Array<RouteConfig> = [
 	},
 	{
 		path: "/timelimits/edit/:id",
-		name: "AddTimeLimit",
+		name: "EditTimeLimit",
 		component: () => import("../views/TimeLimits/AddTimeLimit.vue"),
 		meta: {
 			tab: "planner",
@@ -191,7 +191,7 @@ const routes: Array<RouteConfig> = [
 	},
 	{
 		path: "/notes/edit/:id",
-		name: "AddNote",
+		name: "EditNote",
 		component: () => import("../views/Notes/AddNote.vue"),
 		meta: {
 			tab: "notes",
