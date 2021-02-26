@@ -19,9 +19,17 @@ const db = firebase.firestore()
 const auth = firebase.auth()
 
 const notesCollection = db.collection('notes');
+const alarmsCollection = db.collection('alarms');
+const eventsCollection = db.collection('events');
+const tasksCollection = db.collection('tasks');
+const timelimitsCollection = db.collection('timelimits');
 
 export {
 	db,
 	auth,
-	notesCollection
+	notesCollection,
+    alarmsCollection,
+    eventsCollection,
+    tasksCollection,
+    timelimitsCollection
 }

@@ -9,7 +9,7 @@
 		<div class="row has-header">
 			<form class="col mx-2">
 				<b-form-textarea class="textarea" v-model="contents" placeholder="start a note..." no-auto-shrink no-resize></b-form-textarea>
-				<b-button @click="addNote" class="btn mt-2" variant="info" block> Save </b-button>
+				<b-button @click="saveNote" class="btn mt-2" variant="info" block> Save </b-button>
 			</form>
 		</div>
 	</div>
@@ -18,14 +18,23 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { NoteModel } from "../../models/scheduling";
-import moment from "moment"
+import moment from "moment";
 @Component({})
 export default class AddNote extends Vue {
-	private isEdit = ''; 
+	private isEdit = "";
 	private note = new NoteModel();
 
-	mounted(){
+	mounted() {
 		this.isEdit = this.$route.params.id;
+		if (this.isEdit) {
+			this.note = this.notes.find((note: any) => {
+				return note.id === this.$route.params.id;
+			});
+		}
+	}
+
+	get notes() {
+		return this.$store.state.scheduling.notes;
 	}
 
 	get contents() {
@@ -38,10 +47,17 @@ export default class AddNote extends Vue {
 		}
 	}
 
-	addNote() {
-		this.$store.dispatch("addNote",{ contents: this.note.contents, lastEdited: moment(this.note.lastEdited).format('H:mmA MMM Do YYYY') }).then(() => {
-			this.$router.replace('/notes');
-		});
+	saveNote() {
+		if (this.isEdit) {
+			const newLastEdited = new Date();
+			this.$store.dispatch('updateNote', { id: this.$route.params.id, contents: this.note.contents, lastEdited: newLastEdited, prettyLastEdited: moment(newLastEdited).format("H:mmA MMM Do YYYY")}).then(() => {
+				this.$router.replace("/notes");
+			});
+		} else {
+			this.$store.dispatch("addNote", { contents: this.note.contents, lastEdited: this.note.lastEdited, prettyLastEdited: moment(this.note.lastEdited).format("H:mmA MMM Do YYYY") }).then(() => {
+				this.$router.replace("/notes");
+			});
+		}
 	}
 }
 </script>

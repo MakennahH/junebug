@@ -14,20 +14,44 @@ export default({
     actions: {
         async addNote({ commit }: any, data: any) {
             await fb.notesCollection.add({
-                lastEdited: data.lastEdited,
+                id: null,
                 contents: data.contents,
+                lastEdited: data.lastEdited,
+                prettyLastEdited: data.prettyLastEdited
+            }).then((docRef) => {
+                const newId = docRef.id;
+                fb.notesCollection.doc(docRef.id).update({id: newId})
+            }).then(() => {
+                commit('updateNotes', data);
             })
             
-            commit('updateNotes', data);
         },
 
         async getNotes({ commit }: any){
-            fb.notesCollection.get().then((querySnapshot) => {
+            await fb.notesCollection.orderBy('lastEdited', 'desc').get().then((querySnapshot) => {
                 const newNotes: any = [];
                 querySnapshot.forEach((doc) => {
                     newNotes.push(doc.data());
                 });
                 commit('updateNotes', newNotes);
+            });
+        },
+
+        async updateNote({ commit }: any, note: any, ){
+            await fb.notesCollection.doc(note.id).update({
+                contents: note.contents,
+                lastEdited: note.lastEdited,
+                prettyLastEdited: note.prettyLastEdited,
+            }).then(() => {
+                this.getNotes;
+            })
+        },
+
+        async deleteNote({ commit }: any, note: any){
+            await fb.notesCollection.doc(note.id).delete().then(() => {
+                this.getNotes;
+            }).catch((error) => {
+                console.error("There was a problem" + error);
             });
         }
     },

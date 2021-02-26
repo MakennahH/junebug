@@ -9,9 +9,9 @@
 		<div class="row has-header">
 			<div class="col" v-if="!isLoading">
 				<b-list-group v-if="notes.length > 0" class="mx-2">
-					<b-list-group-item v-for="(note, key) in notes" :key="key" class="text-left text-truncate" :to="'notes/view/' + key" replace>
-						{{ note.contents }}
-						{{ note.lastEdited }}
+					<b-list-group-item v-for="note in notes" :key="note.id" class="text-left text-truncate" :to="'notes/view/' + note.id" replace>
+						<div class="text-truncate">{{ note.contents }}</div>
+						<div class="small text-secondary">{{ note.prettyLastEdited }}</div>
 					</b-list-group-item>
 				</b-list-group>
 				<b-card v-else class="card-secondary text-center mx-2">

@@ -18,11 +18,13 @@ export class NoteModel{
     id: string;
     contents: string;
     lastEdited: Date;
+    prettyLastEdited: string;
 
     constructor(){
         this.id = "";
         this.contents = "";
         this.lastEdited = new Date();
+        this.prettyLastEdited = "";
     }
 }
 
