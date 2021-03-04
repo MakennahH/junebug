@@ -67,6 +67,7 @@ export default new Vuex.Store({
       }).catch(function (error) {
         // An error happened.
       });
+      //TO DO: KEEP TRACK OF SESSION
     }
   },
   mutations: {

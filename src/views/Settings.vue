@@ -58,18 +58,22 @@
 							<b-form-timepicker size="sm" type="time" v-model="sleepTime"></b-form-timepicker>
 						</b-card>
 					</b-collapse>
-					<b-list-group-item class="d-flex justify-content-between align-items-center" v-b-toggle.meds-reminder>
-						<div>
-							<b-icon icon="clipboard-plus" scale="1.5" variant="info" class="mr-2"></b-icon>
-							Meds reminders
+					<b-list-group-item v-b-toggle.meds-reminder id="meds-list-item">
+						<div class="d-flex justify-content-between align-items-center">
+							<div>
+								<b-icon icon="clipboard-plus" scale="1.5" variant="info" class="mr-2"></b-icon>
+								Meds reminders
+							</div>
+							<b-icon icon="chevron-down"></b-icon>
 						</div>
-						<b-icon icon="chevron-down"></b-icon>
 					</b-list-group-item>
 					<b-collapse id="meds-reminder">
 						<b-card class="form-group-middle">
 							<b-form-timepicker size="sm" type="time"></b-form-timepicker>
 						</b-card>
 					</b-collapse>
+				</b-list-group>
+				<b-list-group class="pt-3">
 					<b-list-group-item to="/editprofile" class="d-flex justify-content-between align-items-center">
 						<div>
 							<b-icon icon="person" scale="1.5" variant="info" class="mr-2"></b-icon>
@@ -159,3 +163,11 @@ export default class Settings extends Vue {
 	}
 }
 </script>
+<style scoped>
+#meds-reminder > div  {
+	border-radius: 0 0 .25rem .25rem !important;
+}
+#meds-list-item {
+	border-radius: 0 0 .25rem .25rem !important;
+}
+</style>
