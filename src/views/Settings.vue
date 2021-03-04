@@ -28,7 +28,7 @@
 						<b-icon icon="chevron-down"></b-icon>
 					</b-list-group-item>
 					<b-collapse id="meal-reminder">
-						<b-card class=" form-group-middle">
+						<b-card class="form-group-middle">
 							<div>Send reminders every:</div>
 							<b-form-spinbutton :formatter-fn="formatMealHours" size="sm" v-model="maxMealHours" wrap min="1" max="8"></b-form-spinbutton>
 						</b-card>
@@ -41,7 +41,7 @@
 						<b-icon icon="chevron-down"></b-icon>
 					</b-list-group-item>
 					<b-collapse id="drink-reminder">
-						<b-card class=" form-group-middle">
+						<b-card class="form-group-middle">
 							<div>Send reminders every:</div>
 							<b-form-spinbutton :formatter-fn="formatDrinkHours" size="sm" v-model="maxDrinkHours" wrap min="1" max="24"></b-form-spinbutton>
 						</b-card>
@@ -54,7 +54,7 @@
 						<b-icon icon="chevron-down"></b-icon>
 					</b-list-group-item>
 					<b-collapse id="sleep-reminder">
-						<b-card class=" form-group-middle">
+						<b-card class="form-group-middle">
 							<b-form-timepicker size="sm" type="time" v-model="sleepTime"></b-form-timepicker>
 						</b-card>
 					</b-collapse>
@@ -66,11 +66,25 @@
 						<b-icon icon="chevron-down"></b-icon>
 					</b-list-group-item>
 					<b-collapse id="meds-reminder">
-						<b-card class=" form-group-middle">
+						<b-card class="form-group-middle">
 							<b-form-timepicker size="sm" type="time"></b-form-timepicker>
 						</b-card>
 					</b-collapse>
-					<b-list-group-item :to="'/login'" class="d-flex justify-content-between align-items-center">
+					<b-list-group-item to="/editprofile" class="d-flex justify-content-between align-items-center">
+						<div>
+							<b-icon icon="person" scale="1.5" variant="info" class="mr-2"></b-icon>
+							{{ email }}
+						</div>
+						<div><b-icon-chevron-right /></div>
+					</b-list-group-item>
+					<b-list-group-item to="/changepassword" class="d-flex justify-content-between align-items-center">
+						<div>
+							<b-icon icon="asterisk" scale="1.5" variant="info" class="mr-2"></b-icon>
+							Change password
+						</div>
+						<div><b-icon-chevron-right /></div>
+					</b-list-group-item>
+					<b-list-group-item @click="logout" class="d-flex justify-content-between align-items-center">
 						<div>
 							<b-icon icon="box-arrow-right" scale="1.5" variant="info" class="mr-2"></b-icon>
 							Log out
@@ -91,12 +105,13 @@ export default class Settings extends Vue {
 	private mealHours = 4;
 	private drinkHours = 1;
 	private dark = false;
+	private email = this.$store.state.userProfile.email;
 
-	get darkMode(){
+	get darkMode() {
 		return this.$store.state.darkMode;
 	}
 
-	set darkMode(value){
+	set darkMode(value) {
 		this.$store.commit("setDarkMode", value);
 	}
 
@@ -137,6 +152,10 @@ export default class Settings extends Vue {
 
 	formatMealHours() {
 		return this.mealHours == 1 ? this.mealHours + " hr" : this.mealHours + " hrs";
+	}
+
+	logout() {
+		this.$store.dispatch("logout");
 	}
 }
 </script>

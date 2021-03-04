@@ -58,6 +58,7 @@ export class EventModel{
     bring: string;
     notes: string;
     leaveReminder: boolean;
+    recurring: boolean;
     days: Date[];
 
     constructor(){
@@ -70,6 +71,7 @@ export class EventModel{
         this.bring = "";
         this.notes = "";
         this.leaveReminder = false;
+        this.recurring = false;
         this.days = [];
     }
 }
