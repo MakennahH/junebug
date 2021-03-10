@@ -8,6 +8,7 @@
 		</div>
 		<div class="row has-header">
 			<div class="col mx-2">
+				<div class="my-2">Enter your updated email address down below.</div>
 				<b-form-input class="form-group-top" type="text" placeholder="new email" v-model="emailModel" />
 				<div>
 					<b-button block class="btn my-2" variant="info" @click="saveProfile">Save</b-button>
@@ -22,17 +23,18 @@ import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class EditProfile extends Vue {
 	private email = "";
+	private loading = false;
 
-	get emailModel(){
+	get emailModel() {
 		return this.email;
 	}
 
-	set emailModel(value){
+	set emailModel(value) {
 		this.email = value;
 	}
 
-    saveProfile(){
-        this.$store.dispatch("changeEmail", this.emailModel)
-    }
+	saveProfile() {
+		this.$store.dispatch("changeEmail", this.emailModel);
+	}
 }
 </script>

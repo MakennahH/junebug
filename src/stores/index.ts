@@ -12,20 +12,18 @@ export default new Vuex.Store({
   state: {
     userProfile: new UserModel(),
     tab: "none",
-    darkMode: false,
   },
   actions: {
     async signup({ dispatch }, data) {
       fb.auth.createUserWithEmailAndPassword(data.email, data.password).then((userCredentials) => {
         var user = userCredentials.user;
-        // fb.usersCollection.doc(user?.uid).set({
-        //   email: data.email,
-        //   darkModeOn: false,
-        //   calendarStartHour: null,
-        //   reminderTimes: [],
-        //   scheduling: { notes: [], alarms: [], events: [], tasks: [], timelimits: [] }
-        // });
-        // dispatch('fetchUserProfile', user);
+        fb.usersCollection.doc(user?.uid).set({
+          email: data.email,
+          darkModeOn: false,
+          calendarStartHour: null,
+          reminderTimes: [],
+        });
+        dispatch('fetchUserProfile', user);
         router.push('/login');
       });
 
@@ -63,11 +61,27 @@ export default new Vuex.Store({
       var user = fb.auth.currentUser;
 
       user?.updateEmail(emailAddress).then(function () {
-        // Update successful.
+        commit('setUserProfile', user);
+        router.replace("/settings");
       }).catch(function (error) {
         // An error happened.
+        console.log(error)
       });
-      //TO DO: KEEP TRACK OF SESSION
+    },
+    async setDarkMode({ commit }, isDark) {
+      var user = fb.auth.currentUser;
+      fb.usersCollection.doc(user?.uid).update({
+        darkModeOn: isDark
+      })
+      commit('setDarkMode', isDark)
+    },
+    async getDarkMode({ commit }) {
+      await fb.usersCollection.doc(fb.auth.currentUser?.uid).get().then((doc) => {
+        if (doc.exists) {
+          commit('setDarkMode', doc.data()?.darkModeOn);
+        }
+      }
+      )
     }
   },
   mutations: {
@@ -78,7 +92,7 @@ export default new Vuex.Store({
       state.tab = tab;
     },
     setDarkMode(state, isDark: boolean) {
-      state.darkMode = isDark;
+      state.userProfile.darkModeOn = isDark;
 
       if (isDark) {
         document.documentElement.classList.add("dark-mode");
@@ -86,7 +100,8 @@ export default new Vuex.Store({
       else {
         document.documentElement.classList.remove("dark-mode");
       }
-    }
+    },
+
   },
   modules: {
     scheduling: SchedulingModule,

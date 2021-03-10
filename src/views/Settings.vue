@@ -108,15 +108,17 @@ export default class Settings extends Vue {
 	private sleeptime = "00:00";
 	private mealHours = 4;
 	private drinkHours = 1;
-	private dark = false;
-	private email = this.$store.state.userProfile.email;
+
+	get email() {
+		return this.$store.state.userProfile.email;
+	}
 
 	get darkMode() {
-		return this.$store.state.darkMode;
+		return this.$store.state.userProfile.darkModeOn;
 	}
 
 	set darkMode(value) {
-		this.$store.commit("setDarkMode", value);
+		this.$store.dispatch("setDarkMode", value);
 	}
 
 	get startTime() {

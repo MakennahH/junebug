@@ -1,5 +1,5 @@
 <template>
-	<nav id="tabs" class="bar bar-tab">
+	<nav id="tabs" class="bar bar-tab d-none">
 		<router-link class="tab-item" v-bind:class="{active: isActive('today')}" to="/today">
 			<b-icon icon="house-door-fill" class="icon"></b-icon>
 			<span class="tab-label">Home</span>
