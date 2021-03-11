@@ -98,9 +98,9 @@ export class TaskModel{
         this.id = "";
         this.title = "";
         this.dueDate = null;
-        this.timeEstimate = 0;
+        this.timeEstimate = 1;
         this.dailyReminder = false;
-        this.daysInAdvance = 0;
+        this.daysInAdvance = 1;
         this.notes = "";
     }
 }

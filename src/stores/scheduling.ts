@@ -9,7 +9,9 @@ export default ({
     state: new SchedulingModel(),
 
     actions: {
-        // NOTES ACTIONS
+
+        // NOTES ACTIONS ------------------------------------------------------------------------------------------------
+
         async addNote({ commit }: any, data: any) {
             const user = fb.auth.currentUser;
             await fb.usersCollection.doc(user?.uid).collection('notes').add({
@@ -57,7 +59,8 @@ export default ({
             });
         },
 
-        // ALARMS ACTIONS
+        // ALARMS ACTIONS ------------------------------------------------------------------------------------------------
+
         async addAlarm({ commit }: any, data: any) {
             const user = fb.auth.currentUser;
             await fb.usersCollection.doc(user?.uid).collection('alarms').add({
@@ -115,7 +118,8 @@ export default ({
             });
         },
 
-        // EVENTS ACTIONS
+        // EVENTS ACTIONS ------------------------------------------------------------------------------------------------
+
         async addEvent({ commit }: any, data: any) {
             const user = fb.auth.currentUser;
             await fb.usersCollection.doc(user?.uid).collection('events').add({
@@ -180,6 +184,63 @@ export default ({
                 console.error("There was a problem" + error);
             });
         },
+
+        // TASKS ACTIONS ------------------------------------------------------------------------------------------------
+
+        async addTask({ commit }: any, data: any) {
+            const user = fb.auth.currentUser;
+            await fb.usersCollection.doc(user?.uid).collection('tasks').add({
+                id: null,
+                title: data.title,
+                dueDate: data.dueDate,
+                timeEstimate: data.timeEstimate,
+                dailyReminder: data.dailyReminder,
+                daysInAdvance: data.daysInAdvance,
+                notes: data.notes,
+            }).then((docRef) => {
+                const newId = docRef.id;
+                fb.usersCollection.doc(user?.uid).collection('tasks').doc(docRef.id).update({ id: newId })
+            }).then(() => {
+                commit('updateTasks', data);
+            })
+
+        },
+
+        async getTasks({ commit }: any) {
+            const user = fb.auth.currentUser;
+            await fb.usersCollection.doc(user?.uid).collection('tasks').orderBy('dueDate', 'desc').get().then((querySnapshot) => {
+                const newTasks: any = [];
+                querySnapshot.forEach((doc) => {
+                    newTasks.push(doc.data());
+                });
+                commit('updateTasks', newTasks);
+            });
+        },
+
+        async updateTask({ commit }: any, task: any,) {
+            const user = fb.auth.currentUser;
+            await fb.usersCollection.doc(user?.uid).collection('tasks').doc(task.id).update({
+                title: task.title,
+                dueDate: task.dueDate,
+                timeEstimate: task.timeEstimate,
+                dailyReminder: task.dailyReminder,
+                daysInAdvance: task.daysInAdvance,
+                notes: task.notes
+            }).then(() => {
+                this.getTasks;
+            })
+        },
+
+        async deleteTask({ commit }: any, task: any) {
+            const user = fb.auth.currentUser;
+            await fb.usersCollection.doc(user?.uid).collection('tasks').doc(task.id).delete().then(() => {
+                this.getTasks;
+            }).catch((error) => {
+                console.error("There was a problem" + error);
+            });
+        },
+
+        
     },
 
     mutations: {

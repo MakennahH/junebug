@@ -4,67 +4,130 @@
 			<router-link class="header-button-left" to="/tasks" replace>
 				<b-icon icon="chevron-left" variant="light" scale="0.5"></b-icon>
 			</router-link>
-			<div>{{ isEdit ? "Edit Task" : "Add a Task"}}</div>
+			<div>{{ isEdit ? "Edit Task" : "Add a Task" }}</div>
 		</div>
 		<div class="row has-header">
 			<form class="col mx-2">
-				<b-form-input class="mb-2" placeholder="Title"></b-form-input>
-				<b-form-datepicker class="mb-2" placeholder="Due date"></b-form-datepicker>
+				<b-form-input class="mb-2" placeholder="Title" v-model="title"></b-form-input>
+				<b-form-datepicker class="mb-2" placeholder="Due date" v-model="dueDate"></b-form-datepicker>
 				<div>Estimated time to complete:</div>
 				<b-form-spinbutton class="mb-2" :formatter-fn="formatHours" size="sm" v-model="maxHours" wrap min="1" max="24"></b-form-spinbutton>
 				<!-- <b-form-input class="mb-2" placeholder="Event"></b-form-input> -->
-				<b-form-checkbox>Remind me daily:</b-form-checkbox>
+				<b-form-checkbox v-model="dailyReminder">Remind me daily:</b-form-checkbox>
 				<b-form-spinbutton class="mb-2" :formatter-fn="formatDays" size="sm" v-model="maxDays" wrap min="1" max="60"></b-form-spinbutton>
-				<b-form-textarea class="textarea mb-2" v-model="text" placeholder="Extra notes" maxRows="8" no-auto-shrink no-resize></b-form-textarea>
-				<b-button @click="addTask" class="btn mt-2" variant="info" block>
-					Save
-				</b-button>
+				<b-form-textarea v-model="notes" class="textarea mb-2" placeholder="Description" maxRows="8" no-auto-shrink no-resize></b-form-textarea>
+				<b-button @click="saveTask" class="btn mt-2" variant="info" block> Save </b-button>
 			</form>
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
+import { TaskModel } from "@/models/scheduling";
 import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class AddTask extends Vue {
-	private isEdit = this.$route.params.id;
-	private hours = 1;
-	private days = 1;
+	private isEdit = "";
+	private task = new TaskModel();
 
-	mounted(){
-		// find out if this is supposed to be populated with an object to edit
-		// set isEdit to true
-		// fill v-models with object values
+	mounted() {
+		this.isEdit = this.$route.params.id;
+		if (this.isEdit) {
+			this.task = this.tasks.find((task: any) => {
+				return task.id === this.$route.params.id;
+			});
+		}
+	}
+
+	get tasks() {
+		return this.$store.state.scheduling.tasks;
+	}
+
+	get title() {
+		return this.task.title;
+	}
+
+	set title(value) {
+		this.task.title = value;
+	}
+
+	get dueDate() {
+		return this.task.dueDate;
+	}
+
+	set dueDate(value) {
+		this.task.dueDate = value;
+	}
+
+	get dailyReminder() {
+		return this.task.dailyReminder;
+	}
+
+	set dailyReminder(value) {
+		this.task.dailyReminder = value;
+	}
+
+	get notes() {
+		return this.task.notes;
+	}
+
+	set notes(value) {
+		this.task.notes = value;
 	}
 
 	get maxHours() {
-		return this.hours;
+		return this.task.timeEstimate;
 	}
 
 	set maxHours(value) {
-		this.hours = value;
+		this.task.timeEstimate = value;
 	}
 
 	formatHours() {
-		return this.hours == 1 ? this.hours + " hr" : this.hours + " hrs";
+		return this.task.timeEstimate == 1 ? this.task.timeEstimate + " hr" : this.task.timeEstimate + " hrs";
 	}
 
 	get maxDays() {
-		return this.days;
+		return this.task.daysInAdvance;
 	}
 
 	set maxDays(value) {
-		this.days = value;
+		this.task.daysInAdvance = value;
 	}
 
 	formatDays() {
-		return this.days == 1 ? this.days + " day in advance" : this.days + " days in advance";
+		return this.task.daysInAdvance == 1 ? this.task.daysInAdvance + " day in advance" : this.task.daysInAdvance + " days in advance";
 	}
 
-	addTask() {
-		// TODO: save the Task
-		this.$router.replace("/tasks");
+	saveTask() {
+		if (this.isEdit) {
+			this.$store
+				.dispatch("updateTask", {
+					id: this.$route.params.id,
+					title: this.task.title,
+					dueDate: this.task.dueDate,
+					timeEstimate: this.task.timeEstimate,
+					dailyReminder: this.task.dailyReminder,
+					daysInAdvance: this.task.daysInAdvance,
+					notes: this.task.notes
+				})
+				.then(() => {
+					this.$router.replace("/tasks");
+				});
+		} else {
+			this.$store
+				.dispatch("addTask", {
+					title: this.task.title,
+					dueDate: this.task.dueDate,
+					timeEstimate: this.task.timeEstimate,
+					dailyReminder: this.task.dailyReminder,
+					daysInAdvance: this.task.daysInAdvance,
+					notes: this.task.notes
+				})
+				.then(() => {
+					this.$router.replace("/tasks");
+				});
+		}
 	}
 }
 </script>

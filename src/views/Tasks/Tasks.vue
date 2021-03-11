@@ -12,8 +12,8 @@
 		<div class="row has-header">
 			<div class="col">
 				<b-list-group v-if="tasks.length > 0" class="mx-2">
-					<!-- closest deadlines bubble to the top, within 12 hours timestamp is red --> 
-					<b-list-group-item v-for="(task, key) in tasks" :key="key" :to="'tasks/view/' + key" replace>
+					<!-- closest deadlines bubble to the top, within 12 hours timestamp is red -->
+					<b-list-group-item v-for="task in tasks" :key="task.id" :to="'tasks/view/' + task.id" replace>
 						<div class="d-flex justify-content-between">
 							<strong>{{ task.title }}</strong>
 							<div class="text-info">{{ task.dueDate }} {{ task.dueTime }}</div>
@@ -33,16 +33,19 @@
 import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class Tasks extends Vue {
-	private tasks = [
-		{
-			title: "Test task",
-			dueDate: "Jan 9",
-			dueTime: "11:59PM",
-			desc: "This is a very long description that should trail off right about now",
-		},
-	];
+	private loading = true;
+
+	get isLoading() {
+		return this.loading;
+	}
+
+	get tasks() {
+		return this.$store.state.scheduling.tasks;
+	}
+
 	mounted() {
-		// TODO: display info
+		this.loading = true;
+		this.$store.dispatch("getTasks").finally(() => (this.loading = false));
 	}
 }
 </script>

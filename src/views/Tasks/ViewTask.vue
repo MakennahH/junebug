@@ -12,21 +12,15 @@
 		<div class="row has-header">
 			<div class="col mx-2">
 				<b-card>
-					<h3>Test Title</h3>
+					<h3>{{task.title}}</h3>
 					<div class="d-flex justify-content-between">
-						<div class="text-secondary">&#60; 1 hour</div>
-						<div class="text-info">12:00PM 9/9/99</div>
+						<div class="text-secondary">{{ fromNow(task.dueDate) }}</div>
+						<div class="text-info">{{ prettyDate(task.dueDate) }}</div>
 					</div>
 					<div class="pt-2">
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut risus ac diam euismod dignissim. Phasellus sem nulla, pellentesque nec lacus non, auctor lobortis felis. Etiam
-						consequat sed purus sed mollis. Vivamus quis ex blandit, ullamcorper magna in, pellentesque diam. Donec euismod metus arcu, vestibulum euismod justo consectetur eu. Suspendisse
-						vitae ex eu elit tincidunt pulvinar vitae eget est. Nunc sollicitudin a libero semper scelerisque. Praesent a tortor finibus, scelerisque tellus sed, accumsan sem. Aenean odio
-						enim, malesuada sollicitudin commodo cursus, porta non risus. Nam enim odio, dignissim eget eleifend vel, semper nec est. Curabitur turpis mauris, egestas et diam sit amet,
-						pellentesque efficitur ex. Quisque ultrices eros id nunc imperdiet lacinia. Aliquam id bibendum nulla. Aliquam vestibulum enim non risus dignissim mattis. Maecenas finibus
-						sapien vitae nibh pretium, in rhoncus nisl aliquam. Curabitur rhoncus ligula neque, elementum egestas neque elementum vitae. Nunc dui lorem, sagittis eget libero sed,
-						vestibulum pharetra nibh. Morbi id augue rhoncus, iaculis ex sed, malesuada ipsum. Vivamus et purus feugiat, porttitor magna eget, facilisis tellus. Cras vestibulum non enim ac
-						vulputate.
+						{{task.notes}}
 					</div>
+					<b-button @click="deleteTask" variant="danger" class="float-right mt-2"><b-icon-trash></b-icon-trash></b-button>
 				</b-card>
 			</div>
 		</div>
@@ -35,8 +29,39 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import moment from "moment";
 @Component({})
 export default class ViewTask extends Vue {
 	private id = this.$route.params.id;
+	private loading = true;
+
+	mounted() {
+		this.loading = true;
+		this.$store.dispatch("getTasks").finally(() => (this.loading = false));
+	}
+
+	get tasks() {
+		return this.$store.state.scheduling.tasks;
+	}
+
+	get task() {
+		return this.tasks.find((task: any) => {
+			return task.id === this.id;
+		});
+	}
+
+	fromNow(data: any){
+		return moment(data).toNow();
+	}
+
+	prettyDate(data: any) {
+		return moment(data).format("h:mmA dddd M/D/YY");
+	}
+
+	deleteTask() {
+		this.$store.dispatch("deleteTask", { id: this.$route.params.id }).then(() => {
+			this.$router.replace("/tasks");
+		});
+	}
 }
 </script>
