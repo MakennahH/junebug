@@ -240,7 +240,54 @@ export default ({
             });
         },
 
-        
+        // TIME LIMIT ACTIONS ------------------------------------------------------------------------------------------------
+
+        async addTimeLimit({ commit }: any, data: any) {
+            const user = fb.auth.currentUser;
+            await fb.usersCollection.doc(user?.uid).collection('timelimits').add({
+                id: null,
+                title: data.title,
+                days: data.days,
+                duration: data.duration,
+            }).then((docRef) => {
+                const newId = docRef.id;
+                fb.usersCollection.doc(user?.uid).collection('timelimits').doc(docRef.id).update({ id: newId })
+            }).then(() => {
+                commit('updateTimeLimits', data);
+            })
+
+        },
+
+        async getTimeLimits({ commit }: any) {
+            const user = fb.auth.currentUser;
+            await fb.usersCollection.doc(user?.uid).collection('timelimits').get().then((querySnapshot) => {
+                const newTimeLimits: any = [];
+                querySnapshot.forEach((doc) => {
+                    newTimeLimits.push(doc.data());
+                });
+                commit('updateTimeLimits', newTimeLimits);
+            });
+        },
+
+        async updateTimeLimit({ commit }: any, timelimit: any,) {
+            const user = fb.auth.currentUser;
+            await fb.usersCollection.doc(user?.uid).collection('timelimits').doc(timelimit.id).update({
+                title: timelimit.title,
+                days: timelimit.days,
+                duration: timelimit.duration,
+            }).then(() => {
+                this.getTimeLimits;
+            })
+        },
+
+        async deleteTimeLimit({ commit }: any, timelimit: any) {
+            const user = fb.auth.currentUser;
+            await fb.usersCollection.doc(user?.uid).collection('timelimits').doc(timelimit.id).delete().then(() => {
+                this.getTimeLimits;
+            }).catch((error) => {
+                console.error("There was a problem" + error);
+            });
+        },
     },
 
     mutations: {

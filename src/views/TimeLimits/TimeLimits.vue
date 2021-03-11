@@ -11,13 +11,13 @@
 		</div>
 		<div class="row has-header">
 			<div class="col">
-				<b-list-group v-if="timeLimits.length > 0" class="mx-2">
-					<b-list-group-item v-for="(timelimit, key) in timeLimits" :key="key" :to="'timelimits/view/' + key" replace>
+				<b-list-group v-if="timelimits.length > 0" class="mx-2">
+					<b-list-group-item v-for="timelimit in timelimits" :key="timelimit.id" :to="'timelimits/view/' + timelimit.id" replace>
 						<div class="d-flex justify-content-between">
 							<strong>{{ timelimit.title }}</strong>
-							<div class="text-info">{{ timelimit.duration }}</div>
+							<div class="text-info"><b-icon icon="clock-history" class="mr-2"></b-icon>{{ formatHours(timelimit.duration) }}</div>
 						</div>
-						<div class="text-truncate">{{ timelimit.days }}</div>
+						<div class="text-truncate">{{ formattedDays(timelimit) }}</div>
 					</b-list-group-item>
 				</b-list-group>
 				<b-card v-else class="card-secondary text-center mx-2">
@@ -32,15 +32,44 @@
 import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class Timelimits extends Vue {
-	private timeLimits = [
-		{
-			title: "Test",
-			duration: "2 hours",
-			days: "Mon Tue Wed Thu Fri"
-		}
+	private loading = true;
+	private theseWeekdays = [
+		{ text: "Sun", value: "sunday", index: 0 },
+		{ text: "Mon", value: "monday", index: 1 },
+		{ text: "Tue", value: "tuesday", index: 2 },
+		{ text: "Wed", value: "wednesday", index: 3 },
+		{ text: "Thu", value: "thursday", index: 4 },
+		{ text: "Fri", value: "friday", index: 5 },
+		{ text: "Sat", value: "saturday", index: 6 },
 	];
+
+	get isLoading() {
+		return this.loading;
+	}
+
+	get timelimits() {
+		return this.$store.state.scheduling.timelimits;
+	}
+
+	formatHours(data: any) {
+		return data == 1 ? data + " hr" : data + " hrs";
+	}
+
+	formattedDays(timelimit: any){
+		let daysString = "";
+		let dayIndex = 0;
+		for(const day of timelimit.days){
+			if(day == true){
+				daysString += this.theseWeekdays[dayIndex].text + " ";
+			}
+			dayIndex++;
+		}
+		return daysString;
+	}
+
 	mounted() {
-		// TODO: display info
+		this.loading = true;
+		this.$store.dispatch("getTimeLimits").finally(() => (this.loading = false));
 	}
 }
 </script>

@@ -108,13 +108,13 @@ export class TaskModel{
 export class TimeLimitModel{
     id: string;
     title: string;
-    days: Date[];
+    days: boolean[];
     duration: number;
 
     constructor(){
         this.id = "";
         this.title = "";
-        this.days = [];
-        this.duration = 0;
+        this.days = [false, false, false, false, false, false, false];
+        this.duration = 1;
     }
 }
