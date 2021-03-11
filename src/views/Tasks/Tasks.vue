@@ -12,11 +12,11 @@
 		<div class="row has-header">
 			<div class="col">
 				<b-list-group v-if="tasks.length > 0" class="mx-2">
-					<!-- closest deadlines bubble to the top, within 12 hours timestamp is red -->
+					<!-- closest deadlines bubble to the top, within 12 hours timestamp is blue, overdue timestamp is red -->
 					<b-list-group-item v-for="task in tasks" :key="task.id" :to="'tasks/view/' + task.id" replace>
 						<div class="d-flex justify-content-between">
 							<strong>{{ task.title }}</strong>
-							<div class="text-info">{{ task.dueDate }} {{ task.dueTime }}</div>
+							<div :class="{ 'text-danger': prettyDate(task.dueDate).isOverDue, 'text-info': prettyDate(task.dueDate).isDueSoon }">{{ prettyDate(task.dueDate).date }} {{ prettyTime(task.dueTime) }}</div>
 						</div>
 						<div class="text-truncate">{{ task.desc }}</div>
 					</b-list-group-item>
@@ -31,6 +31,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import moment from "moment";
 @Component({})
 export default class Tasks extends Vue {
 	private loading = true;
@@ -41,6 +42,22 @@ export default class Tasks extends Vue {
 
 	get tasks() {
 		return this.$store.state.scheduling.tasks;
+	}
+
+	prettyTime(time: any) {
+		return moment(time, "h:mmA").format("h:mmA");
+	}
+
+	prettyDate(data: any) {
+		var isOverDue = false;
+		var isDueSoon = false;
+		if (moment(data) < moment()) {
+			isOverDue = true;
+		} else if (moment(data).diff(moment()) < 43200000) {
+			// roughly 12 hours
+			isDueSoon = true;
+		}
+		return { date: moment(data).format("M/D/YY"), isOverDue: isOverDue, isDueSoon: isDueSoon };
 	}
 
 	mounted() {

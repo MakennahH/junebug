@@ -193,6 +193,7 @@ export default ({
                 id: null,
                 title: data.title,
                 dueDate: data.dueDate,
+                dueTime: data.dueTime,
                 timeEstimate: data.timeEstimate,
                 dailyReminder: data.dailyReminder,
                 daysInAdvance: data.daysInAdvance,
@@ -208,7 +209,7 @@ export default ({
 
         async getTasks({ commit }: any) {
             const user = fb.auth.currentUser;
-            await fb.usersCollection.doc(user?.uid).collection('tasks').orderBy('dueDate', 'desc').get().then((querySnapshot) => {
+            await fb.usersCollection.doc(user?.uid).collection('tasks').orderBy('dueDate').get().then((querySnapshot) => {
                 const newTasks: any = [];
                 querySnapshot.forEach((doc) => {
                     newTasks.push(doc.data());
@@ -222,6 +223,7 @@ export default ({
             await fb.usersCollection.doc(user?.uid).collection('tasks').doc(task.id).update({
                 title: task.title,
                 dueDate: task.dueDate,
+                dueTime: task.dueTime,
                 timeEstimate: task.timeEstimate,
                 dailyReminder: task.dailyReminder,
                 daysInAdvance: task.daysInAdvance,

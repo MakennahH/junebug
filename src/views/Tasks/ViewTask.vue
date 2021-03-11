@@ -12,13 +12,13 @@
 		<div class="row has-header">
 			<div class="col mx-2">
 				<b-card>
-					<h3>{{task.title}}</h3>
+					<h3>{{ task.title }}</h3>
 					<div class="d-flex justify-content-between">
-						<div class="text-secondary">{{ fromNow(task.dueDate) }}</div>
-						<div class="text-info">{{ prettyDate(task.dueDate) }}</div>
+						<div class="text-secondary" :class="{ 'text-danger': isOverdue }">{{ this.isOverDue ? toNow() : fromNow() }}</div>
+						<div class="text-info">{{ prettyTime() }} {{ prettyDate() }}</div>
 					</div>
 					<div class="pt-2">
-						{{task.notes}}
+						{{ task.notes }}
 					</div>
 					<b-button @click="deleteTask" variant="danger" class="float-right mt-2"><b-icon-trash></b-icon-trash></b-button>
 				</b-card>
@@ -33,11 +33,17 @@ import moment from "moment";
 @Component({})
 export default class ViewTask extends Vue {
 	private id = this.$route.params.id;
+	private isOverdue = false;
 	private loading = true;
 
 	mounted() {
 		this.loading = true;
-		this.$store.dispatch("getTasks").finally(() => (this.loading = false));
+		this.$store.dispatch("getTasks").finally(() => {
+			this.loading = false;
+			if (moment(this.task.dueDate) < moment()) {
+				this.isOverdue = true;
+			}
+		});
 	}
 
 	get tasks() {
@@ -50,12 +56,20 @@ export default class ViewTask extends Vue {
 		});
 	}
 
-	fromNow(data: any){
-		return moment(data).toNow();
+	toNow() {
+		return moment(this.task.dueDate).toNow();
+	}
+
+	fromNow() {
+		return moment(this.task.dueDate).fromNow();
+	}
+
+	prettyTime() {
+		return moment(moment(this.task.dueTime, "h:mmA")).format("h:mmA");
 	}
 
 	prettyDate(data: any) {
-		return moment(data).format("h:mmA dddd M/D/YY");
+		return moment(this.task.dueDate).format("dddd M/D/YY");
 	}
 
 	deleteTask() {

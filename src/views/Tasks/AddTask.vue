@@ -10,6 +10,7 @@
 			<form class="col mx-2">
 				<b-form-input class="mb-2" placeholder="Title" v-model="title"></b-form-input>
 				<b-form-datepicker class="mb-2" placeholder="Due date" v-model="dueDate"></b-form-datepicker>
+				<b-form-timepicker class="mb-2" placeholder="Time due" v-model="dueTime" required></b-form-timepicker>
 				<div>Estimated time to complete:</div>
 				<b-form-spinbutton class="mb-2" :formatter-fn="formatHours" size="sm" v-model="maxHours" wrap min="1" max="24"></b-form-spinbutton>
 				<!-- <b-form-input class="mb-2" placeholder="Event"></b-form-input> -->
@@ -59,6 +60,14 @@ export default class AddTask extends Vue {
 		this.task.dueDate = value;
 	}
 
+	get dueTime() {
+		return this.task.dueTime;
+	}
+
+	set dueTime(value) {
+		this.task.dueTime = value;
+	}
+
 	get dailyReminder() {
 		return this.task.dailyReminder;
 	}
@@ -106,6 +115,7 @@ export default class AddTask extends Vue {
 					id: this.$route.params.id,
 					title: this.task.title,
 					dueDate: this.task.dueDate,
+					dueTime: this.task.dueTime,
 					timeEstimate: this.task.timeEstimate,
 					dailyReminder: this.task.dailyReminder,
 					daysInAdvance: this.task.daysInAdvance,
@@ -119,6 +129,7 @@ export default class AddTask extends Vue {
 				.dispatch("addTask", {
 					title: this.task.title,
 					dueDate: this.task.dueDate,
+					dueTime: this.task.dueTime,
 					timeEstimate: this.task.timeEstimate,
 					dailyReminder: this.task.dailyReminder,
 					daysInAdvance: this.task.daysInAdvance,

@@ -89,6 +89,7 @@ export class TaskModel{
     id: string;
     title: string;
     dueDate: Date | null;
+    dueTime: Date | null
     timeEstimate: number;
     dailyReminder: boolean;
     daysInAdvance: number;
@@ -98,6 +99,7 @@ export class TaskModel{
         this.id = "";
         this.title = "";
         this.dueDate = null;
+        this.dueTime = null;
         this.timeEstimate = 1;
         this.dailyReminder = false;
         this.daysInAdvance = 1;
