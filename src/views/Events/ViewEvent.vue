@@ -14,7 +14,8 @@
 				<b-card>
 					<h3>{{ event.title }}</h3>
 					<div class="d-flex justify-content-between">
-						<div class="text-info">{{ prettyTime(event.startTime) }} - {{ prettyTime(event.endTime) }} {{ prettyDate(event.date) }}</div>
+						<div class="font-weight-bold">{{ prettyDate(event.date) }}</div>
+						<div class="text-info">{{ prettyTime(event.startTime) }} - {{ prettyTime(event.endTime) }}</div>
 						<div class="text-secondary">{{ event.location }}</div>
 					</div>
 					<div class="pt-2 pr-2" v-if="event.people != ''">
@@ -65,7 +66,7 @@ export default class ViewEvent extends Vue {
 	}
 
 	prettyDate(data: any) {
-		return moment(data).format("dddd M/D/YY");
+		return moment(data).format("ddd, MMM Do 'YY");
 	}
 
 	deleteEvent() {

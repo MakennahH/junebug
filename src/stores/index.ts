@@ -3,7 +3,6 @@ import Vuex from "vuex";
 import * as fb from '../firebase'
 import SchedulingModule from "@/stores/scheduling";
 import router from '../router/index'
-import SchedulingModel from "@/models/scheduling";
 import UserModel from "@/models/user";
 
 Vue.use(Vuex);
