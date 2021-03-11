@@ -15,7 +15,7 @@
 					<b-list-group-item v-for="event in events" :key="event.id" :to="'events/view/' + event.id" replace>
 						<div class="d-flex justify-content-between">
 							<strong>{{ event.title }}</strong>
-							<div class="text-info">{{prettyDate(event.date)}} <span class="small">{{ prettyTime(event.startTime) }}-{{ prettyTime(event.endTime) }}</span></div>
+							<div class="font-weight-light">{{prettyDate(event.date)}} <span class="small text-info">{{ prettyTime(event.startTime) }}-{{ prettyTime(event.endTime) }}</span></div>
 						</div>
 						<div>{{ event.location }}</div>
 						<div>{{ event.whatToBring }}</div>

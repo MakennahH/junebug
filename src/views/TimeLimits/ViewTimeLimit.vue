@@ -23,7 +23,7 @@
 							<div class="d-flex align-items-center" :class="{ 'text-secondary': !timelimit.days[5] }">Friday <b-icon icon="check" v-if="timelimit.days[5]"></b-icon></div>
 							<div class="d-flex align-items-center" :class="{ 'text-secondary': !timelimit.days[6] }">Saturday <b-icon icon="check" v-if="timelimit.days[6]"></b-icon></div>
 						</div>
-						<div class="text-info">1 hour</div>
+						<div class="text-info">{{ formatHours() }}</div>
 					</div>
 					<b-button @click="deleteTimeLimit" variant="danger" class="float-right mt-2"><b-icon-trash></b-icon-trash></b-button>
 				</b-card>
@@ -52,6 +52,10 @@ export default class ViewTimeLimit extends Vue {
 		return this.timelimits.find((timelimit: any) => {
 			return timelimit.id === this.id;
 		});
+	}
+
+	formatHours() {
+		return this.timelimit.duration == 1 ? this.timelimit.duration + " hour" : this.timelimit.duration + " hours";
 	}
 
 	deleteTimeLimit() {

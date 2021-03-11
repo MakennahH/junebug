@@ -24,7 +24,7 @@
 							<div class="d-flex align-items-center" :class="{ 'text-secondary': !alarm.days[6] }">Saturday <b-icon icon="check" v-if="alarm.days[6]"></b-icon></div>
 						</div>
 						<div class="text-info">
-							<div>{{ alarm.time }}</div>
+							<div>{{ prettyTime() }}</div>
 							<b-button @click="deleteAlarm" variant="danger" class="position-absolute" id="delete"><b-icon-trash></b-icon-trash></b-button>
 						</div>
 					</div>

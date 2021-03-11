@@ -17,7 +17,7 @@
 							<strong>{{ timelimit.title }}</strong>
 							<div class="text-info"><b-icon icon="clock-history" class="mr-2"></b-icon>{{ formatHours(timelimit.duration) }}</div>
 						</div>
-						<div class="text-truncate">{{ formattedDays(timelimit) }}</div>
+						<div class="text-truncate text-secondary">{{ formattedDays(timelimit) }}</div>
 					</b-list-group-item>
 				</b-list-group>
 				<b-card v-else class="card-secondary text-center mx-2">
@@ -55,16 +55,44 @@ export default class Timelimits extends Vue {
 		return data == 1 ? data + " hr" : data + " hrs";
 	}
 
-	formattedDays(timelimit: any){
+	formattedDays(timelimit: any) {
 		let daysString = "";
 		let dayIndex = 0;
-		for(const day of timelimit.days){
-			if(day == true){
+		let everyDay = true;
+		let weekDays = true;
+		let weekEnds = true;
+		// check if every day
+		for (const day of timelimit.days) {
+			if (day == true) {
 				daysString += this.theseWeekdays[dayIndex].text + " ";
+			} else {
+				everyDay = false;
 			}
 			dayIndex++;
 		}
-		return daysString;
+		// check if week days
+		if(!timelimit.days[0] && !timelimit.days[6]){
+			for (var i=1; i<6; i++ ){
+				if(!timelimit.days[i]){
+					weekDays = false;
+				}
+			}
+		}
+		else{
+			weekDays = false;
+		}
+		// check if weekends
+		if(timelimit.days[0] && timelimit.days[6]){
+			for (var i=1; i<6; i++ ){
+				if(timelimit.days[i]){
+					weekEnds = false;
+				}
+			}
+		}
+		else{
+			weekEnds = false;
+		}
+		return everyDay ? "Every day" : weekDays ? "Week days" : weekEnds ? "Weekends" : daysString;
 	}
 
 	mounted() {
