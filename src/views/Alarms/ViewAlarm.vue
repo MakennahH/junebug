@@ -12,18 +12,21 @@
 		<div class="row has-header">
 			<div class="col mx-2">
 				<b-card>
-					<h3>Test Title</h3>
+					<h3>{{alarm.title}}</h3>
 					<div class="d-flex justify-content-between">
 						<div class="font-weight-light">
-							<div class="text-secondary">Sunday</div>
-							<div class="d-flex align-items-center">Monday <b-icon icon="check"></b-icon></div>
-							<div>Tuesday</div>
-							<div>Wednesday</div>
-							<div>Thursday</div>
-							<div>Friday</div>
-							<div class="text-secondary">Saturday</div>
+							<div class="d-flex align-items-center" :class="{ 'text-secondary': !alarm.days[0] }" >Sunday <b-icon icon="check" v-if="alarm.days[0]"></b-icon></div>
+							<div class="d-flex align-items-center" :class="{ 'text-secondary': !alarm.days[1] }" >Monday <b-icon icon="check" v-if="alarm.days[1]"></b-icon></div>
+							<div class="d-flex align-items-center" :class="{ 'text-secondary': !alarm.days[2] }">Tuesday <b-icon icon="check" v-if="alarm.days[2]"></b-icon></div>
+							<div class="d-flex align-items-center" :class="{ 'text-secondary': !alarm.days[3] }">Wednesday <b-icon icon="check" v-if="alarm.days[3]"></b-icon></div>
+							<div class="d-flex align-items-center" :class="{ 'text-secondary': !alarm.days[4] }">Thursday <b-icon icon="check" v-if="alarm.days[4]"></b-icon></div>
+							<div class="d-flex align-items-center" :class="{ 'text-secondary': !alarm.days[5] }">Friday <b-icon icon="check" v-if="alarm.days[5]"></b-icon></div>
+							<div class="d-flex align-items-center" :class="{ 'text-secondary': !alarm.days[6] }">Saturday <b-icon icon="check" v-if="alarm.days[6]"></b-icon></div>
 						</div>
-						<div class="text-info">9:00AM</div>
+						<div class="text-info">
+							<div>{{ alarm.time }}</div>
+							<b-button @click="deleteAlarm" variant="danger" class="position-absolute" id="delete"><b-icon-trash></b-icon-trash></b-button>
+						</div>
 					</div>
 				</b-card>
 			</div>
@@ -33,8 +36,44 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import moment from "moment";
 @Component({})
 export default class ViewAlarm extends Vue {
 	private id = this.$route.params.id;
+	private loading = true;
+
+	mounted() {
+		this.loading = true;
+		this.$store.dispatch("getAlarms").finally(() => (this.loading = false));
+	}
+
+	get alarms() {
+		return this.$store.state.scheduling.alarms;
+	}
+
+	get alarm() {
+		return this.alarms.find((alarm: any) => {
+			return alarm.id === this.id;
+		});
+	}
+
+	prettyTime() {
+		return moment(moment(this.alarm.time, "H:mm A")).format("H:mm A");
+	}
+
+	deleteAlarm() {
+		this.$store.dispatch("deleteAlarm", { id: this.$route.params.id }).then(() => {
+			this.$router.replace("/alarms");
+		});
+	}
 }
 </script>
+
+<style scoped>
+#delete{
+	bottom: 0;
+	right: 0;
+
+	margin: 20px;
+}
+</style>

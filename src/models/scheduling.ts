@@ -30,21 +30,25 @@ export class NoteModel{
 
 export class AlarmModel{
     id: string;
-    time: Date | null;
+    time: Date;
     title: string;
     notes: string;
     snoozeInterval: number;
-    recurring: boolean;
-    days: Date[];
+    recurringDaily: boolean;
+    recurringMonthly: boolean;
+    recurringYearly: boolean;
+    days: boolean[];
 
     constructor(){
         this.id = "";
-        this.time = null;
+        this.time = new Date();
         this.title = "";
         this.notes = "";
-        this.snoozeInterval = 10;
-        this.recurring = false;
-        this.days = [];
+        this.snoozeInterval = 5;
+        this.recurringDaily = false;
+        this.recurringMonthly = false;
+        this.recurringYearly = false;
+        this.days = [false, false, false, false, false, false, false];
     }
 }
 

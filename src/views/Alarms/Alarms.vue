@@ -12,12 +12,12 @@
 		<div class="row has-header">
 			<div class="col">
 				<b-list-group v-if="alarms.length > 0" class="mx-2">
-					<b-list-group-item v-for="(alarm, key) in alarms" :key="key" :to="'alarms/view/' + key" replace>
+					<b-list-group-item v-for="alarm in alarms" :key="alarm.id" :to="'alarms/view/' + alarm.id" replace>
 						<div class="d-flex justify-content-between">
 							<strong>{{ alarm.title }}</strong>
-							<div class="text-info">{{ alarm.time }}</div>
+							<div class="text-info">{{ prettyTime(alarm.time) }}</div>
 						</div>
-						<div>{{ alarm.days }}</div>
+						<div>{{ formattedDays(alarm) }}</div>
 					</b-list-group-item>
 				</b-list-group>
 				<b-card v-else class="card-secondary text-center mx-2">
@@ -30,11 +30,47 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import moment from "moment";
 @Component({})
 export default class Alarms extends Vue {
-	private alarms = [];
+	private loading = true;
+	private theseWeekdays = [
+		{ text: "Sun", value: "sunday", index: 0 },
+		{ text: "Mon", value: "monday", index: 1 },
+		{ text: "Tue", value: "tuesday", index: 2 },
+		{ text: "Wed", value: "wednesday", index: 3 },
+		{ text: "Thu", value: "thursday", index: 4 },
+		{ text: "Fri", value: "friday", index: 5 },
+		{ text: "Sat", value: "saturday", index: 6 },
+	];
+
+	get isLoading(){
+		return this.loading;
+	}
+
+	get alarms(){
+		return this.$store.state.scheduling.alarms;
+	}
+
+	formattedDays(alarm: any){
+		let daysString = "";
+		let dayIndex = 0;
+		for(const day of alarm.days){
+			if(day == true){
+				daysString += this.theseWeekdays[dayIndex].text + " ";
+			}
+			dayIndex++;
+		}
+		return daysString;
+	}
+
+	prettyTime(alarm: any) {
+		return moment(moment(alarm, "H:mm A")).format("H:mm A");
+	}
+	
 	mounted() {
-		// TODO: display info
+		this.loading = true;
+		this.$store.dispatch("getAlarms").finally(() => (this.loading = false));
 	}
 }
 </script>
