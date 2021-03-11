@@ -12,10 +12,10 @@
 		<div class="row has-header">
 			<div class="col">
 				<b-list-group v-if="events.length > 0" class="mx-2">
-					<b-list-group-item v-for="(event, key) in events" :key="key" :to="'events/view/' + key" replace>
+					<b-list-group-item v-for="event in events" :key="event.id" :to="'events/view/' + event.id" replace>
 						<div class="d-flex justify-content-between">
 							<strong>{{ event.title }}</strong>
-							<div class="text-info">{{ event.startTime }} - {{ event.endTime }}</div>
+							<div class="text-info">{{prettyDate(event.date)}} <span class="small">{{ prettyTime(event.startTime) }}-{{ prettyTime(event.endTime) }}</span></div>
 						</div>
 						<div>{{ event.location }}</div>
 						<div>{{ event.whatToBring }}</div>
@@ -31,11 +31,31 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import moment from "moment";
+
 @Component({})
 export default class Events extends Vue {
-	private events = [];
+	private loading = true;
+
+	get isLoading(){
+		return this.loading;
+	}
+
+	get events(){
+		return this.$store.state.scheduling.events;
+	}
+
+	prettyTime(data: any) {
+		return moment(moment(data, "h:mmA")).format("hA");
+	}
+
+	prettyDate(data: any){
+		return moment(data).format("M/D/YY");
+	}
+	
 	mounted() {
-		// TODO: display info
+		this.loading = true;
+		this.$store.dispatch("getEvents").finally(() => (this.loading = false));
 	}
 }
 </script>

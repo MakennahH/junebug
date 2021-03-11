@@ -65,7 +65,7 @@ export default class Alarms extends Vue {
 	}
 
 	prettyTime(alarm: any) {
-		return moment(moment(alarm, "H:mm A")).format("H:mm A");
+		return moment(moment(alarm, "h:mm A")).format("h:mm A");
 	}
 	
 	mounted() {

@@ -30,22 +30,22 @@ export class NoteModel{
 
 export class AlarmModel{
     id: string;
-    time: Date;
+    time: Date | null;
     title: string;
     notes: string;
     snoozeInterval: number;
-    recurringDaily: boolean;
+    date: Date | null;
     recurringMonthly: boolean;
     recurringYearly: boolean;
     days: boolean[];
 
     constructor(){
         this.id = "";
-        this.time = new Date();
+        this.time = null;
         this.title = "";
         this.notes = "";
         this.snoozeInterval = 5;
-        this.recurringDaily = false;
+        this.date = null;
         this.recurringMonthly = false;
         this.recurringYearly = false;
         this.days = [false, false, false, false, false, false, false];
@@ -57,26 +57,31 @@ export class EventModel{
     title: string;
     startTime: Date | null;
     endTime: Date | null;
+    date: Date | null;
     people: string;
     location: string;
     bring: string;
     notes: string;
     leaveReminder: boolean;
-    recurring: boolean;
-    days: Date[];
+    recurringMonthly: boolean;
+    recurringYearly: boolean;
+    days: boolean[];
 
     constructor(){
         this.id = "";
         this.title = "";
         this.startTime = null;
         this.endTime = null;
+        this.date = null; 
         this.people = "";
         this.location = "";
         this.bring = "";
         this.notes = "";
         this.leaveReminder = false;
-        this.recurring = false;
-        this.days = [];
+        this.date = null;
+        this.recurringMonthly = false;
+        this.recurringYearly = false;
+        this.days = [false, false, false, false, false, false, false];
     }
 }
 

@@ -66,7 +66,7 @@ export default ({
                 title: data.title,
                 notes: data.notes,
                 snoozeInterval: data.snoozeInterval,
-                recurringDaily: data.recurringDaily,
+                date: data.date,
                 recurringMonthly: data.recurringMonthly,
                 recurringYearly: data.recurringYearly,
                 days: data.days
@@ -97,7 +97,7 @@ export default ({
                 title: alarm.title,
                 notes: alarm.notes,
                 snoozeInterval: alarm.snoozeInterval,
-                recurringDaily: alarm.recurringDaily,
+                date: alarm.date,
                 recurringMonthly: alarm.recurringMonthly,
                 recurringYearly: alarm.recurringYearly,
                 days: alarm.days
@@ -110,6 +110,72 @@ export default ({
             const user = fb.auth.currentUser;
             await fb.usersCollection.doc(user?.uid).collection('alarms').doc(alarm.id).delete().then(() => {
                 this.getAlarms;
+            }).catch((error) => {
+                console.error("There was a problem" + error);
+            });
+        },
+
+        // EVENTS ACTIONS
+        async addEvent({ commit }: any, data: any) {
+            const user = fb.auth.currentUser;
+            await fb.usersCollection.doc(user?.uid).collection('events').add({
+                id: null,
+                title: data.title,
+                startTime: data.startTime,
+                endTime: data.endTime,
+                date: data.date,
+                people: data.people,
+                location: data.location,
+                bring: data.bring,
+                notes: data.notes,
+                leaveReminder: data.leaveReminder,
+                recurringMonthly: data.recurringMonthly,
+                recurringYearly: data.recurringYearly,
+                days: data.days,
+            }).then((docRef) => {
+                const newId = docRef.id;
+                fb.usersCollection.doc(user?.uid).collection('events').doc(docRef.id).update({ id: newId })
+            }).then(() => {
+                commit('updateEvents', data);
+            })
+
+        },
+
+        async getEvents({ commit }: any) {
+            const user = fb.auth.currentUser;
+            await fb.usersCollection.doc(user?.uid).collection('events').orderBy('startTime').get().then((querySnapshot) => {
+                const newEvents: any = [];
+                querySnapshot.forEach((doc) => {
+                    newEvents.push(doc.data());
+                });
+                commit('updateEvents', newEvents);
+            });
+        },
+
+        async updateEvent({ commit }: any, event: any,) {
+            const user = fb.auth.currentUser;
+            await fb.usersCollection.doc(user?.uid).collection('events').doc(event.id).update({
+                title: event.title,
+                startTime: event.startTime,
+                endTime: event.endTime,
+                date: event.date,
+                people: event.people,
+                location: event.location,
+                bring: event.bring,
+                notes: event.notes,
+                leaveReminder: event.leaveReminder,
+                recurringMonthly: event.recurringMonthly,
+                recurringYearly: event.recurringYearly,
+                days: event.days,
+            }).then(() => {
+                this.getEvents;
+            })
+        },
+
+        async deleteEvent({ commit }: any, event: any) {
+            const user = fb.auth.currentUser;
+            await fb.usersCollection.doc(user?.uid).collection('events').doc(event.id).delete().then(() => {
+                this.getEvents;
             }).catch((error) => {
                 console.error("There was a problem" + error);
             });

@@ -58,7 +58,7 @@ export default class ViewAlarm extends Vue {
 	}
 
 	prettyTime() {
-		return moment(moment(this.alarm.time, "H:mm A")).format("H:mm A");
+		return moment(moment(this.alarm.time, "h:mm A")).format("h:mm A");
 	}
 
 	deleteAlarm() {
