@@ -16,7 +16,7 @@
 					<b-list-group-item v-for="task in tasks" :key="task.id" :to="'tasks/view/' + task.id" replace>
 						<div class="d-flex justify-content-between">
 							<strong>{{ task.title }}</strong>
-							<div :class="{ 'text-danger': prettyDate(task.dueDate).isOverDue, 'text-info': prettyDate(task.dueDate).isDueSoon }">{{ prettyDate(task.dueDate).date }} {{ prettyTime(task.dueTime) }}</div>
+							<div :class="{ 'text-danger': prettyDate(task.dueDate, task.dueTime).isOverDue, 'text-info': prettyDate(task.dueDate, task.dueTime).isDueSoon }">{{ prettyDate(task.dueDate, task.dueTime).date }} {{ prettyTime(task.dueTime) }}</div>
 						</div>
 						<div class="text-truncate">{{ task.desc }}</div>
 					</b-list-group-item>
@@ -48,16 +48,17 @@ export default class Tasks extends Vue {
 		return moment(time, "h:mmA").format("h:mmA");
 	}
 
-	prettyDate(data: any) {
+	prettyDate(date: any, time: any) {
 		var isOverDue = false;
 		var isDueSoon = false;
-		if (moment(data) < moment()) {
+
+		if (moment(date).add(time) < moment()) {
 			isOverDue = true;
-		} else if (moment(data).diff(moment()) < 43200000) {
+		} else if ((moment(date).add(time)).diff(moment()) < 43200000) {
 			// roughly 12 hours
 			isDueSoon = true;
 		}
-		return { date: moment(data).format("M/D/YY"), isOverDue: isOverDue, isDueSoon: isDueSoon };
+		return { date: moment(date).format("M/D/YY"), isOverDue: isOverDue, isDueSoon: isDueSoon };
 	}
 
 	mounted() {

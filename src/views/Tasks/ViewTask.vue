@@ -40,7 +40,7 @@ export default class ViewTask extends Vue {
 		this.loading = true;
 		this.$store.dispatch("getTasks").finally(() => {
 			this.loading = false;
-			if (moment(this.task.dueDate) < moment()) {
+			if (moment(this.task.dueDate).add(this.task.dueTime) < moment()) {
 				this.isOverdue = true;
 			}
 		});
@@ -57,11 +57,11 @@ export default class ViewTask extends Vue {
 	}
 
 	toNow() {
-		return moment(this.task.dueDate).toNow();
+		return (moment(this.task.dueDate).add(this.task.dueTime)).toNow();
 	}
 
 	fromNow() {
-		return moment(this.task.dueDate).fromNow();
+		return (moment(this.task.dueDate).add(this.task.dueTime)).fromNow();
 	}
 
 	prettyTime() {

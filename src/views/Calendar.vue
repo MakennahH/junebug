@@ -8,46 +8,14 @@
 				<h3>{{ month }}</h3>
 				<b-card no-body>
 					<div class="d-flex text-center my-1">
-						<div class="calendar-day">Sun</div>
-						<div class="calendar-day">Mon</div>
-						<div class="calendar-day">Tue</div>
-						<div class="calendar-day">Wed</div>
-						<div class="calendar-day">Thu</div>
-						<div class="calendar-day">Fri</div>
-						<div class="calendar-day">Sat</div>
+						<div class="calendar-day" v-for="(dayOfWeek, key) in daysOfWeek" :key="key">{{ dayOfWeek }}</div>
 					</div>
 					<div class="d-flex justify-content-start flex-wrap">
-						<b-card class="calendar-day"></b-card>
-						<b-card class="calendar-day"></b-card>
-						<b-card class="calendar-day"></b-card>
-						<b-card class="calendar-day"></b-card>
-						<b-card class="calendar-day"></b-card>
-						<b-card class="calendar-day"></b-card>
-						<b-card class="calendar-day"></b-card>
-						<b-card no-body class="calendar-day bg-emphasized py-3"></b-card>
-						<b-card no-body class="calendar-day bg-emphasized bg-today py-3"></b-card>
-						<b-card no-body class="calendar-day bg-emphasized py-3"></b-card>
-						<b-card no-body class="calendar-day bg-emphasized py-3"></b-card>
-						<b-card no-body class="calendar-day bg-emphasized py-3"></b-card>
-						<b-card no-body class="calendar-day bg-emphasized py-3"></b-card>
-						<b-card no-body class="calendar-day bg-emphasized py-3"></b-card>
-						<b-card class="calendar-day"></b-card>
-						<b-card class="calendar-day"></b-card>
-						<b-card class="calendar-day"></b-card>
-						<b-card class="calendar-day"></b-card>
-						<b-card class="calendar-day"></b-card>
-						<b-card class="calendar-day"></b-card>
-						<b-card class="calendar-day"></b-card>
-						<b-card class="calendar-day"></b-card>
-						<b-card class="calendar-day"></b-card>
-						<b-card class="calendar-day"></b-card>
-						<b-card class="calendar-day"></b-card>
-						<b-card class="calendar-day"></b-card>
-						<b-card class="calendar-day"></b-card>
-						<b-card class="calendar-day"></b-card>
-						<b-card class="calendar-day"></b-card>
-						<b-card class="calendar-day"></b-card>
-						<b-card class="calendar-day"></b-card>
+						<b-card class="calendar-day" v-for="(leadingDay, key) of leadingDays" :key="key" :class="{ 'bg-emphasized': false }">
+						</b-card>
+						<b-card class="calendar-day" v-for="(day, key) in days" :key="key" :class="{ 'bg-today': today == key+1, 'bg-emphasized': false }">
+							<div class="small position-absolute date-number">{{ key+1 }}</div>
+						</b-card>
 					</div>
 				</b-card>
 				<b-card class="bg-purple mt-2">
@@ -68,10 +36,15 @@ import { Component, Vue } from "vue-property-decorator";
 @Component
 export default class Calendar extends Vue {
 	private month = moment().format("MMMM");
-	private day = moment().format("Do");
+	private daysOfWeek: string[] = [];
+	private days = moment().daysInMonth();
+	private today = moment().date();
+	private leadingDays = moment().startOf('month').day();
 
-	mounted() {
-		// TODO: display info
+	created() {
+		for (var i = 0; i < 7; i++) {
+			this.daysOfWeek[i] = moment().day(i).format("ddd");
+		}
 	}
 }
 </script>
@@ -79,6 +52,10 @@ export default class Calendar extends Vue {
 <style scoped>
 .calendar-day {
 	width: 14.2%;
+}
+.date-number {
+	top: 0;
+	left: 0;
 }
 .dark-mode .calendar-day {
 	border-color: #444;
