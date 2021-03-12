@@ -11,19 +11,23 @@
 						<div class="calendar-day" v-for="(dayOfWeek, key) in daysOfWeek" :key="key">{{ dayOfWeek }}</div>
 					</div>
 					<div class="d-flex justify-content-start flex-wrap">
-						<b-card class="calendar-day" v-for="(leadingDay, key) of leadingDays" :key="key" :class="{ 'bg-emphasized': false }">
+						<b-card class="calendar-day bg-depreciated" v-for="(leadingDay, key) of leadingDays" :key="key" :class="{ 'bg-emphasized': key + 1 >= weekStart && key + 1 <= weekEnd }">
+							<div class="small position-absolute date-number">{{ lastMonthNumDays - key }}</div>
 						</b-card>
-						<b-card class="calendar-day" v-for="(day, key) in days" :key="key" :class="{ 'bg-today': today == key+1, 'bg-emphasized': false }">
-							<div class="small position-absolute date-number">{{ key+1 }}</div>
+						<b-card class="calendar-day" v-for="(day, key) in days" :key="key" :class="{ 'bg-today': today == key + 1, 'bg-emphasized': key + 1 >= weekStart && key + 1 <= weekEnd }">
+							<div class="small position-absolute date-number">{{ key + 1 }}</div>
+						</b-card>
+						<b-card class="calendar-day bg-depreciated" v-for="(trailingDay, key) of trailingDays" :key="key" :class="{ 'bg-emphasized': key + 1 >= weekStart && key + 1 <= weekEnd }">
+							<div class="small position-absolute date-number">{{ key + 1 }}</div>
 						</b-card>
 					</div>
 				</b-card>
-				<b-card class="bg-purple mt-2">
+				<!-- <b-card class="bg-purple mt-2">
 					<div>Expanded description of purple dot</div>
 				</b-card>
 				<b-card class="bg-warning mt-2">
 					<div>Expanded description of yellow dot</div>
-				</b-card>
+				</b-card> -->
 			</div>
 		</div>
 	</div>
@@ -39,7 +43,11 @@ export default class Calendar extends Vue {
 	private daysOfWeek: string[] = [];
 	private days = moment().daysInMonth();
 	private today = moment().date();
-	private leadingDays = moment().startOf('month').day();
+	private leadingDays = moment().startOf("month").day();
+	private trailingDays = 7 - moment().startOf("month").add(1, "months").day();
+	private lastMonthNumDays = moment().subtract(1, "months").daysInMonth();
+	private weekStart = moment().startOf("week").date();
+	private weekEnd = moment().endOf("week").date();
 
 	created() {
 		for (var i = 0; i < 7; i++) {
@@ -63,11 +71,17 @@ export default class Calendar extends Vue {
 .dark-mode .bg-emphasized {
 	background: #555 !important;
 }
+.dark-mode .bg-depreciated {
+	background: #111 !important;
+}
 .dark-mode .bg-today {
 	background: #777 !important;
 }
 .bg-emphasized {
 	background: #eeffdb !important;
+}
+.bg-depreciated {
+	background: #eee !important;
 }
 .bg-today {
 	background: #d9ffad !important;
