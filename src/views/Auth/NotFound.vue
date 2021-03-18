@@ -9,7 +9,7 @@
 				<div>
 					I'm not sure how you made it here, but this page doesnt exist!
 				</div>
-				<router-link to="/login" class="text-info">
+				<router-link to="/today" class="text-info">
 					Take me back to safety
 				</router-link>
 			</div>

@@ -30,7 +30,7 @@
 					<b-collapse id="meal-reminder">
 						<b-card class="form-group-middle">
 							<div>Send reminders every:</div>
-							<b-form-spinbutton :formatter-fn="formatMealHours" size="sm" v-model="maxMealHours" wrap min="1" max="8"></b-form-spinbutton>
+							<b-form-spinbutton :formatter-fn="formatMealHours" size="sm" v-model="maxMealHours" wrap min="0" max="24"></b-form-spinbutton>
 						</b-card>
 					</b-collapse>
 					<b-list-group-item class="d-flex justify-content-between align-items-center" v-b-toggle.drink-reminder>
@@ -43,7 +43,7 @@
 					<b-collapse id="drink-reminder">
 						<b-card class="form-group-middle">
 							<div>Send reminders every:</div>
-							<b-form-spinbutton :formatter-fn="formatDrinkHours" size="sm" v-model="maxDrinkHours" wrap min="1" max="24"></b-form-spinbutton>
+							<b-form-spinbutton :formatter-fn="formatDrinkHours" size="sm" v-model="maxDrinkHours" wrap min="0" max="24"></b-form-spinbutton>
 						</b-card>
 					</b-collapse>
 					<b-list-group-item class="d-flex justify-content-between align-items-center" v-b-toggle.sleep-reminder>
@@ -69,7 +69,7 @@
 					</b-list-group-item>
 					<b-collapse id="meds-reminder">
 						<b-card class="form-group-middle">
-							<b-form-timepicker size="sm" type="time"></b-form-timepicker>
+							<b-form-timepicker size="sm" type="time" v-model="medTime"></b-form-timepicker>
 						</b-card>
 					</b-collapse>
 				</b-list-group>
@@ -101,13 +101,17 @@
 </template>
 
 <script lang="ts">
+import UserModel from "@/models/user";
 import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class Settings extends Vue {
-	private starttime = "9:00";
-	private sleeptime = "00:00";
-	private mealHours = 4;
-	private drinkHours = 1;
+	private userProfile = new UserModel();
+
+	created() {
+		this.$store.dispatch("getCurrentUserProfile").then(() => {
+			this.userProfile = this.$store.state.userProfile;
+		});
+	}
 
 	get email() {
 		return this.$store.state.userProfile.email;
@@ -122,42 +126,82 @@ export default class Settings extends Vue {
 	}
 
 	get startTime() {
-		return this.starttime;
+		return this.userProfile.calendarStartHour;
 	}
+
 	set startTime(value) {
-		this.starttime = value;
+		if (this.userProfile.calendarStartHour) this.userProfile.calendarStartHour = value;
+		else this.userProfile.calendarStartHour = new Date();
 	}
 
 	get sleepTime() {
-		return this.sleeptime;
+		return this.userProfile.sleepReminder;
 	}
 
 	set sleepTime(value) {
-		this.sleeptime = value;
+		if (this.userProfile.sleepReminder) this.userProfile.sleepReminder = value;
+		else this.userProfile.sleepReminder = new Date();
+	}
+
+	get medTime() {
+		return this.userProfile.medReminder;
+	}
+
+	set medTime(value) {
+		if (this.userProfile.medReminder) this.userProfile.medReminder = value;
+		else this.userProfile.medReminder = new Date();
 	}
 
 	get maxMealHours() {
-		return this.mealHours;
+		return this.userProfile.mealReminder;
 	}
 
 	set maxMealHours(value) {
-		this.mealHours = value;
+		this.userProfile.mealReminder = value;
 	}
 
 	get maxDrinkHours() {
-		return this.drinkHours;
+		return this.userProfile.drinkReminder;
 	}
 
 	set maxDrinkHours(value) {
-		this.drinkHours = value;
+		this.userProfile.drinkReminder = value;
 	}
 
 	formatDrinkHours() {
-		return this.drinkHours == 1 ? this.drinkHours + " hr" : this.drinkHours + " hrs";
+		switch (this.userProfile.drinkReminder) {
+			case 0:
+				return "No reminders";
+			case 1:
+				return this.userProfile.drinkReminder + " hr";
+			default:
+				return this.userProfile.drinkReminder + " hrs";
+		}
 	}
 
 	formatMealHours() {
-		return this.mealHours == 1 ? this.mealHours + " hr" : this.mealHours + " hrs";
+		switch (this.userProfile.mealReminder) {
+			case 0:
+				return "No reminders";
+			case 1:
+				return this.userProfile.mealReminder + " hr";
+			default:
+				return this.userProfile.mealReminder + " hrs";
+		}
+	}
+
+	saveSettings() {
+		this.$store.dispatch("updateUserProfile", {
+			calendarStartHour: this.userProfile.calendarStartHour,
+			mealReminder: this.userProfile.mealReminder,
+			drinkReminder: this.userProfile.drinkReminder,
+			sleepReminder: this.userProfile.sleepReminder,
+			medReminder: this.userProfile.medReminder,
+		});
+	}
+
+	beforeDestroy() {
+		this.saveSettings();
 	}
 
 	logout() {

@@ -81,6 +81,7 @@ const routes: Array<RouteConfig> = [
 		component: () => import("../views/Alarms/AddAlarm.vue"),
 		meta: {
 			tab: "planner",
+			auth: true,
 		},
 	},
 	{
