@@ -5,11 +5,11 @@
 				<img src="@/assets/logo-white.png" height="65" />
 			</div>
 			<h1 class="text-center">Create an account</h1>
-			<b-form-input class="form-group-top" type="text" placeholder="email" v-model="emailModel"/>
-			<b-form-input class="form-group-top" type="password" placeholder="password" v-model="passwordModel"/>
+			<b-form-input class="form-group-top" type="text" placeholder="email" v-model="emailModel" />
+			<b-form-input class="form-group-top" type="password" placeholder="password" v-model="passwordModel" />
 			<b-form-input class="form-group-bottom" type="password" placeholder="confirm password" v-model="confirmPasswordModel" />
 			<div>
-				<b-button block class="btn my-2" variant="info" @click="signUp" >Sign Up</b-button>
+				<b-button block class="btn my-2" variant="info" @click="signUp">Sign Up</b-button>
 				<router-link to="/login" class="text-info"> Log In </router-link>
 			</div>
 		</form>
@@ -25,27 +25,27 @@ export default class Signup extends Vue {
 	private password = "";
 	private confirmPassword = "";
 
-	get emailModel(){
+	get emailModel() {
 		return this.email;
 	}
 
-	set emailModel(value){
+	set emailModel(value) {
 		this.email = value;
 	}
 
-	get passwordModel(){
+	get passwordModel() {
 		return this.password;
 	}
 
-	set passwordModel(value){
+	set passwordModel(value) {
 		this.password = value;
 	}
 
-	get confirmPasswordModel(){
+	get confirmPasswordModel() {
 		return this.confirmPassword;
 	}
 
-	set confirmPasswordModel(value){
+	set confirmPasswordModel(value) {
 		this.confirmPassword = value;
 	}
 
@@ -56,8 +56,7 @@ export default class Signup extends Vue {
 				email: this.emailModel,
 				password: this.passwordModel,
 			});
-		}
-		else{
+		} else {
 			console.log("passwords don't match!");
 		}
 	}

@@ -8,7 +8,7 @@
 		</div>
 		<div class="row has-header">
 			<div class="col mx-2">
-                <div class="my-2">Click the button below, we'll send you an email that will let you reset your password.</div>
+				<div class="my-2">Click the button below, we'll send you an email that will let you reset your password.</div>
 				<div>
 					<b-button block class="btn my-2" variant="info" @click="resetPassword">Reset Password</b-button>
 				</div>
@@ -21,10 +21,12 @@
 import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class ChangePassword extends Vue {
-	private email = this.$store.state.userProfile.email
+	private email = this.$store.state.userProfile.email;
 
-    resetPassword () {
-		this.$store.dispatch("changePassword", this.email).then(() => {this.$router.replace('/settings')});
+	resetPassword() {
+		this.$store.dispatch("changePassword", this.email).then(() => {
+			this.$router.replace("/settings");
+		});
 	}
 }
 </script>

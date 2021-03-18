@@ -104,75 +104,75 @@ export default class AddEvent extends Vue {
 		this.event.recurringYearly = value;
 	}
 
-	get title(){
+	get title() {
 		return this.event.title;
 	}
 
-	set title(value){
+	set title(value) {
 		this.event.title = value;
 	}
 
-	get startTime(){
+	get startTime() {
 		return this.event.startTime;
 	}
 
-	set startTime(value){
+	set startTime(value) {
 		this.event.startTime = value;
 	}
 
-	get endTime(){
+	get endTime() {
 		return this.event.endTime;
 	}
 
-	set endTime(value){
+	set endTime(value) {
 		this.event.endTime = value;
 	}
 
-	get people(){
+	get people() {
 		return this.event.people;
 	}
 
-	set people(value){
+	set people(value) {
 		this.event.people = value;
 	}
 
-	get location(){
+	get location() {
 		return this.event.location;
 	}
 
-	set location(value){
+	set location(value) {
 		this.event.location = value;
 	}
 
-	get bring(){
+	get bring() {
 		return this.event.bring;
 	}
 
-	set bring(value){
+	set bring(value) {
 		this.event.bring = value;
 	}
 
-	get notes(){
+	get notes() {
 		return this.event.notes;
 	}
 
-	set notes(value){
+	set notes(value) {
 		this.event.notes = value;
 	}
 
-	get leaveReminder(){
+	get leaveReminder() {
 		return this.event.leaveReminder;
 	}
 
-	set leaveReminder(value){
+	set leaveReminder(value) {
 		this.event.leaveReminder = value;
 	}
 
-	get date(){
+	get date() {
 		return this.event.date;
 	}
 
-	set date(value){
+	set date(value) {
 		this.event.date = value;
 	}
 

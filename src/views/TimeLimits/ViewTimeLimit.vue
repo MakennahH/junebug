@@ -12,11 +12,11 @@
 		<div class="row has-header">
 			<div class="col mx-2">
 				<b-card>
-					<h3>{{timelimit.title}}</h3>
+					<h3>{{ timelimit.title }}</h3>
 					<div class="d-flex justify-content-between">
 						<div class="font-weight-light">
-							<div class="d-flex align-items-center" :class="{ 'text-secondary': !timelimit.days[0] }" >Sunday <b-icon icon="check" v-if="timelimit.days[0]"></b-icon></div>
-							<div class="d-flex align-items-center" :class="{ 'text-secondary': !timelimit.days[1] }" >Monday <b-icon icon="check" v-if="timelimit.days[1]"></b-icon></div>
+							<div class="d-flex align-items-center" :class="{ 'text-secondary': !timelimit.days[0] }">Sunday <b-icon icon="check" v-if="timelimit.days[0]"></b-icon></div>
+							<div class="d-flex align-items-center" :class="{ 'text-secondary': !timelimit.days[1] }">Monday <b-icon icon="check" v-if="timelimit.days[1]"></b-icon></div>
 							<div class="d-flex align-items-center" :class="{ 'text-secondary': !timelimit.days[2] }">Tuesday <b-icon icon="check" v-if="timelimit.days[2]"></b-icon></div>
 							<div class="d-flex align-items-center" :class="{ 'text-secondary': !timelimit.days[3] }">Wednesday <b-icon icon="check" v-if="timelimit.days[3]"></b-icon></div>
 							<div class="d-flex align-items-center" :class="{ 'text-secondary': !timelimit.days[4] }">Thursday <b-icon icon="check" v-if="timelimit.days[4]"></b-icon></div>

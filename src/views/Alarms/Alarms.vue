@@ -44,19 +44,19 @@ export default class Alarms extends Vue {
 		{ text: "Sat", value: "saturday", index: 6 },
 	];
 
-	get isLoading(){
+	get isLoading() {
 		return this.loading;
 	}
 
-	get alarms(){
+	get alarms() {
 		return this.$store.state.scheduling.alarms;
 	}
 
-	formattedDays(alarm: any){
+	formattedDays(alarm: any) {
 		let daysString = "";
 		let dayIndex = 0;
-		for(const day of alarm.days){
-			if(day == true){
+		for (const day of alarm.days) {
+			if (day == true) {
 				daysString += this.theseWeekdays[dayIndex].text + " ";
 			}
 			dayIndex++;
@@ -67,7 +67,7 @@ export default class Alarms extends Vue {
 	prettyTime(alarm: any) {
 		return moment(moment(alarm, "h:mm A")).format("h:mm A");
 	}
-	
+
 	mounted() {
 		this.loading = true;
 		this.$store.dispatch("getAlarms").finally(() => (this.loading = false));

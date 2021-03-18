@@ -71,25 +71,23 @@ export default class Timelimits extends Vue {
 			dayIndex++;
 		}
 		// check if week days
-		if(!timelimit.days[0] && !timelimit.days[6]){
-			for (var i=1; i<6; i++ ){
-				if(!timelimit.days[i]){
+		if (!timelimit.days[0] && !timelimit.days[6]) {
+			for (var i = 1; i < 6; i++) {
+				if (!timelimit.days[i]) {
 					weekDays = false;
 				}
 			}
-		}
-		else{
+		} else {
 			weekDays = false;
 		}
 		// check if weekends
-		if(timelimit.days[0] && timelimit.days[6]){
-			for (var i=1; i<6; i++ ){
-				if(timelimit.days[i]){
+		if (timelimit.days[0] && timelimit.days[6]) {
+			for (var i = 1; i < 6; i++) {
+				if (timelimit.days[i]) {
 					weekEnds = false;
 				}
 			}
-		}
-		else{
+		} else {
 			weekEnds = false;
 		}
 		return everyDay ? "Every day" : weekDays ? "Week days" : weekEnds ? "Weekends" : daysString;

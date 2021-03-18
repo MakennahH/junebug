@@ -12,11 +12,11 @@
 		<div class="row has-header">
 			<div class="col mx-2">
 				<b-card>
-					<h3>{{alarm.title}}</h3>
+					<h3>{{ alarm.title }}</h3>
 					<div class="d-flex justify-content-between">
 						<div class="font-weight-light">
-							<div class="d-flex align-items-center" :class="{ 'text-secondary': !alarm.days[0] }" >Sunday <b-icon icon="check" v-if="alarm.days[0]"></b-icon></div>
-							<div class="d-flex align-items-center" :class="{ 'text-secondary': !alarm.days[1] }" >Monday <b-icon icon="check" v-if="alarm.days[1]"></b-icon></div>
+							<div class="d-flex align-items-center" :class="{ 'text-secondary': !alarm.days[0] }">Sunday <b-icon icon="check" v-if="alarm.days[0]"></b-icon></div>
+							<div class="d-flex align-items-center" :class="{ 'text-secondary': !alarm.days[1] }">Monday <b-icon icon="check" v-if="alarm.days[1]"></b-icon></div>
 							<div class="d-flex align-items-center" :class="{ 'text-secondary': !alarm.days[2] }">Tuesday <b-icon icon="check" v-if="alarm.days[2]"></b-icon></div>
 							<div class="d-flex align-items-center" :class="{ 'text-secondary': !alarm.days[3] }">Wednesday <b-icon icon="check" v-if="alarm.days[3]"></b-icon></div>
 							<div class="d-flex align-items-center" :class="{ 'text-secondary': !alarm.days[4] }">Thursday <b-icon icon="check" v-if="alarm.days[4]"></b-icon></div>
@@ -70,7 +70,7 @@ export default class ViewAlarm extends Vue {
 </script>
 
 <style scoped>
-#delete{
+#delete {
 	bottom: 0;
 	right: 0;
 

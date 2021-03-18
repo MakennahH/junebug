@@ -4,7 +4,7 @@ import router from "./router";
 import { Route } from "vue-router";
 import store from "./stores";
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
-import * as fb from '@/firebase'
+import * as fb from "@/firebase";
 
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
@@ -32,17 +32,17 @@ const init = () => {
 		app = new Vue({
 			router,
 			store,
-			render: h => h(App)
-		}).$mount('#app');
+			render: h => h(App),
+		}).$mount("#app");
 	}
 };
 
 fb.auth.onAuthStateChanged(user => {
 	if (user) {
-		store.commit('setUserProfile', user);
+		store.commit("setUserProfile", user);
 		store.dispatch("getDarkMode");
 	} else {
-		store.commit('setUserProfile', null);
+		store.commit("setUserProfile", null);
 	}
 
 	init();
@@ -58,8 +58,7 @@ router.afterEach((to: Route) => {
 			store.commit("setTab", "none");
 			document.querySelector("#tabs")?.classList.add("d-none");
 		}
-	}
-	else {
+	} else {
 		store.commit("setTab", "none");
 		document.querySelector("#tabs")?.classList.add("d-none");
 	}

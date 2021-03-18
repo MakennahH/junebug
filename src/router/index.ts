@@ -5,7 +5,7 @@ import NotFound from "../views/Auth/NotFound.vue";
 import ForgotPassword from "../views/Auth/ForgotPassword.vue";
 import SignUp from "../views/Auth/SignUp.vue";
 import Login from "../views/Auth/Login.vue";
-import { auth } from '../firebase'
+import { auth } from "../firebase";
 
 Vue.use(VueRouter);
 
@@ -36,8 +36,8 @@ const routes: Array<RouteConfig> = [
 		component: () => import("../views/EditProfile.vue"),
 		meta: {
 			tab: "settings",
-			auth: true
-		}
+			auth: true,
+		},
 	},
 	{
 		path: "/changepassword",
@@ -45,8 +45,8 @@ const routes: Array<RouteConfig> = [
 		component: () => import("../views/ChangePassword.vue"),
 		meta: {
 			tab: "settings",
-			auth: true
-		}
+			auth: true,
+		},
 	},
 	{
 		path: "/today",
@@ -54,7 +54,7 @@ const routes: Array<RouteConfig> = [
 		component: () => import("../views/Today.vue"),
 		meta: {
 			tab: "today",
-			auth: true
+			auth: true,
 		},
 	},
 	{
@@ -63,7 +63,7 @@ const routes: Array<RouteConfig> = [
 		component: () => import("../views/Calendar.vue"),
 		meta: {
 			tab: "calendar",
-			auth: true
+			auth: true,
 		},
 	},
 	{
@@ -72,7 +72,7 @@ const routes: Array<RouteConfig> = [
 		component: () => import("../views/Planner.vue"),
 		meta: {
 			tab: "planner",
-			auth: true
+			auth: true,
 		},
 	},
 	{
@@ -89,7 +89,7 @@ const routes: Array<RouteConfig> = [
 		component: () => import("../views/Alarms/AddAlarm.vue"),
 		meta: {
 			tab: "planner",
-			auth: true
+			auth: true,
 		},
 	},
 	{
@@ -98,7 +98,7 @@ const routes: Array<RouteConfig> = [
 		component: () => import("../views/Alarms/Alarms.vue"),
 		meta: {
 			tab: "planner",
-			auth: true
+			auth: true,
 		},
 	},
 	{
@@ -107,7 +107,7 @@ const routes: Array<RouteConfig> = [
 		component: () => import("../views/Alarms/ViewAlarm.vue"),
 		meta: {
 			tab: "planner",
-			auth: true
+			auth: true,
 		},
 	},
 	{
@@ -116,7 +116,7 @@ const routes: Array<RouteConfig> = [
 		component: () => import("../views/Events/AddEvent.vue"),
 		meta: {
 			tab: "planner",
-			auth: true
+			auth: true,
 		},
 	},
 	{
@@ -125,7 +125,7 @@ const routes: Array<RouteConfig> = [
 		component: () => import("../views/Events/AddEvent.vue"),
 		meta: {
 			tab: "planner",
-			auth: true
+			auth: true,
 		},
 	},
 	{
@@ -134,7 +134,7 @@ const routes: Array<RouteConfig> = [
 		component: () => import("../views/Events/Events.vue"),
 		meta: {
 			tab: "planner",
-			auth: true
+			auth: true,
 		},
 	},
 	{
@@ -143,7 +143,7 @@ const routes: Array<RouteConfig> = [
 		component: () => import("../views/Events/ViewEvent.vue"),
 		meta: {
 			tab: "planner",
-			auth: true
+			auth: true,
 		},
 	},
 	{
@@ -152,7 +152,7 @@ const routes: Array<RouteConfig> = [
 		component: () => import("../views/Tasks/AddTask.vue"),
 		meta: {
 			tab: "planner",
-			auth: true
+			auth: true,
 		},
 	},
 	{
@@ -161,7 +161,7 @@ const routes: Array<RouteConfig> = [
 		component: () => import("../views/Tasks/AddTask.vue"),
 		meta: {
 			tab: "planner",
-			auth: true
+			auth: true,
 		},
 	},
 	{
@@ -170,7 +170,7 @@ const routes: Array<RouteConfig> = [
 		component: () => import("../views/Tasks/Tasks.vue"),
 		meta: {
 			tab: "planner",
-			auth: true
+			auth: true,
 		},
 	},
 	{
@@ -179,7 +179,7 @@ const routes: Array<RouteConfig> = [
 		component: () => import("../views/Tasks/ViewTask.vue"),
 		meta: {
 			tab: "planner",
-			auth: true
+			auth: true,
 		},
 	},
 	{
@@ -188,7 +188,7 @@ const routes: Array<RouteConfig> = [
 		component: () => import("../views/TimeLimits/AddTimeLimit.vue"),
 		meta: {
 			tab: "planner",
-			auth: true
+			auth: true,
 		},
 	},
 	{
@@ -197,7 +197,7 @@ const routes: Array<RouteConfig> = [
 		component: () => import("../views/TimeLimits/AddTimeLimit.vue"),
 		meta: {
 			tab: "planner",
-			auth: true
+			auth: true,
 		},
 	},
 	{
@@ -206,7 +206,7 @@ const routes: Array<RouteConfig> = [
 		component: () => import("../views/TimeLimits/TimeLimits.vue"),
 		meta: {
 			tab: "planner",
-			auth: true
+			auth: true,
 		},
 	},
 	{
@@ -215,7 +215,7 @@ const routes: Array<RouteConfig> = [
 		component: () => import("../views/TimeLimits/ViewTimeLimit.vue"),
 		meta: {
 			tab: "planner",
-			auth: true
+			auth: true,
 		},
 	},
 	{
@@ -224,7 +224,7 @@ const routes: Array<RouteConfig> = [
 		component: () => import("../views/Notes/AddNote.vue"),
 		meta: {
 			tab: "notes",
-			auth: true
+			auth: true,
 		},
 	},
 	{
@@ -233,7 +233,7 @@ const routes: Array<RouteConfig> = [
 		component: () => import("../views/Notes/AddNote.vue"),
 		meta: {
 			tab: "notes",
-			auth: true
+			auth: true,
 		},
 	},
 	{
@@ -242,7 +242,7 @@ const routes: Array<RouteConfig> = [
 		component: () => import("../views/Notes/Notes.vue"),
 		meta: {
 			tab: "notes",
-			auth: true
+			auth: true,
 		},
 	},
 	{
@@ -251,7 +251,7 @@ const routes: Array<RouteConfig> = [
 		component: () => import("../views/Notes/ViewNote.vue"),
 		meta: {
 			tab: "notes",
-			auth: true
+			auth: true,
 		},
 	},
 	{
@@ -260,7 +260,7 @@ const routes: Array<RouteConfig> = [
 		component: () => import("../views/Settings.vue"),
 		meta: {
 			tab: "settings",
-			auth: true
+			auth: true,
 		},
 	},
 	{
@@ -279,11 +279,11 @@ const router = new VueRouter({
 export default router;
 
 router.beforeEach((to, from, next) => {
-	const requiresAuth = to.matched.some(x => x.meta.auth)
+	const requiresAuth = to.matched.some(x => x.meta.auth);
 
 	if (requiresAuth && !auth.currentUser) {
-		next('/login')
+		next("/login");
 	} else {
-		next()
+		next();
 	}
 });

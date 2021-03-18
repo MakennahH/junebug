@@ -16,7 +16,9 @@
 					<b-list-group-item v-for="task in tasks" :key="task.id" :to="'tasks/view/' + task.id" replace>
 						<div class="d-flex justify-content-between">
 							<strong>{{ task.title }}</strong>
-							<div :class="{ 'text-danger': prettyDate(task.dueDate, task.dueTime).isOverDue, 'text-info': prettyDate(task.dueDate, task.dueTime).isDueSoon }">{{ prettyDate(task.dueDate, task.dueTime).date }} {{ prettyTime(task.dueTime) }}</div>
+							<div :class="{ 'text-danger': prettyDate(task.dueDate, task.dueTime).isOverDue, 'text-info': prettyDate(task.dueDate, task.dueTime).isDueSoon }">
+								{{ prettyDate(task.dueDate, task.dueTime).date }} {{ prettyTime(task.dueTime) }}
+							</div>
 						</div>
 						<div class="text-truncate">{{ task.desc }}</div>
 					</b-list-group-item>
@@ -49,12 +51,16 @@ export default class Tasks extends Vue {
 	}
 
 	prettyDate(date: any, time: any) {
-		var isOverDue = false;
-		var isDueSoon = false;
+		let isOverDue = false;
+		let isDueSoon = false;
 
 		if (moment(date).add(time) < moment()) {
 			isOverDue = true;
-		} else if ((moment(date).add(time)).diff(moment()) < 43200000) {
+		} else if (
+			moment(date)
+				.add(time)
+				.diff(moment()) < 43200000
+		) {
 			// roughly 12 hours
 			isDueSoon = true;
 		}

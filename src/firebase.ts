@@ -1,6 +1,5 @@
 import firebase from "firebase";
 
-
 // Firebase configuration
 const firebaseConfig = {
 	apiKey: "AIzaSyD9utBzDbUKegR2OIMYGTQETUg3m5AQ-sk",
@@ -15,10 +14,10 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-const db = firebase.firestore()
-const auth = firebase.auth()
+const db = firebase.firestore();
+const auth = firebase.auth();
 
-const usersCollection = db.collection('users');
+const usersCollection = db.collection("users");
 // const notesCollection = db.collection('notes');
 // const alarmsCollection = db.collection('alarms');
 // const eventsCollection = db.collection('events');
@@ -28,10 +27,10 @@ const usersCollection = db.collection('users');
 export {
 	db,
 	auth,
-    usersCollection
+	usersCollection,
 	// notesCollection,
-    // alarmsCollection,
-    // eventsCollection,
-    // tasksCollection,
-    // timelimitsCollection
-}
+	// alarmsCollection,
+	// eventsCollection,
+	// tasksCollection,
+	// timelimitsCollection
+};

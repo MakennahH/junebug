@@ -119,7 +119,7 @@ export default class AddTask extends Vue {
 					timeEstimate: this.task.timeEstimate,
 					dailyReminder: this.task.dailyReminder,
 					daysInAdvance: this.task.daysInAdvance,
-					notes: this.task.notes
+					notes: this.task.notes,
 				})
 				.then(() => {
 					this.$router.replace("/tasks");
@@ -133,7 +133,7 @@ export default class AddTask extends Vue {
 					timeEstimate: this.task.timeEstimate,
 					dailyReminder: this.task.dailyReminder,
 					daysInAdvance: this.task.daysInAdvance,
-					notes: this.task.notes
+					notes: this.task.notes,
 				})
 				.then(() => {
 					this.$router.replace("/tasks");

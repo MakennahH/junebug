@@ -57,11 +57,15 @@ export default class ViewTask extends Vue {
 	}
 
 	toNow() {
-		return (moment(this.task.dueDate).add(this.task.dueTime)).toNow();
+		return moment(this.task.dueDate)
+			.add(this.task.dueTime)
+			.toNow();
 	}
 
 	fromNow() {
-		return (moment(this.task.dueDate).add(this.task.dueTime)).fromNow();
+		return moment(this.task.dueDate)
+			.add(this.task.dueTime)
+			.fromNow();
 	}
 
 	prettyTime() {

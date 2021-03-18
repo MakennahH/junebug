@@ -166,10 +166,10 @@ export default class Settings extends Vue {
 }
 </script>
 <style scoped>
-#meds-reminder > div  {
-	border-radius: 0 0 .25rem .25rem !important;
+#meds-reminder > div {
+	border-radius: 0 0 0.25rem 0.25rem !important;
 }
 #meds-list-item {
-	border-radius: 0 0 .25rem .25rem !important;
+	border-radius: 0 0 0.25rem 0.25rem !important;
 }
 </style>

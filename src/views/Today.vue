@@ -10,13 +10,13 @@
 					<b-form-checkbox switch>I took my meds today</b-form-checkbox>
 				</div>
 				<div v-for="event in events" :key="event.id">
-					{{event.title}}
+					{{ event.title }}
 				</div>
 				<div v-for="task in tasks" :key="task.id">
-					{{task.title}}
+					{{ task.title }}
 				</div>
 				<div v-for="alarm in alarms" :key="alarm.id">
-					{{alarm.title}}
+					{{ alarm.title }}
 				</div>
 				<b-list-group class="w-100 text-left">
 					<b-list-group-item> 9:00am <b-icon icon="alarm"></b-icon> wake up</b-list-group-item>
@@ -63,31 +63,33 @@ import moment from "moment";
 @Component({})
 export default class Today extends Vue {
 	private loading = true;
-	
+
 	mounted() {
 		this.$store.dispatch("getAlarms").then(() => {
 			this.$store.dispatch("getEvents").then(() => {
 				this.$store.dispatch("getTasks").then(() => {
-					this.loading = false
+					this.loading = false;
 				});
 			});
 		});
 	}
 
-	get isLoading(){
+	get isLoading() {
 		return this.loading;
 	}
 
-	get alarms(){
-		return this.$store.state.scheduling.alarms.filter((alarm: any) =>  moment(alarm.time) >= moment().startOf('date') && moment(alarm.time) <= moment().endOf('date'));
+	get alarms() {
+		return this.$store.state.scheduling.alarms.filter((alarm: any) => moment(alarm.time) >= moment().startOf("date") && moment(alarm.time) <= moment().endOf("date"));
 	}
 
-	get events(){
-		return this.$store.state.scheduling.events.filter((event: any) =>  moment(event.date).add(event.startTime) >= moment().startOf('date') && moment(event.date).add(event.endTime) <= moment().endOf('date'));
+	get events() {
+		return this.$store.state.scheduling.events.filter(
+			(event: any) => moment(event.date).add(event.startTime) >= moment().startOf("date") && moment(event.date).add(event.endTime) <= moment().endOf("date")
+		);
 	}
 
-	get tasks(){
-		return this.$store.state.scheduling.tasks.filter((task: any) =>  moment(task.dueDate) >= moment().startOf('date') && moment(task.dueDate).add(task.dueTime) <= moment().endOf('date'));
+	get tasks() {
+		return this.$store.state.scheduling.tasks.filter((task: any) => moment(task.dueDate) >= moment().startOf("date") && moment(task.dueDate).add(task.dueTime) <= moment().endOf("date"));
 	}
 }
 </script>

@@ -5,10 +5,10 @@
 				<img src="@/assets/logo-white.png" height="65" />
 			</div>
 			<h1 class="text-center">Junebug</h1>
-			<b-form-input class="form-group-top" type="text" placeholder="username" v-model="emailModel"/>
-			<b-form-input class="form-group-bottom" type="password" placeholder="password" v-model="passwordModel"/>
+			<b-form-input class="form-group-top" type="text" placeholder="username" v-model="emailModel" />
+			<b-form-input class="form-group-bottom" type="password" placeholder="password" v-model="passwordModel" />
 			<div>
-				<b-button block class="btn my-2" variant="info" @click="logIn" >Log in</b-button>
+				<b-button block class="btn my-2" variant="info" @click="logIn">Log in</b-button>
 				<router-link to="/signup" class="text-info"> Sign up </router-link>
 				<router-link to="/forgotpassword" class="text-info float-right"> Forgot Password </router-link>
 			</div>

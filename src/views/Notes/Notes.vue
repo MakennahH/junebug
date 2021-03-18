@@ -29,14 +29,14 @@ import { Component, Vue } from "vue-property-decorator";
 export default class Notes extends Vue {
 	private loading = true;
 
-	get isLoading(){
+	get isLoading() {
 		return this.loading;
 	}
 
-	get notes(){
+	get notes() {
 		return this.$store.state.scheduling.notes;
 	}
-	
+
 	mounted() {
 		this.loading = true;
 		this.$store.dispatch("getNotes").finally(() => (this.loading = false));

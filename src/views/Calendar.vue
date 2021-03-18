@@ -43,15 +43,30 @@ export default class Calendar extends Vue {
 	private daysOfWeek: string[] = [];
 	private days = moment().daysInMonth();
 	private today = moment().date();
-	private leadingDays = moment().startOf("month").day();
-	private trailingDays = 7 - moment().startOf("month").add(1, "months").day();
-	private lastMonthNumDays = moment().subtract(1, "months").daysInMonth();
-	private weekStart = moment().startOf("week").date();
-	private weekEnd = moment().endOf("week").date();
+	private leadingDays = moment()
+		.startOf("month")
+		.day();
+	private trailingDays =
+		7 -
+		moment()
+			.startOf("month")
+			.add(1, "months")
+			.day();
+	private lastMonthNumDays = moment()
+		.subtract(1, "months")
+		.daysInMonth();
+	private weekStart = moment()
+		.startOf("week")
+		.date();
+	private weekEnd = moment()
+		.endOf("week")
+		.date();
 
 	created() {
-		for (var i = 0; i < 7; i++) {
-			this.daysOfWeek[i] = moment().day(i).format("ddd");
+		for (let i = 0; i < 7; i++) {
+			this.daysOfWeek[i] = moment()
+				.day(i)
+				.format("ddd");
 		}
 	}
 }

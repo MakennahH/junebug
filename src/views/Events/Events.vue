@@ -15,7 +15,9 @@
 					<b-list-group-item v-for="event in events" :key="event.id" :to="'events/view/' + event.id" replace>
 						<div class="d-flex justify-content-between">
 							<strong>{{ event.title }}</strong>
-							<div class="font-weight-light">{{prettyDate(event.date)}} <span class="small text-info">{{ prettyTime(event.startTime) }}-{{ prettyTime(event.endTime) }}</span></div>
+							<div class="font-weight-light">
+								{{ prettyDate(event.date) }} <span class="small text-info">{{ prettyTime(event.startTime) }}-{{ prettyTime(event.endTime) }}</span>
+							</div>
 						</div>
 						<div>{{ event.location }}</div>
 						<div>{{ event.whatToBring }}</div>
@@ -37,11 +39,11 @@ import moment from "moment";
 export default class Events extends Vue {
 	private loading = true;
 
-	get isLoading(){
+	get isLoading() {
 		return this.loading;
 	}
 
-	get events(){
+	get events() {
 		return this.$store.state.scheduling.events;
 	}
 
@@ -49,10 +51,10 @@ export default class Events extends Vue {
 		return moment(moment(data, "h:mmA")).format("hA");
 	}
 
-	prettyDate(data: any){
+	prettyDate(data: any) {
 		return moment(data).format("M/D/YY");
 	}
-	
+
 	mounted() {
 		this.loading = true;
 		this.$store.dispatch("getEvents").finally(() => (this.loading = false));

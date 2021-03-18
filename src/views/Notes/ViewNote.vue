@@ -50,7 +50,7 @@ export default class ViewNote extends Vue {
 </script>
 
 <style scoped>
-.big{
+.big {
 	min-height: 100% !important;
 }
 </style>
