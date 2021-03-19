@@ -10,7 +10,7 @@
 			</router-link>
 		</div>
 		<div class="row has-header">
-			<div class="col">
+			<div class="col" v-if="!isLoading">
 				<b-list-group v-if="tasks.length > 0" class="mx-2">
 					<!-- closest deadlines bubble to the top, within 12 hours timestamp is blue, overdue timestamp is red -->
 					<b-list-group-item v-for="task in tasks" :key="task.id" :to="'tasks/view/' + task.id" replace>
@@ -27,6 +27,7 @@
 					<b-card-text>You have no tasks saved.</b-card-text>
 				</b-card>
 			</div>
+			<b-spinner v-else class="m-auto" variant="info" label="Spinning"></b-spinner>
 		</div>
 	</div>
 </template>

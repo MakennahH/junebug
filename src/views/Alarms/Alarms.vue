@@ -10,7 +10,7 @@
 			</router-link>
 		</div>
 		<div class="row has-header">
-			<div class="col">
+			<div class="col" v-if="!isLoading">
 				<b-list-group v-if="alarms.length > 0" class="mx-2">
 					<b-list-group-item v-for="alarm in alarms" :key="alarm.id" :to="'alarms/view/' + alarm.id" replace>
 						<div class="d-flex justify-content-between">
@@ -24,6 +24,7 @@
 					<b-card-text>You have no alarms saved.</b-card-text>
 				</b-card>
 			</div>
+			<b-spinner v-else class="m-auto" variant="info" label="Spinning"></b-spinner>
 		</div>
 	</div>
 </template>

@@ -43,9 +43,5 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 @Component({})
-export default class Planner extends Vue {
-	mounted() {
-		// TODO: display info
-	}
-}
+export default class Planner extends Vue {}
 </script>

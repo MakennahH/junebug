@@ -4,7 +4,7 @@
 			<div>Calendar</div>
 		</div>
 		<div class="row has-header">
-			<div class="col mx-2">
+			<div class="col mx-2" v-if="!isLoading">
 				<h3>{{ month }}</h3>
 				<b-card no-body>
 					<div class="d-flex text-center my-1">
@@ -32,6 +32,7 @@
 					<div>Expanded description of yellow dot</div>
 				</b-card> -->
 			</div>
+			<b-spinner v-else class="m-auto" variant="info" label="Spinning"></b-spinner>
 		</div>
 	</div>
 </template>
@@ -42,35 +43,34 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class Calendar extends Vue {
-	private month = moment().format("MMMM");
+	private loading = true;
+	private month = "";
 	private daysOfWeek: string[] = [];
-	private days = moment().daysInMonth();
-	private today = moment().date();
-	private leadingDays = moment()
-		.startOf("month")
-		.day();
-	private trailingDays =
-		7 -
-		moment()
-			.startOf("month")
-			.add(1, "months")
-			.day();
-	private lastMonthNumDays = moment()
-		.subtract(1, "months")
-		.daysInMonth();
-	private weekStart = moment()
-		.startOf("week")
-		.date();
-	private weekEnd = moment()
-		.endOf("week")
-		.date();
+	private days = 0;
+	private today = 0;
+	private leadingDays = 0;
+	private trailingDays = 0;
+	private lastMonthNumDays = 0;
+	private weekStart = 0;
+	private weekEnd = 0;
 
 	created() {
+		this.month = moment().format("MMMM");
+		this.days = moment().daysInMonth();
+		this.today = moment().date();
+		this.leadingDays = moment().startOf("month").day();
+		this.trailingDays = 7 - moment().startOf("month").add(1, "months").day();
+		this.lastMonthNumDays = moment().subtract(1, "months").daysInMonth();
+		this.weekStart = moment().startOf("week").date();
+		this.weekEnd = moment().endOf("week").date();
 		for (let i = 0; i < 7; i++) {
-			this.daysOfWeek[i] = moment()
-				.day(i)
-				.format("ddd");
+			this.daysOfWeek[i] = moment().day(i).format("ddd");
 		}
+		this.loading = false;
+	}
+
+	get isLoading() {
+		return this.loading;
 	}
 }
 </script>

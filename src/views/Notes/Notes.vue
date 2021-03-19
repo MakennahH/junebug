@@ -18,6 +18,7 @@
 					<b-card-text>You have no notes saved.</b-card-text>
 				</b-card>
 			</div>
+			<b-spinner v-else class="m-auto" variant="info" label="Spinning"></b-spinner>
 		</div>
 	</div>
 </template>
