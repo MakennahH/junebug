@@ -129,9 +129,8 @@ export default class Settings extends Vue {
 		return this.userProfile.calendarStartHour;
 	}
 
-	set startTime(value) {
-		if (this.userProfile.calendarStartHour) this.userProfile.calendarStartHour = value;
-		else this.userProfile.calendarStartHour = new Date();
+	set startTime(value: Date | null) {
+		this.userProfile.calendarStartHour = value;
 	}
 
 	get sleepTime() {
@@ -139,8 +138,7 @@ export default class Settings extends Vue {
 	}
 
 	set sleepTime(value) {
-		if (this.userProfile.sleepReminder) this.userProfile.sleepReminder = value;
-		else this.userProfile.sleepReminder = new Date();
+		this.userProfile.sleepReminder = value;
 	}
 
 	get medTime() {
@@ -148,8 +146,7 @@ export default class Settings extends Vue {
 	}
 
 	set medTime(value) {
-		if (this.userProfile.medReminder) this.userProfile.medReminder = value;
-		else this.userProfile.medReminder = new Date();
+		this.userProfile.medReminder = value;
 	}
 
 	get maxMealHours() {

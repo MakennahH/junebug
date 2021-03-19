@@ -55,13 +55,39 @@ export default class Alarms extends Vue {
 	formattedDays(alarm: any) {
 		let daysString = "";
 		let dayIndex = 0;
+		let everyDay = true;
+		let weekDays = true;
+		let weekEnds = true;
+		// check if every day
 		for (const day of alarm.days) {
 			if (day == true) {
 				daysString += this.theseWeekdays[dayIndex].text + " ";
+			} else {
+				everyDay = false;
 			}
 			dayIndex++;
 		}
-		return daysString;
+		// check if week days
+		if (!alarm.days[0] && !alarm.days[6]) {
+			for (var i = 1; i < 6; i++) {
+				if (!alarm.days[i]) {
+					weekDays = false;
+				}
+			}
+		} else {
+			weekDays = false;
+		}
+		// check if weekends
+		if (alarm.days[0] && alarm.days[6]) {
+			for (var i = 1; i < 6; i++) {
+				if (alarm.days[i]) {
+					weekEnds = false;
+				}
+			}
+		} else {
+			weekEnds = false;
+		}
+		return everyDay ? "Every day" : weekDays ? "Week days" : weekEnds ? "Weekends" : daysString;
 	}
 
 	prettyTime(alarm: any) {

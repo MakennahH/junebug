@@ -11,12 +11,15 @@
 						<div class="calendar-day" v-for="(dayOfWeek, key) in daysOfWeek" :key="key">{{ dayOfWeek }}</div>
 					</div>
 					<div class="d-flex justify-content-start flex-wrap">
+						<!-- last few days of previous month -->
 						<b-card class="calendar-day bg-depreciated" v-for="(leadingDay, key) of leadingDays" :key="key" :class="{ 'bg-emphasized': key + 1 >= weekStart && key + 1 <= weekEnd }">
 							<div class="small position-absolute date-number">{{ lastMonthNumDays - key }}</div>
 						</b-card>
+						<!-- current month -->
 						<b-card class="calendar-day" v-for="(day, key) in days" :key="key" :class="{ 'bg-today': today == key + 1, 'bg-emphasized': key + 1 >= weekStart && key + 1 <= weekEnd }">
 							<div class="small position-absolute date-number">{{ key + 1 }}</div>
 						</b-card>
+						<!-- first few days of next month -->
 						<b-card class="calendar-day bg-depreciated" v-for="(trailingDay, key) of trailingDays" :key="key" :class="{ 'bg-emphasized': key + 1 >= weekStart && key + 1 <= weekEnd }">
 							<div class="small position-absolute date-number">{{ key + 1 }}</div>
 						</b-card>

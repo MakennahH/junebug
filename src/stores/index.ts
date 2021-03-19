@@ -19,7 +19,7 @@ export default new Vuex.Store({
         fb.usersCollection.doc(user?.uid).set({
           email: data.email,
           darkModeOn: false,
-          calendarStartHour: null,
+          calendarStartHour: new Date('09:00'),
           mealReminder: 0,
           drinkReminder: 0,
           sleepReminder: null,

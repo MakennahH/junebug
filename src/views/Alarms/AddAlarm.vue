@@ -167,7 +167,7 @@ export default class AddAlarm extends Vue {
 					title: this.alarm.title,
 					notes: this.alarm.notes,
 					snoozeInterval: this.alarm.snoozeInterval,
-					date: this.alarm.date,
+					date: this.alarm.date || null,
 					recurringMonthly: this.alarm.recurringMonthly,
 					recurringYearly: this.alarm.recurringYearly,
 					days: this.alarm.days,
