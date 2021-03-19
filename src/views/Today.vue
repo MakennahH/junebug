@@ -6,27 +6,27 @@
 		<div class="row has-header">
 			<div class="col mx-2" v-if="!isLoading">
 				<div class="d-flex justify-content-between align-items-center">
-					<h3>Today:</h3>
-					<b-form-checkbox switch>I took my meds today</b-form-checkbox>
-				</div>
-				<div v-for="event in events" :key="event.id">
-					{{ event.title }}
-				</div>
-				<div v-for="task in tasks" :key="task.id">
-					{{ task.title }}
-				</div>
-				<div v-for="alarm in alarms" :key="alarm.id">
-					{{ alarm.title }}
+					<h3>{{ dayOfWeek }}</h3>
+					<h3 class="text-secondary">{{ today }}</h3>
+					<!-- <b-form-checkbox switch>I took my meds today</b-form-checkbox> -->
 				</div>
 				<b-list-group class="w-100 text-left">
 					<!-- <b-list-group-item> 9:00am <b-icon icon="alarm"></b-icon> wake up</b-list-group-item> -->
-					<div v-for="(hour, key) in 24" :key="key">
-						<b-list-group-item v-b-toggle="'' + key" class="d-flex justify-content-between align-items-center">
-							{{ prettyHour(key) }}
-							<!--  Operating Systems -->
-							<b-icon icon="chevron-down" class="float-right"></b-icon>
+					<div v-for="(hour, index) in totalHours" :key="index">
+						<b-list-group-item v-b-toggle="'' + index" class="d-flex justify-content-between align-items-center">
+							{{ prettyHour(index) }}
+							<div v-for="event in events" :key="event.id">
+								<div v-if="timeToHour(event.startTime) == index + timeToHour(startTime)">{{ event.title }}</div>
+							</div>
+							<div v-for="task in tasks" :key="task.id">
+								<div v-if="timeToHour(task.dueTime) == index + timeToHour(startTime)">{{ task.title }}</div>
+							</div>
+							<div v-for="alarm in alarms" :key="alarm.id">
+								<div v-if="timeToHour(alarm.time) == index + timeToHour(startTime)">{{ alarm.title }}</div>
+							</div>
+							<b-icon icon="chevron-down" class="float-right" v-if="false"></b-icon>
 						</b-list-group-item>
-						<b-collapse :id="'' + key">
+						<b-collapse :id="'' + index" v-if="false">
 							<div class="p-2 bg-info text-light">
 								<div>Location: <span class="font-weight-bold">JSC 312</span></div>
 								<div>With: <span class="font-weight-bold">Professor Ocean</span></div>
@@ -68,6 +68,11 @@ import moment from "moment";
 export default class Today extends Vue {
 	private loading = true;
 	private startTime = {};
+	private startOfToday = {};
+	private endOfToday = {};
+	private dayOfWeek = {};
+	private today = {};
+	private totalHours= 0;
 
 	mounted() {
 		this.$store.dispatch("getAlarms").then(() => {
@@ -76,6 +81,11 @@ export default class Today extends Vue {
 					this.$store.dispatch("getCurrentUserProfile").then(() => {
 						this.loading = false;
 						this.startTime = this.$store.state.userProfile.calendarStartHour;
+						this.startOfToday = moment().startOf("date").add(this.startTime);
+						this.endOfToday = moment().endOf("date");
+						this.dayOfWeek = moment().format("dddd");
+						this.today = moment().format("MM/D/YY");
+						this.totalHours = moment(this.endOfToday).add(1, 'hours').diff(moment(this.startOfToday), "hours");
 					});
 				});
 			});
@@ -87,21 +97,23 @@ export default class Today extends Vue {
 	}
 
 	get alarms() {
-		return this.$store.state.scheduling.alarms.filter((alarm: any) => moment(alarm.time) >= moment().startOf("date") && moment(alarm.time) <= moment().endOf("date"));
+		return this.$store.state.scheduling.alarms.filter((alarm: any) => moment().startOf("date").add(alarm.time) >= this.startOfToday || moment().startOf("date").add(alarm.time) <= this.endOfToday);
 	}
 
 	get events() {
-		return this.$store.state.scheduling.events.filter(
-			(event: any) => moment(event.date).add(event.startTime) >= moment().startOf("date") && moment(event.date).add(event.endTime) <= moment().endOf("date")
-		);
+		return this.$store.state.scheduling.events.filter((event: any) => moment(event.date).add(event.startTime) >= this.startOfToday && moment(event.date).add(event.endTime) <= this.endOfToday);
 	}
 
 	get tasks() {
-		return this.$store.state.scheduling.tasks.filter((task: any) => moment(task.dueDate) >= moment().startOf("date") && moment(task.dueDate).add(task.dueTime) <= moment().endOf("date"));
+		return this.$store.state.scheduling.tasks.filter((task: any) => moment(task.dueDate).add(task.dueTime) >= this.startOfToday && moment(task.dueDate).add(task.dueTime) <= this.endOfToday);
 	}
 
-	prettyHour(value: number){
-		return moment(moment(this.startTime, "h:mm A").add(value, 'hour')).format("h:mm A");
+	prettyHour(value: number) {
+		return moment(moment(this.startTime, "h:mm A").add(value, "hour")).format("h:mm A");
+	}
+
+	timeToHour(time: any){
+		return moment(time, 'h:mm').hour();
 	}
 }
 </script>
