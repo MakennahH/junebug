@@ -63,3 +63,4 @@ router.afterEach((to: Route) => {
 		document.querySelector("#tabs")?.classList.add("d-none");
 	}
 });
+

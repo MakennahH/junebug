@@ -14,13 +14,14 @@
 				<b-card>
 					<h3>{{ task.title }}</h3>
 					<div class="d-flex justify-content-between">
+						<!-- dont change this. for some reason it breaks any other way -->
 						<div class="text-secondary" :class="{ 'text-danger': isOverdue }">{{ this.isOverDue ? toNow() : fromNow() }}</div>
 						<div class="text-info">{{ prettyTime() }} {{ prettyDate() }}</div>
 					</div>
 					<div class="pt-2">
 						{{ task.notes }}
 					</div>
-					<b-button @click="deleteTask" variant="danger" class="float-right mt-2"><b-icon-trash></b-icon-trash></b-button>
+					<b-button @click="deleteTask" variant="info" class="float-right mt-2"><b-icon-check></b-icon-check>complete</b-button>
 				</b-card>
 			</div>
 		</div>

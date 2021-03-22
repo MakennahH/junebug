@@ -1,9 +1,8 @@
 # junebug-app
 
-```
 Junebug is a planner app written using Vue.js, Typescript, and Firebase for data storage and user authentication.
 Users can write notes, set alarms and timers, and create events + tasks.
-```
+
 
 ## Project setup
 ```

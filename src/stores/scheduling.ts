@@ -1,4 +1,4 @@
-import SchedulingModel from "@/models/scheduling";
+import SchedulingModel, { TaskModel } from "@/models/scheduling";
 import Vue from "vue";
 import Vuex from "vuex";
 import * as fb from "../firebase";
@@ -205,7 +205,7 @@ export default {
 			await fb.usersCollection
 				.doc(user?.uid)
 				.collection("events")
-				.orderBy("startTime")
+				.orderBy("date")
 				.get()
 				.then(querySnapshot => {
 					const newEvents: any = [];

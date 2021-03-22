@@ -11,12 +11,13 @@
 		</div>
 		<div class="row has-header">
 			<div class="col" v-if="!isLoading">
-				<b-list-group v-if="events.length > 0" class="mx-2">
-					<b-list-group-item v-for="event in events" :key="event.id" :to="'events/view/' + event.id" replace>
+				<h3 class="m-2">Upcoming</h3>
+				<b-list-group v-if="upcomingEvents.length > 0" class="mx-2">
+					<b-list-group-item v-for="event in upcomingEvents" :key="event.id" :to="'events/view/' + event.id" replace>
 						<div class="d-flex justify-content-between">
 							<strong>{{ event.title }}</strong>
 							<div class="font-weight-light">
-								{{ prettyDate(event.date) }} <span class="small text-info">{{ prettyTime(event.startTime) }}-{{ prettyTime(event.endTime) }}</span>
+								<span class="small text-info">{{ prettyTime(event.startTime) }}-{{ prettyTime(event.endTime) }}</span> {{ prettyDate(event.date) }}
 							</div>
 						</div>
 						<div>{{ event.location }}</div>
@@ -24,6 +25,24 @@
 					</b-list-group-item>
 				</b-list-group>
 				<b-card v-else class="card-secondary text-center mx-2">
+					<b-card-text>Nothing coming up! Sit back and relax.</b-card-text>
+				</b-card>
+				<h3 class="m-2 mt-4" v-if="pastEvents.length > 0" v-b-toggle="'showPast'">Past Events <b-icon icon="chevron-down" class="float-right mr-2" v-if="pastEvents.length > 0"></b-icon></h3>
+				<b-collapse :id="'showPast'">
+					<b-list-group class="mx-2">
+						<b-list-group-item v-for="event in pastEvents" :key="event.id" :to="'events/view/' + event.id" replace>
+							<div class="d-flex justify-content-between">
+								<strong>{{ event.title }}</strong>
+								<div class="font-weight-light">
+									<span class="small text-info">{{ prettyTime(event.startTime) }}-{{ prettyTime(event.endTime) }}</span> {{ prettyDate(event.date) }}
+								</div>
+							</div>
+							<div>{{ event.location }}</div>
+							<div>{{ event.whatToBring }}</div>
+						</b-list-group-item>
+					</b-list-group>
+				</b-collapse>
+				<b-card v-if="events.length == 0" class="card-secondary text-center mx-2">
 					<b-card-text>You have no events saved.</b-card-text>
 				</b-card>
 			</div>
@@ -46,6 +65,14 @@ export default class Events extends Vue {
 
 	get events() {
 		return this.$store.state.scheduling.events;
+	}
+
+	get pastEvents() {
+		return this.events.filter((event: any) => moment(event.date) < moment());
+	}
+
+	get upcomingEvents() {
+		return this.events.filter((event: any) => moment(event.date) >= moment());
 	}
 
 	prettyTime(data: any) {
