@@ -62,9 +62,28 @@ export default class ViewAlarm extends Vue {
 	}
 
 	deleteAlarm() {
-		this.$store.dispatch("deleteAlarm", { id: this.$route.params.id }).then(() => {
-			this.$router.replace("/alarms");
-		});
+		this.$bvModal
+			.msgBoxConfirm("Are you sure you want to delete this alarm?", {
+				hideHeader: true,
+				centered: true,
+				okVariant: "info",
+			})
+			.then((value) => {
+				if (value) {
+					try {
+						this.$store.dispatch("deleteAlarm", { id: this.$route.params.id }).then(() => {
+							this.$router.replace("/alarms");
+						});
+					} catch (error) {
+						this.$bvToast.toast(error.message, {
+							title: `Error Occured`,
+							variant: 'danger',
+							solid: true,
+						});
+					}
+				}
+				// else do nothing
+			});
 	}
 }
 </script>

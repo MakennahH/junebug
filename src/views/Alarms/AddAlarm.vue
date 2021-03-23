@@ -160,36 +160,52 @@ export default class AddAlarm extends Vue {
 
 	saveAlarm() {
 		if (this.isEdit) {
-			this.$store
-				.dispatch("updateAlarm", {
-					id: this.$route.params.id,
-					time: this.alarm.time,
-					title: this.alarm.title,
-					notes: this.alarm.notes,
-					snoozeInterval: this.alarm.snoozeInterval,
-					date: this.alarm.date || null,
-					recurringMonthly: this.alarm.recurringMonthly,
-					recurringYearly: this.alarm.recurringYearly,
-					days: this.alarm.days,
-				})
-				.then(() => {
-					this.$router.replace("/alarms");
+			try {
+				this.$store
+					.dispatch("updateAlarm", {
+						id: this.$route.params.id,
+						time: this.alarm.time,
+						title: this.alarm.title,
+						notes: this.alarm.notes,
+						snoozeInterval: this.alarm.snoozeInterval,
+						date: this.alarm.date || null,
+						recurringMonthly: this.alarm.recurringMonthly,
+						recurringYearly: this.alarm.recurringYearly,
+						days: this.alarm.days,
+					})
+					.then(() => {
+						this.$router.replace("/alarms");
+					});
+			} catch (error) {
+				this.$bvToast.toast(error.message, {
+					title: `Error Occured`,
+					variant: "danger",
+					solid: true,
 				});
+			}
 		} else {
-			this.$store
-				.dispatch("addAlarm", {
-					time: this.alarm.time,
-					title: this.alarm.title,
-					notes: this.alarm.notes,
-					snoozeInterval: this.alarm.snoozeInterval,
-					date: this.alarm.date,
-					recurringMonthly: this.alarm.recurringMonthly,
-					recurringYearly: this.alarm.recurringYearly,
-					days: this.alarm.days,
-				})
-				.then(() => {
-					this.$router.replace("/alarms");
+			try {
+				this.$store
+					.dispatch("addAlarm", {
+						time: this.alarm.time,
+						title: this.alarm.title,
+						notes: this.alarm.notes,
+						snoozeInterval: this.alarm.snoozeInterval,
+						date: this.alarm.date,
+						recurringMonthly: this.alarm.recurringMonthly,
+						recurringYearly: this.alarm.recurringYearly,
+						days: this.alarm.days,
+					})
+					.then(() => {
+						this.$router.replace("/alarms");
+					});
+			} catch (error) {
+				this.$bvToast.toast(error.message, {
+					title: `Error Occured`,
+					variant: "danger",
+					solid: true,
 				});
+			}
 		}
 	}
 }

@@ -70,9 +70,28 @@ export default class ViewEvent extends Vue {
 	}
 
 	deleteEvent() {
-		this.$store.dispatch("deleteEvent", { id: this.$route.params.id }).then(() => {
-			this.$router.replace("/events");
-		});
+		this.$bvModal
+			.msgBoxConfirm("Are you sure you want to delete this event?", {
+				hideHeader: true,
+				centered: true,
+				okVariant: "info",
+			})
+			.then((value) => {
+				if (value) {
+					try {
+						this.$store.dispatch("deleteEvent", { id: this.$route.params.id }).then(() => {
+							this.$router.replace("/events");
+						});
+					} catch (error) {
+						this.$bvToast.toast(error.message, {
+							title: `Error Occured`,
+							variant: "danger",
+							solid: true,
+						});
+					}
+				}
+				// else do nothing
+			});
 	}
 }
 </script>

@@ -59,9 +59,28 @@ export default class ViewTimeLimit extends Vue {
 	}
 
 	deleteTimeLimit() {
-		this.$store.dispatch("deleteTimeLimit", { id: this.$route.params.id }).then(() => {
-			this.$router.replace("/timelimits");
-		});
+		this.$bvModal
+			.msgBoxConfirm("Are you sure you want to delete this time limit?", {
+				hideHeader: true,
+				centered: true,
+				okVariant: "info",
+			})
+			.then((value) => {
+				if (value) {
+					try {
+						this.$store.dispatch("deleteTimeLimit", { id: this.$route.params.id }).then(() => {
+							this.$router.replace("/timelimits");
+						});
+					} catch (error) {
+						this.$bvToast.toast(error.message, {
+							title: `Error Occured`,
+							variant: "danger",
+							solid: true,
+						});
+					}
+				}
+				// else do nothing
+			});
 	}
 }
 </script>

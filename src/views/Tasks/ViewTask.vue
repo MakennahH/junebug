@@ -58,15 +58,11 @@ export default class ViewTask extends Vue {
 	}
 
 	toNow() {
-		return moment(this.task.dueDate)
-			.add(this.task.dueTime)
-			.toNow();
+		return moment(this.task.dueDate).add(this.task.dueTime).toNow();
 	}
 
 	fromNow() {
-		return moment(this.task.dueDate)
-			.add(this.task.dueTime)
-			.fromNow();
+		return moment(this.task.dueDate).add(this.task.dueTime).fromNow();
 	}
 
 	prettyTime() {
@@ -78,9 +74,28 @@ export default class ViewTask extends Vue {
 	}
 
 	deleteTask() {
-		this.$store.dispatch("deleteTask", { id: this.$route.params.id }).then(() => {
-			this.$router.replace("/tasks");
-		});
+		this.$bvModal
+			.msgBoxConfirm("Are you sure you want to mark this task complete? It cannot be undone", {
+				hideHeader: true,
+				centered: true,
+				okVariant: "info",
+			})
+			.then((value) => {
+				if (value) {
+					try {
+						this.$store.dispatch("deleteTask", { id: this.$route.params.id }).then(() => {
+							this.$router.replace("/tasks");
+						});
+					} catch (error) {
+						this.$bvToast.toast(error.message, {
+							title: `Error Occured`,
+							variant: "danger",
+							solid: true,
+						});
+					}
+				}
+				// else do nothing
+			});
 	}
 }
 </script>

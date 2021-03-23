@@ -42,9 +42,28 @@ export default class ViewNote extends Vue {
 	}
 
 	deleteNote() {
-		this.$store.dispatch("deleteNote", { id: this.$route.params.id }).then(() => {
-			this.$router.replace("/notes");
-		});
+		this.$bvModal
+			.msgBoxConfirm("Are you sure you want to delete this note?", {
+				hideHeader: true,
+				centered: true,
+				okVariant: "info",
+			})
+			.then((value) => {
+				if (value) {
+					try {
+						this.$store.dispatch("deleteNote", { id: this.$route.params.id }).then(() => {
+							this.$router.replace("/notes");
+						});
+					} catch (error) {
+						this.$bvToast.toast(error.message, {
+							title: `Error Occured`,
+							variant: "danger",
+							solid: true,
+						});
+					}
+				}
+				// else do nothing
+			});
 	}
 }
 </script>

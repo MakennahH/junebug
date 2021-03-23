@@ -188,13 +188,21 @@ export default class Settings extends Vue {
 	}
 
 	saveSettings() {
-		this.$store.dispatch("updateUserProfile", {
-			calendarStartHour: this.userProfile.calendarStartHour,
-			mealReminder: this.userProfile.mealReminder,
-			drinkReminder: this.userProfile.drinkReminder,
-			sleepReminder: this.userProfile.sleepReminder,
-			medReminder: this.userProfile.medReminder,
-		});
+		try {
+			this.$store.dispatch("updateUserProfile", {
+				calendarStartHour: this.userProfile.calendarStartHour,
+				mealReminder: this.userProfile.mealReminder,
+				drinkReminder: this.userProfile.drinkReminder,
+				sleepReminder: this.userProfile.sleepReminder,
+				medReminder: this.userProfile.medReminder,
+			});
+		} catch (error) {
+			this.$bvToast.toast(error.message, {
+				title: `Error Occured`,
+				variant: "danger",
+				solid: true,
+			});
+		}
 	}
 
 	beforeDestroy() {

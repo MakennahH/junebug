@@ -24,9 +24,17 @@ export default class ChangePassword extends Vue {
 	private email = this.$store.state.userProfile.email;
 
 	resetPassword() {
-		this.$store.dispatch("changePassword", this.email).then(() => {
-			this.$router.replace("/settings");
-		});
+		try {
+			this.$store.dispatch("changePassword", this.email).then(() => {
+				this.$router.replace("/settings");
+			});
+		} catch (error) {
+			this.$bvToast.toast(error.message, {
+				title: `Error Occured`,
+				variant: "danger",
+				solid: true,
+			});
+		}
 	}
 }
 </script>

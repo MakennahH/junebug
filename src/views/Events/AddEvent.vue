@@ -178,44 +178,60 @@ export default class AddEvent extends Vue {
 
 	saveEvent() {
 		if (this.isEdit) {
-			this.$store
-				.dispatch("updateEvent", {
-					id: this.$route.params.id,
-					title: this.event.title,
-					startTime: this.event.startTime,
-					endTime: this.event.endTime,
-					date: this.event.date,
-					people: this.event.people,
-					location: this.event.location,
-					bring: this.event.bring,
-					notes: this.event.notes,
-					leaveReminder: this.event.leaveReminder,
-					recurringMonthly: this.event.recurringMonthly,
-					recurringYearly: this.event.recurringYearly,
-					days: this.event.days,
-				})
-				.then(() => {
-					this.$router.replace("/events");
+			try {
+				this.$store
+					.dispatch("updateEvent", {
+						id: this.$route.params.id,
+						title: this.event.title,
+						startTime: this.event.startTime,
+						endTime: this.event.endTime,
+						date: this.event.date,
+						people: this.event.people,
+						location: this.event.location,
+						bring: this.event.bring,
+						notes: this.event.notes,
+						leaveReminder: this.event.leaveReminder,
+						recurringMonthly: this.event.recurringMonthly,
+						recurringYearly: this.event.recurringYearly,
+						days: this.event.days,
+					})
+					.then(() => {
+						this.$router.replace("/events");
+					});
+			} catch (error) {
+				this.$bvToast.toast(error.message, {
+					title: `Error Occured`,
+					variant: "danger",
+					solid: true,
 				});
+			}
 		} else {
-			this.$store
-				.dispatch("addEvent", {
-					title: this.event.title,
-					startTime: this.event.startTime,
-					endTime: this.event.endTime,
-					date: this.event.date,
-					people: this.event.people,
-					location: this.event.location,
-					bring: this.event.bring,
-					notes: this.event.notes,
-					leaveReminder: this.event.leaveReminder,
-					recurringMonthly: this.event.recurringMonthly,
-					recurringYearly: this.event.recurringYearly,
-					days: this.event.days,
-				})
-				.then(() => {
-					this.$router.replace("/events");
+			try {
+				this.$store
+					.dispatch("addEvent", {
+						title: this.event.title,
+						startTime: this.event.startTime,
+						endTime: this.event.endTime,
+						date: this.event.date,
+						people: this.event.people,
+						location: this.event.location,
+						bring: this.event.bring,
+						notes: this.event.notes,
+						leaveReminder: this.event.leaveReminder,
+						recurringMonthly: this.event.recurringMonthly,
+						recurringYearly: this.event.recurringYearly,
+						days: this.event.days,
+					})
+					.then(() => {
+						this.$router.replace("/events");
+					});
+			} catch (error) {
+				this.$bvToast.toast(error.message, {
+					title: `Error Occured`,
+					variant: "danger",
+					solid: true,
 				});
+			}
 		}
 	}
 }

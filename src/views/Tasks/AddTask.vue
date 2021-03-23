@@ -110,34 +110,50 @@ export default class AddTask extends Vue {
 
 	saveTask() {
 		if (this.isEdit) {
-			this.$store
-				.dispatch("updateTask", {
-					id: this.$route.params.id,
-					title: this.task.title,
-					dueDate: this.task.dueDate,
-					dueTime: this.task.dueTime,
-					timeEstimate: this.task.timeEstimate,
-					dailyReminder: this.task.dailyReminder,
-					daysInAdvance: this.task.daysInAdvance,
-					notes: this.task.notes,
-				})
-				.then(() => {
-					this.$router.replace("/tasks");
+			try {
+				this.$store
+					.dispatch("updateTask", {
+						id: this.$route.params.id,
+						title: this.task.title,
+						dueDate: this.task.dueDate,
+						dueTime: this.task.dueTime,
+						timeEstimate: this.task.timeEstimate,
+						dailyReminder: this.task.dailyReminder,
+						daysInAdvance: this.task.daysInAdvance,
+						notes: this.task.notes,
+					})
+					.then(() => {
+						this.$router.replace("/tasks");
+					});
+			} catch (error) {
+				this.$bvToast.toast(error.message, {
+					title: `Error Occured`,
+					variant: "danger",
+					solid: true,
 				});
+			}
 		} else {
-			this.$store
-				.dispatch("addTask", {
-					title: this.task.title,
-					dueDate: this.task.dueDate,
-					dueTime: this.task.dueTime,
-					timeEstimate: this.task.timeEstimate,
-					dailyReminder: this.task.dailyReminder,
-					daysInAdvance: this.task.daysInAdvance,
-					notes: this.task.notes,
-				})
-				.then(() => {
-					this.$router.replace("/tasks");
+			try {
+				this.$store
+					.dispatch("addTask", {
+						title: this.task.title,
+						dueDate: this.task.dueDate,
+						dueTime: this.task.dueTime,
+						timeEstimate: this.task.timeEstimate,
+						dailyReminder: this.task.dailyReminder,
+						daysInAdvance: this.task.daysInAdvance,
+						notes: this.task.notes,
+					})
+					.then(() => {
+						this.$router.replace("/tasks");
+					});
+			} catch (error) {
+				this.$bvToast.toast(error.message, {
+					title: `Error Occured`,
+					variant: "danger",
+					solid: true,
 				});
+			}
 		}
 	}
 }

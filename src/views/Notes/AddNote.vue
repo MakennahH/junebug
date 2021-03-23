@@ -50,15 +50,33 @@ export default class AddNote extends Vue {
 	saveNote() {
 		if (this.isEdit) {
 			const newLastEdited = new Date();
-			this.$store
-				.dispatch("updateNote", { id: this.$route.params.id, contents: this.note.contents, lastEdited: newLastEdited, prettyLastEdited: moment(newLastEdited).format("h:mmA MMM Do YYYY") })
-				.then(() => {
-					this.$router.replace("/notes");
+			try {
+				this.$store
+					.dispatch("updateNote", { id: this.$route.params.id, contents: this.note.contents, lastEdited: newLastEdited, prettyLastEdited: moment(newLastEdited).format("h:mmA MMM Do YYYY") })
+					.then(() => {
+						this.$router.replace("/notes");
+					});
+			} catch (error) {
+				this.$bvToast.toast(error.message, {
+					title: `Error Occured`,
+					variant: "danger",
+					solid: true,
 				});
+			}
 		} else {
-			this.$store.dispatch("addNote", { contents: this.note.contents, lastEdited: this.note.lastEdited, prettyLastEdited: moment(this.note.lastEdited).format("h:mmA MMM Do YYYY") }).then(() => {
-				this.$router.replace("/notes");
-			});
+			try {
+				this.$store
+					.dispatch("addNote", { contents: this.note.contents, lastEdited: this.note.lastEdited, prettyLastEdited: moment(this.note.lastEdited).format("h:mmA MMM Do YYYY") })
+					.then(() => {
+						this.$router.replace("/notes");
+					});
+			} catch (error) {
+				this.$bvToast.toast(error.message, {
+					title: `Error Occured`,
+					variant: "danger",
+					solid: true,
+				});
+			}
 		}
 	}
 }

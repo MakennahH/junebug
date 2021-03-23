@@ -34,7 +34,15 @@ export default class EditProfile extends Vue {
 	}
 
 	saveProfile() {
-		this.$store.dispatch("changeEmail", this.emailModel);
+		try {
+			this.$store.dispatch("changeEmail", this.emailModel);
+		} catch (error) {
+			this.$bvToast.toast(error.message, {
+				title: `Error Occured`,
+				variant: "danger",
+				solid: true,
+			});
+		}
 	}
 }
 </script>

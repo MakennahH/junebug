@@ -56,26 +56,42 @@ export default class AddTimeLimit extends Vue {
 
 	saveTimeLimit() {
 		if (this.isEdit) {
-			this.$store
-				.dispatch("updateTimeLimit", {
-					id: this.$route.params.id,
-					title: this.timelimit.title,
-					days: this.timelimit.days,
-					duration: this.timelimit.duration,
-				})
-				.then(() => {
-					this.$router.replace("/timelimits");
+			try {
+				this.$store
+					.dispatch("updateTimeLimit", {
+						id: this.$route.params.id,
+						title: this.timelimit.title,
+						days: this.timelimit.days,
+						duration: this.timelimit.duration,
+					})
+					.then(() => {
+						this.$router.replace("/timelimits");
+					});
+			} catch (error) {
+				this.$bvToast.toast(error.message, {
+					title: `Error Occured`,
+					variant: "danger",
+					solid: true,
 				});
+			}
 		} else {
-			this.$store
-				.dispatch("addTimeLimit", {
-					title: this.timelimit.title,
-					days: this.timelimit.days,
-					duration: this.timelimit.duration,
-				})
-				.then(() => {
-					this.$router.replace("/timelimits");
+			try {
+				this.$store
+					.dispatch("addTimeLimit", {
+						title: this.timelimit.title,
+						days: this.timelimit.days,
+						duration: this.timelimit.duration,
+					})
+					.then(() => {
+						this.$router.replace("/timelimits");
+					});
+			} catch (error) {
+				this.$bvToast.toast(error.message, {
+					title: `Error Occured`,
+					variant: "danger",
+					solid: true,
 				});
+			}
 		}
 	}
 

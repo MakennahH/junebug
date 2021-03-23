@@ -45,3 +45,7 @@
 .dark-mode .bg-secondary, .dark-mode .btn-secondary {
 	background-color: #4a535a !important;
 }
+
+.dark-mode .modal-dialog > div{
+	background-color: #343a40;
+}
