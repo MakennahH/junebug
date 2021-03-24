@@ -21,6 +21,9 @@
 							</div>
 							<b-collapse :id="itemSub.id" v-if="itemSub.name == 'event'">
 								<div>
+									<span class="font-weight-bold">{{ prettyTime(itemSub.startTime) }}-{{ prettyTime(itemSub.endTime) }}</span>
+								</div>
+								<div>
 									Location: <span class="font-weight-bold">{{ itemSub.location }}</span>
 								</div>
 								<div>
