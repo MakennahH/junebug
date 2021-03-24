@@ -11,50 +11,51 @@
 					<!-- <b-form-checkbox switch>I took my meds today</b-form-checkbox> -->
 				</div>
 				<b-list-group class="w-100 text-left">
-					<!-- <b-list-group-item> 9:00am <b-icon icon="alarm"></b-icon> wake up</b-list-group-item> -->
-					<div v-for="(hour, index) in totalHours" :key="index">
-						<b-list-group-item v-b-toggle="'' + index" class="d-flex justify-content-between align-items-center">
-							{{ prettyHour(index) }}
-							<div v-for="event in events" :key="event.id">
-								<div v-if="timeToHour(event.startTime) == index + timeToHour(startTime)">{{ event.title }}</div>
+					<b-list-group-item v-for="(item, index) in dayTimeLine" :key="index">
+						{{ prettyHour(index) }}
+						<div v-for="(itemSub, index2) in item" :key="'itemSub' + index2">
+							<div v-if="itemSub.name == 'event'" v-b-toggle="itemSub.id" class="d-flex align-items-center">
+								<b-icon-calendar class="mr-2"></b-icon-calendar>
+								{{ itemSub.title }}
+								<b-icon icon="chevron-down" class="ml-auto"></b-icon>
 							</div>
-							<div v-for="task in tasks" :key="task.id">
-								<div v-if="timeToHour(task.dueTime) == index + timeToHour(startTime)">{{ task.title }}</div>
+							<b-collapse :id="itemSub.id" v-if="itemSub.name == 'event'">
+								<div>
+									Location: <span class="font-weight-bold">{{ itemSub.location }}</span>
+								</div>
+								<div>
+									With: <span class="font-weight-bold">{{ itemSub.people }}</span>
+								</div>
+								<div>
+									Bring: <span class="font-weight-bold">{{ itemSub.bring }}</span>
+								</div>
+								<div>Notes: {{ itemSub.notes }}</div>
+							</b-collapse>
+							<div v-if="itemSub.name == 'task'" v-b-toggle="itemSub.id" class="d-flex align-items-center">
+								<b-icon-clipboard class="mr-2"></b-icon-clipboard>
+								{{ itemSub.title }}
+								<b-icon icon="chevron-down" class="ml-auto"></b-icon>
 							</div>
-							<div v-for="alarm in alarms" :key="alarm.id">
-								<div v-if="timeToHour(alarm.time) == index + timeToHour(startTime)">{{ alarm.title }}</div>
+							<b-collapse :id="itemSub.id" v-if="itemSub.name == 'task'">
+								<div>Due: {{ prettyTime(itemSub.dueTime) }}</div>
+								<div>Notes: {{ itemSub.notes }}</div>
+							</b-collapse>
+							<div v-if="itemSub.name == 'alarm'" v-b-toggle="itemSub.id" class="d-flex align-items-center">
+								<b-icon-alarm class="mr-2"></b-icon-alarm>
+								<div class="mr-2">{{ prettyTime(itemSub.time) }}</div>
+								<div>{{ itemSub.title }}</div>
+								<b-icon icon="chevron-down" class="ml-auto"></b-icon>
 							</div>
-							<b-icon icon="chevron-down" class="float-right" v-if="false"></b-icon>
-						</b-list-group-item>
-						<b-collapse :id="'' + index" v-if="false">
-							<div class="p-2 bg-info text-light">
-								<div>Location: <span class="font-weight-bold">JSC 312</span></div>
-								<div>With: <span class="font-weight-bold">Professor Ocean</span></div>
-								<div>Bring: <span class="font-weight-bold">Laptop, water bottle, Raspberry Pi</span></div>
-								<div>Notes: Dude's like CRAZY tall... like SCARY tall</div>
-							</div>
-						</b-collapse>
-					</div>
-					<!-- <b-list-group-item> 11:00am </b-list-group-item>
-					<b-list-group-item class="bg-danger text-light">
-						12:00pm Doctor's Appt
-						<b-icon icon="chevron-down" class="float-right"></b-icon>
+							<b-collapse :id="itemSub.id" v-if="itemSub.name == 'alarm'">
+								<div>Notes: {{ itemSub.notes }}</div>
+							</b-collapse>
+						</div>
 					</b-list-group-item>
-					<b-list-group-item> 1:00pm </b-list-group-item>
-					<b-list-group-item> 2:00pm </b-list-group-item>
-					<b-list-group-item class="bg-success text-light">
-						3:00pm Go grocery shopping
-						<b-icon icon="chevron-down" class="float-right"></b-icon>
-					</b-list-group-item>
-					<b-list-group-item> 4:00pm <b-icon icon="alarm"></b-icon> feed lizard</b-list-group-item>
-					<b-list-group-item> 5:00pm </b-list-group-item>
-					<b-list-group-item> 6:00pm </b-list-group-item>
-					<b-list-group-item> 7:00pm </b-list-group-item> -->
 				</b-list-group>
-				<h3 class="my-2">Upcoming:</h3>
+				<!-- <h3 class="my-2">Upcoming:</h3>
 				<b-card class="card-secondary text-center">
 					<b-card-text>Nothing coming up! Sit back and relax.</b-card-text>
-				</b-card>
+				</b-card> -->
 			</div>
 			<b-spinner v-else class="m-auto" variant="info" label="Spinning"></b-spinner>
 		</div>
@@ -64,6 +65,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import moment from "moment";
+import { AlarmModel, EventModel, TaskModel } from "@/models/scheduling";
 @Component({})
 export default class Today extends Vue {
 	private loading = true;
@@ -72,7 +74,8 @@ export default class Today extends Vue {
 	private endOfToday = {};
 	private dayOfWeek = {};
 	private today = {};
-	private totalHours= 0;
+	private totalHours = 24;
+	private dayTimeLine: any[] = [];
 
 	mounted() {
 		this.$store.dispatch("getAlarms").then(() => {
@@ -82,10 +85,52 @@ export default class Today extends Vue {
 						this.loading = false;
 						this.startTime = this.$store.state.userProfile.calendarStartHour;
 						this.startOfToday = moment().startOf("date").add(this.startTime);
-						this.endOfToday = moment().endOf("date");
+						this.endOfToday = moment().endOf("date").add(this.startTime);
 						this.dayOfWeek = moment().format("dddd");
 						this.today = moment().format("MM/D/YY");
-						this.totalHours = moment(this.endOfToday).add(1, 'hours').diff(moment(this.startOfToday), "hours");
+						// this.totalHours = moment(this.endOfToday).add(1, "hours").diff(moment(this.startOfToday), "hours");
+						for (let i = 0; i < this.totalHours; i++) {
+							this.dayTimeLine.push(i);
+							for (const event of this.events) {
+								let comparison = i + this.timeToHour(this.startTime);
+								if(i + this.timeToHour(this.startTime) > 24){
+									comparison = (i + this.timeToHour(this.startTime) - 24);
+								}
+								if (this.timeToHour(event.startTime) == comparison) {
+									event.name = "event";
+									if (!this.dayTimeLine[i][0]) {
+										this.dayTimeLine[i] = [];
+									}
+									this.dayTimeLine[i].push(event);
+								}
+							}
+							for (const task of this.tasks) {
+								let comparison = i + this.timeToHour(this.startTime);
+								if(i + this.timeToHour(this.startTime) > 24){
+									comparison = (i + this.timeToHour(this.startTime) - 24);
+								}
+								if (this.timeToHour(task.dueTime) == comparison) {
+									task.name = "task";
+									if (!this.dayTimeLine[i][0]) {
+										this.dayTimeLine[i] = [];
+									}
+									this.dayTimeLine[i].push(task);
+								}
+							}
+							for (const alarm of this.alarms) {
+								let comparison = i + this.timeToHour(this.startTime);
+								if(i + this.timeToHour(this.startTime) > 24){
+									comparison = (i + this.timeToHour(this.startTime) - 24);
+								}
+								if (this.timeToHour(alarm.time) == comparison) {
+									alarm.name = "alarm";
+									if (!this.dayTimeLine[i][0]) {
+										this.dayTimeLine[i] = [];
+									}
+									this.dayTimeLine[i].push(alarm);
+								}
+							}
+						}
 					});
 				});
 			});
@@ -97,11 +142,11 @@ export default class Today extends Vue {
 	}
 
 	get alarms() {
-		return this.$store.state.scheduling.alarms.filter((alarm: any) => moment().startOf("date").add(alarm.time) >= this.startOfToday || moment().startOf("date").add(alarm.time) <= this.endOfToday);
+		return this.$store.state.scheduling.alarms.filter((alarm: any) => alarm.days[moment().day()]);
 	}
 
 	get events() {
-		return this.$store.state.scheduling.events.filter((event: any) => moment(event.date).add(event.startTime) >= this.startOfToday && moment(event.date).add(event.endTime) <= this.endOfToday);
+		return this.$store.state.scheduling.events.filter((event: any) => moment(event.date).add(event.startTime) >= this.startOfToday && moment(event.date).add(event.startTime) <= this.endOfToday);
 	}
 
 	get tasks() {
@@ -109,11 +154,15 @@ export default class Today extends Vue {
 	}
 
 	prettyHour(value: number) {
-		return moment(moment(this.startTime, "h:mm A").add(value, "hour")).format("h:mm A");
+		return moment(moment(this.startTime, "h A").add(value, "hour")).format("h A");
 	}
 
-	timeToHour(time: any){
-		return moment(time, 'h:mm').hour();
+	prettyTime(time: any) {
+		return moment(moment(time, "h:mmA")).format("h:mmA");
+	}
+
+	timeToHour(time: any) {
+		return moment(time, "h:mm").hour();
 	}
 }
 </script>

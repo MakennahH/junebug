@@ -30,7 +30,7 @@
 				<h3 class="m-2 mt-4" v-if="pastEvents.length > 0" v-b-toggle="'showPast'">Past Events <b-icon icon="chevron-down" class="float-right mr-2" v-if="pastEvents.length > 0"></b-icon></h3>
 				<b-collapse :id="'showPast'">
 					<b-list-group class="mx-2">
-						<b-list-group-item v-for="event in pastEvents" :key="event.id" :to="'events/view/' + event.id" replace>
+						<b-list-group-item v-for="event in pastEvents.reverse()" :key="event.id" :to="'events/view/' + event.id" replace>
 							<div class="d-flex justify-content-between">
 								<strong>{{ event.title }}</strong>
 								<div class="font-weight-light">
