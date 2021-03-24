@@ -73,7 +73,7 @@ export default class Timelimits extends Vue {
 		}
 		// check if week days
 		if (!timelimit.days[0] && !timelimit.days[6]) {
-			for (var i = 1; i < 6; i++) {
+			for (let i = 1; i < 6; i++) {
 				if (!timelimit.days[i]) {
 					weekDays = false;
 				}
@@ -83,8 +83,8 @@ export default class Timelimits extends Vue {
 		}
 		// check if weekends
 		if (timelimit.days[0] && timelimit.days[6]) {
-			for (var i = 1; i < 6; i++) {
-				if (timelimit.days[i]) {
+			for (let j = 1; j < 6; j++) {
+				if (timelimit.days[j]) {
 					weekEnds = false;
 				}
 			}

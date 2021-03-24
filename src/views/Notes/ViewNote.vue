@@ -48,7 +48,7 @@ export default class ViewNote extends Vue {
 				centered: true,
 				okVariant: "info",
 			})
-			.then((value) => {
+			.then(value => {
 				if (value) {
 					try {
 						this.$store.dispatch("deleteNote", { id: this.$route.params.id }).then(() => {

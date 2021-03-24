@@ -70,7 +70,7 @@ export default class Alarms extends Vue {
 		}
 		// check if week days
 		if (!alarm.days[0] && !alarm.days[6]) {
-			for (var i = 1; i < 6; i++) {
+			for (let i = 1; i < 6; i++) {
 				if (!alarm.days[i]) {
 					weekDays = false;
 				}
@@ -80,8 +80,8 @@ export default class Alarms extends Vue {
 		}
 		// check if weekends
 		if (alarm.days[0] && alarm.days[6]) {
-			for (var i = 1; i < 6; i++) {
-				if (alarm.days[i]) {
+			for (let j = 1; j < 6; j++) {
+				if (alarm.days[j]) {
 					weekEnds = false;
 				}
 			}

@@ -12,6 +12,7 @@
 				</div>
 				<b-list-group class="w-100 text-left">
 					<b-list-group-item v-for="(item, index) in dayTimeLine" :key="index">
+						<b-icon :icon="index > 20 ? 'brightness-alt-high-fill' : index > 14 ? 'moon' : index > 8 ? 'brightness-alt-high-fill' : 'brightness-high-fill'"></b-icon>
 						{{ prettyHour(index) }}
 						<div v-for="(itemSub, index2) in item" :key="'itemSub' + index2">
 							<div v-if="itemSub.name == 'event'" v-b-toggle="itemSub.id" class="d-flex align-items-center">
@@ -32,7 +33,7 @@
 								<div>
 									Bring: <span class="font-weight-bold">{{ itemSub.bring }}</span>
 								</div>
-								<div>Notes: {{ itemSub.notes }}</div>
+								<div>{{ itemSub.notes }}</div>
 							</b-collapse>
 							<div v-if="itemSub.name == 'task'" v-b-toggle="itemSub.id" class="d-flex align-items-center">
 								<b-icon-clipboard class="mr-2"></b-icon-clipboard>
@@ -41,16 +42,16 @@
 							</div>
 							<b-collapse :id="itemSub.id" v-if="itemSub.name == 'task'">
 								<div>Due: {{ prettyTime(itemSub.dueTime) }}</div>
-								<div>Notes: {{ itemSub.notes }}</div>
+								<div>{{ itemSub.notes }}</div>
 							</b-collapse>
 							<div v-if="itemSub.name == 'alarm'" v-b-toggle="itemSub.id" class="d-flex align-items-center">
 								<b-icon-alarm class="mr-2"></b-icon-alarm>
 								<div class="mr-2">{{ prettyTime(itemSub.time) }}</div>
 								<div>{{ itemSub.title }}</div>
-								<b-icon icon="chevron-down" class="ml-auto"></b-icon>
+								<b-icon icon="chevron-down" class="ml-auto" v-if="itemSub.notes"></b-icon>
 							</div>
 							<b-collapse :id="itemSub.id" v-if="itemSub.name == 'alarm'">
-								<div>Notes: {{ itemSub.notes }}</div>
+								<div>{{ itemSub.notes }}</div>
 							</b-collapse>
 						</div>
 					</b-list-group-item>
@@ -87,8 +88,12 @@ export default class Today extends Vue {
 					this.$store.dispatch("getCurrentUserProfile").then(() => {
 						this.loading = false;
 						this.startTime = this.$store.state.userProfile.calendarStartHour;
-						this.startOfToday = moment().startOf("date").add(this.startTime);
-						this.endOfToday = moment().endOf("date").add(this.startTime);
+						this.startOfToday = moment()
+							.startOf("date")
+							.add(this.startTime);
+						this.endOfToday = moment()
+							.endOf("date")
+							.add(this.startTime);
 						this.dayOfWeek = moment().format("dddd");
 						this.today = moment().format("MM/D/YY");
 						// this.totalHours = moment(this.endOfToday).add(1, "hours").diff(moment(this.startOfToday), "hours");
@@ -96,8 +101,8 @@ export default class Today extends Vue {
 							this.dayTimeLine.push(i);
 							for (const event of this.events) {
 								let comparison = i + this.timeToHour(this.startTime);
-								if(i + this.timeToHour(this.startTime) > 24){
-									comparison = (i + this.timeToHour(this.startTime) - 24);
+								if (i + this.timeToHour(this.startTime) > 24) {
+									comparison = i + this.timeToHour(this.startTime) - 24;
 								}
 								if (this.timeToHour(event.startTime) == comparison) {
 									event.name = "event";
@@ -109,8 +114,8 @@ export default class Today extends Vue {
 							}
 							for (const task of this.tasks) {
 								let comparison = i + this.timeToHour(this.startTime);
-								if(i + this.timeToHour(this.startTime) > 24){
-									comparison = (i + this.timeToHour(this.startTime) - 24);
+								if (i + this.timeToHour(this.startTime) > 24) {
+									comparison = i + this.timeToHour(this.startTime) - 24;
 								}
 								if (this.timeToHour(task.dueTime) == comparison) {
 									task.name = "task";
@@ -122,8 +127,8 @@ export default class Today extends Vue {
 							}
 							for (const alarm of this.alarms) {
 								let comparison = i + this.timeToHour(this.startTime);
-								if(i + this.timeToHour(this.startTime) > 24){
-									comparison = (i + this.timeToHour(this.startTime) - 24);
+								if (i + this.timeToHour(this.startTime) > 24) {
+									comparison = i + this.timeToHour(this.startTime) - 24;
 								}
 								if (this.timeToHour(alarm.time) == comparison) {
 									alarm.name = "alarm";

@@ -20,7 +20,7 @@
 						>
 							<div class="small position-absolute date-number">{{ lastMonthNumDays - index }}</div>
 							<div v-for="event in events" :key="event.id">
-								<b-icon v-if="getDate(event.date) == (lastMonthNumDays - index) && getMonth(event.date) < getMonth()" variant="info" icon="square-fill"></b-icon>
+								<b-icon v-if="getDate(event.date) == lastMonthNumDays - index && getMonth(event.date) < getMonth()" variant="info" icon="square-fill"></b-icon>
 							</div>
 						</b-card>
 						<!-- current month -->
@@ -131,13 +131,28 @@ export default class Calendar extends Vue {
 		this.month = moment().format("MMMM");
 		this.days = moment().daysInMonth();
 		this.today = moment().date();
-		this.leadingDays = moment().startOf("month").day();
-		this.trailingDays = 7 - moment().startOf("month").add(1, "months").day();
-		this.lastMonthNumDays = moment().subtract(1, "months").daysInMonth();
-		this.weekStart = moment().startOf("week").date();
-		this.weekEnd = moment().endOf("week").date();
+		this.leadingDays = moment()
+			.startOf("month")
+			.day();
+		this.trailingDays =
+			7 -
+			moment()
+				.startOf("month")
+				.add(1, "months")
+				.day();
+		this.lastMonthNumDays = moment()
+			.subtract(1, "months")
+			.daysInMonth();
+		this.weekStart = moment()
+			.startOf("week")
+			.date();
+		this.weekEnd = moment()
+			.endOf("week")
+			.date();
 		for (let i = 0; i < 7; i++) {
-			this.daysOfWeek[i] = moment().day(i).format("ddd");
+			this.daysOfWeek[i] = moment()
+				.day(i)
+				.format("ddd");
 		}
 		this.$store.dispatch("getEvents").then(() => {
 			this.loading = false;
@@ -172,7 +187,7 @@ export default class Calendar extends Vue {
 		return moment(value).date();
 	}
 
-	getMonth(value: any){
+	getMonth(value: any) {
 		return moment(value).month();
 	}
 }

@@ -76,7 +76,7 @@ export default class ViewEvent extends Vue {
 				centered: true,
 				okVariant: "info",
 			})
-			.then((value) => {
+			.then(value => {
 				if (value) {
 					try {
 						this.$store.dispatch("deleteEvent", { id: this.$route.params.id }).then(() => {

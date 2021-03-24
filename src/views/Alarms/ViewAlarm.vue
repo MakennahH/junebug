@@ -68,7 +68,7 @@ export default class ViewAlarm extends Vue {
 				centered: true,
 				okVariant: "info",
 			})
-			.then((value) => {
+			.then(value => {
 				if (value) {
 					try {
 						this.$store.dispatch("deleteAlarm", { id: this.$route.params.id }).then(() => {
@@ -77,7 +77,7 @@ export default class ViewAlarm extends Vue {
 					} catch (error) {
 						this.$bvToast.toast(error.message, {
 							title: `Error Occured`,
-							variant: 'danger',
+							variant: "danger",
 							solid: true,
 						});
 					}

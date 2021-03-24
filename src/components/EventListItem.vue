@@ -28,7 +28,7 @@ export default class EventListItem extends Vue {
 	@Prop({ required: true })
 	public event!: EventModel;
 
-    @Prop({ required: true })
+	@Prop({ required: true })
 	public index: number | undefined;
 }
 </script>
