@@ -13,14 +13,14 @@
 					<div class="d-flex justify-content-start flex-wrap">
 						<!-- last few days of previous month -->
 						<b-card
-							class="calendar-day bg-depreciated"
+							class="calendar-day"
 							v-for="(leadingDay, index) of leadingDays"
 							:key="'prev' + index"
-							:class="{ 'bg-emphasized': index + 1 >= weekStart && index + 1 <= weekEnd }"
+							:class="weekEnd < 7 && today < 7 ? 'bg-emphasized': 'bg-depreciated'"
 						>
-							<div class="small position-absolute date-number">{{ lastMonthNumDays - index }}</div>
+							<div class="small position-absolute date-number">{{ (lastMonthNumDays - leadingDays) + index + 1}}</div>
 							<div v-for="event in events" :key="event.id">
-								<b-icon v-if="getDate(event.date) == lastMonthNumDays - index && getMonth(event.date) < getMonth()" variant="info" icon="square-fill"></b-icon>
+								<b-icon v-if="getDate(event.date) == lastMonthNumDays - index && getMonth() - getMonth(event.date) == 1" variant="info" icon="square-fill"></b-icon>
 							</div>
 						</b-card>
 						<!-- current month -->
@@ -28,23 +28,23 @@
 							class="calendar-day"
 							v-for="(day, index) in days"
 							:key="index"
-							:class="{ 'bg-today': today == index + 1, 'bg-emphasized': index + 1 >= weekStart && index + 1 <= weekEnd }"
+							:class="{ 'bg-today': today == index + 1, 'bg-emphasized': (index+1 >= weekStart && index+1 <= weekEnd) || (index+1 >= weekStart && today >= weekEnd) || (today <= weekStart && index+1 <= weekEnd)}"
 						>
 							<div class="small position-absolute date-number">{{ index + 1 }}</div>
 							<div v-for="event in events" :key="event.id">
-								<b-icon v-if="getDate(event.date) == index + 1 && getMonth(event.date) == getMonth()" variant="info" icon="square-fill"></b-icon>
+								<b-icon v-if="getDate(event.date) == index + 1 && getMonth(event.date) == getMonth()" variant="info" icon="square-fill">{{event}}</b-icon>
 							</div>
 						</b-card>
 						<!-- first few days of next month -->
 						<b-card
-							class="calendar-day bg-depreciated"
+							class="calendar-day"
 							v-for="(trailingDay, index) of trailingDays"
 							:key="'next' + index"
-							:class="{ 'bg-emphasized': index + 1 >= weekStart && index + 1 <= weekEnd }"
+							:class="weekStart >= 23 && today > 6 ? 'bg-emphasized' : 'bg-depreciated'"
 						>
 							<div class="small position-absolute date-number">{{ index + 1 }}</div>
 							<div v-for="event in events" :key="event.id">
-								<b-icon v-if="getDate(event.date) == index + 1 && getMonth(event.date) > getMonth()" variant="info" icon="square-fill"></b-icon>
+								<b-icon v-if="getDate(event.date) == index + 1 && getMonth(event.date) - getMonth() == 1" variant="info" icon="square-fill"></b-icon>
 							</div>
 						</b-card>
 					</div>

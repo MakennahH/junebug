@@ -12,7 +12,7 @@
 				</div>
 				<b-list-group class="w-100 text-left">
 					<b-list-group-item v-for="(item, index) in dayTimeLine" :key="index">
-						<b-icon :icon="index > 20 ? 'brightness-alt-high-fill' : index > 14 ? 'moon' : index > 8 ? 'brightness-alt-high-fill' : 'brightness-high-fill'"></b-icon>
+						<b-icon :icon="index > 15 ? 'moon' : index > 7 ? 'brightness-alt-high-fill' : 'brightness-high-fill'"></b-icon>
 						{{ prettyHour(index) }}
 						<div v-for="(itemSub, index2) in item" :key="'itemSub' + index2">
 							<div v-if="itemSub.name == 'event'" v-b-toggle="itemSub.id" class="d-flex align-items-center">
@@ -150,7 +150,7 @@ export default class Today extends Vue {
 	}
 
 	get alarms() {
-		return this.$store.state.scheduling.alarms.filter((alarm: any) => alarm.days[moment().day()]);
+		return this.$store.state.scheduling.alarms.filter((alarm: any) => alarm.days[moment().day()] || (moment().add(this.startTime).day() > alarm.days[moment().day()] && alarm.days[moment().add(this.startTime).day()]) );
 	}
 
 	get events() {
