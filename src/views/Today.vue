@@ -11,51 +11,58 @@
 					<!-- <b-form-checkbox switch>I took my meds today</b-form-checkbox> -->
 				</div>
 				<b-list-group class="w-100 text-left">
-					<b-list-group-item v-for="(item, index) in dayTimeLine" :key="index">
-						<b-icon :icon="index > 15 ? 'moon' : index > 7 ? 'brightness-alt-high-fill' : 'brightness-high-fill'"></b-icon>
-						{{ prettyHour(index) }}
-						<div v-for="(itemSub, index2) in item" :key="'itemSub' + index2">
-							<div v-if="itemSub.name == 'event'" v-b-toggle="itemSub.id" class="d-flex align-items-center">
-								<b-icon-calendar class="mr-2"></b-icon-calendar>
-								{{ itemSub.title }}
-								<b-icon icon="chevron-down" class="ml-auto"></b-icon>
-							</div>
-							<b-collapse :id="itemSub.id" v-if="itemSub.name == 'event'">
-								<div>
-									<span class="font-weight-bold">{{ prettyTime(itemSub.startTime) }}-{{ prettyTime(itemSub.endTime) }}</span>
-								</div>
-								<div>
-									Location: <span class="font-weight-bold">{{ itemSub.location }}</span>
-								</div>
-								<div>
-									With: <span class="font-weight-bold">{{ itemSub.people }}</span>
-								</div>
-								<div>
-									Bring: <span class="font-weight-bold">{{ itemSub.bring }}</span>
-								</div>
-								<div>{{ itemSub.notes }}</div>
-							</b-collapse>
-							<div v-if="itemSub.name == 'task'" v-b-toggle="itemSub.id" class="d-flex align-items-center">
-								<b-icon-clipboard class="mr-2"></b-icon-clipboard>
-								{{ itemSub.title }}
-								<b-icon icon="chevron-down" class="ml-auto"></b-icon>
-							</div>
-							<b-collapse :id="itemSub.id" v-if="itemSub.name == 'task'">
-								<div>Due: {{ prettyTime(itemSub.dueTime) }}</div>
-								<div>{{ itemSub.notes }}</div>
-							</b-collapse>
-							<div v-if="itemSub.name == 'alarm'" v-b-toggle="itemSub.id" class="d-flex align-items-center">
-								<b-icon-alarm class="mr-2"></b-icon-alarm>
-								<div class="mr-2">{{ prettyTime(itemSub.time) }}</div>
-								<div>{{ itemSub.title }}</div>
-								<b-icon icon="chevron-down" class="ml-auto" v-if="itemSub.notes"></b-icon>
-							</div>
-							<b-collapse :id="itemSub.id" v-if="itemSub.name == 'alarm'">
-								<div>{{ itemSub.notes }}</div>
-							</b-collapse>
+					<div v-for="(item, index) in dayTimeLine" :key="index">
+						<div v-if="prettyHour(index) == '12 AM'" class="d-flex justify-content-between align-items-center pt-2">
+							<h3 >{{ tomorrowDayOfWeek }}</h3>
+							<h3 class="text-secondary">{{ tomorrow }}</h3>
 						</div>
-					</b-list-group-item>
+						<b-list-group-item>
+							<b-icon :icon="index > 15 ? 'moon' : index > 7 ? 'brightness-alt-high-fill' : 'brightness-high-fill'"></b-icon>
+							{{ prettyHour(index) }}
+							<div v-for="(itemSub, index2) in item" :key="'itemSub' + index2">
+								<div v-if="itemSub.name == 'event'" v-b-toggle="itemSub.id" class="d-flex align-items-center">
+									<b-icon-calendar class="mr-2"></b-icon-calendar>
+									{{ itemSub.title }}
+									<b-icon icon="chevron-down" class="ml-auto"></b-icon>
+								</div>
+								<b-collapse :id="itemSub.id" v-if="itemSub.name == 'event'">
+									<div>
+										<span class="font-weight-bold">{{ prettyTime(itemSub.startTime) }}-{{ prettyTime(itemSub.endTime) }}</span>
+									</div>
+									<div>
+										Location: <span class="font-weight-bold">{{ itemSub.location }}</span>
+									</div>
+									<div>
+										With: <span class="font-weight-bold">{{ itemSub.people }}</span>
+									</div>
+									<div>
+										Bring: <span class="font-weight-bold">{{ itemSub.bring }}</span>
+									</div>
+									<div>{{ itemSub.notes }}</div>
+								</b-collapse>
+								<div v-if="itemSub.name == 'task'" v-b-toggle="itemSub.id" class="d-flex align-items-center">
+									<b-icon-clipboard class="mr-2"></b-icon-clipboard>
+									{{ itemSub.title }}
+									<b-icon icon="chevron-down" class="ml-auto"></b-icon>
+								</div>
+								<b-collapse :id="itemSub.id" v-if="itemSub.name == 'task'">
+									<div>Due: {{ prettyTime(itemSub.dueTime) }}</div>
+									<div>{{ itemSub.notes }}</div>
+								</b-collapse>
+								<div v-if="itemSub.name == 'alarm'" v-b-toggle="itemSub.id" class="d-flex align-items-center">
+									<b-icon-alarm class="mr-2"></b-icon-alarm>
+									<div class="mr-2">{{ prettyTime(itemSub.time) }}</div>
+									<div>{{ itemSub.title }}</div>
+									<b-icon icon="chevron-down" class="ml-auto" v-if="itemSub.notes"></b-icon>
+								</div>
+								<b-collapse :id="itemSub.id" v-if="itemSub.name == 'alarm'">
+									<div>{{ itemSub.notes }}</div>
+								</b-collapse>
+							</div>
+						</b-list-group-item>
+					</div>
 				</b-list-group>
+
 				<!-- <h3 class="my-2">Upcoming:</h3>
 				<b-card class="card-secondary text-center">
 					<b-card-text>Nothing coming up! Sit back and relax.</b-card-text>
@@ -77,7 +84,9 @@ export default class Today extends Vue {
 	private startOfToday = {};
 	private endOfToday = {};
 	private dayOfWeek = {};
+	private tomorrowDayOfWeek = {};
 	private today = {};
+	private tomorrow = {};
 	private totalHours = 24;
 	private dayTimeLine: any[] = [];
 
@@ -88,14 +97,13 @@ export default class Today extends Vue {
 					this.$store.dispatch("getCurrentUserProfile").then(() => {
 						this.loading = false;
 						this.startTime = this.$store.state.userProfile.calendarStartHour;
-						this.startOfToday = moment()
-							.startOf("date")
-							.add(this.startTime);
-						this.endOfToday = moment()
-							.endOf("date")
-							.add(this.startTime);
+						// this.startTime = moment().get("hour");
+						this.startOfToday = moment().startOf("date").add(this.startTime);
+						this.endOfToday = moment().endOf("date").add(this.startTime);
 						this.dayOfWeek = moment().format("dddd");
+						this.tomorrowDayOfWeek = moment().add(1, "days").format("dddd");
 						this.today = moment().format("MM/D/YY");
+						this.tomorrow = moment().add(1, "days").format("MM/D/YY");
 						// this.totalHours = moment(this.endOfToday).add(1, "hours").diff(moment(this.startOfToday), "hours");
 						for (let i = 0; i < this.totalHours; i++) {
 							this.dayTimeLine.push(i);
@@ -150,7 +158,9 @@ export default class Today extends Vue {
 	}
 
 	get alarms() {
-		return this.$store.state.scheduling.alarms.filter((alarm: any) => alarm.days[moment().day()] || (moment().add(this.startTime).day() > alarm.days[moment().day()] && alarm.days[moment().add(this.startTime).day()]) );
+		return this.$store.state.scheduling.alarms.filter(
+			(alarm: any) => (alarm.time >= this.startTime && alarm.days[moment().day()]) || (!alarm.days[moment().day()] && alarm.time < this.startTime && alarm.days[moment().add(1, "days").day()])
+		);
 	}
 
 	get events() {
