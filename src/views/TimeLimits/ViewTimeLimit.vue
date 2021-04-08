@@ -25,7 +25,9 @@
 						</div>
 						<div class="text-info">{{ formatHours() }}</div>
 					</div>
-					<b-button @click="deleteTimeLimit" variant="danger" class="float-right mt-2"><b-icon-trash></b-icon-trash></b-button>
+					<b-button @click="deleteTimeLimit" variant="danger" class="mt-2"><b-icon-trash></b-icon-trash></b-button>
+					<b-button v-if="isGoing" @click="stopTimeLimit" variant="warning" class="float-right mt-2 d-flex align-items-center"><b-icon-clock-history class="mr-1"></b-icon-clock-history>Stop</b-button>
+					<b-button v-else @click="startTimeLimit" variant="info" class="float-right mt-2 d-flex align-items-center"><b-icon-clock class="mr-1"></b-icon-clock>Start</b-button>
 				</b-card>
 			</div>
 		</div>
@@ -38,10 +40,16 @@ import { Component, Vue } from "vue-property-decorator";
 export default class ViewTimeLimit extends Vue {
 	private id = this.$route.params.id;
 	private loading = true;
+	private going = false;
+	private timer = 0;
 
 	mounted() {
 		this.loading = true;
 		this.$store.dispatch("getTimeLimits").finally(() => (this.loading = false));
+	}
+
+	get isGoing() {
+		return this.going;
 	}
 
 	get timelimits() {
@@ -65,7 +73,7 @@ export default class ViewTimeLimit extends Vue {
 				centered: true,
 				okVariant: "info",
 			})
-			.then(value => {
+			.then((value) => {
 				if (value) {
 					try {
 						this.$store.dispatch("deleteTimeLimit", { id: this.$route.params.id }).then(() => {
@@ -81,6 +89,32 @@ export default class ViewTimeLimit extends Vue {
 				}
 				// else do nothing
 			});
+	}
+
+	startTimeLimit() {
+		// 3600000 ms = 1 hr
+		this.timer = setTimeout(this.showModal, 3600000 * this.timelimit.duration);
+		// this.timer = setTimeout(this.showModal, 1000);
+		// ^^ for testing
+		this.going = true;
+	}
+
+	stopTimeLimit(){
+		clearInterval(this.timer);
+		this.going = false;
+	}
+
+	showModal() {
+		this.$bvModal.msgBoxConfirm(`Your time limit ${this.timelimit.title} is over.`, {
+			title: "Time's up!",
+			headerBgVariant: "info",
+			headerTextVariant: "light",
+			centered: true,
+			okVariant: "info",
+			okTitle: "OK",
+			cancelTitle: "Snooze",
+		});
+		this.going = false;
 	}
 }
 </script>
