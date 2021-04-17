@@ -66,6 +66,7 @@ export class EventModel {
 	recurringMonthly: boolean;
 	recurringYearly: boolean;
 	days: boolean[];
+	color: {};
 
 	constructor() {
 		this.id = "";
@@ -82,6 +83,14 @@ export class EventModel {
 		this.recurringMonthly = false;
 		this.recurringYearly = false;
 		this.days = [false, false, false, false, false, false, false];
+		this.color = {
+			hex: '#17a2b8',
+			hex8: '#17a2b8',
+			hsl: { h: 150, s: 0.5, l: 0.2, a: 1 },
+			hsv: { h: 150, s: 0.66, v: 0.3, a: 1 },
+			rgba: { r: 25, g: 77, b: 51, a: 1 },
+			a: 1,
+		};
 	}
 }
 
@@ -94,6 +103,7 @@ export class TaskModel {
 	dailyReminder: boolean;
 	daysInAdvance: number;
 	notes: string;
+	color: {};
 
 	constructor() {
 		this.id = "";
@@ -104,6 +114,14 @@ export class TaskModel {
 		this.dailyReminder = false;
 		this.daysInAdvance = 1;
 		this.notes = "";
+		this.color = {
+			hex: '#17a2b8',
+			hex8: '#17a2b8',
+			hsl: { h: 150, s: 0.5, l: 0.2, a: 1 },
+			hsv: { h: 150, s: 0.66, v: 0.3, a: 1 },
+			rgba: { r: 25, g: 77, b: 51, a: 1 },
+			a: 1,
+		};
 	}
 }
 

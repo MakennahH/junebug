@@ -17,13 +17,17 @@
 				<b-form-input class="mb-2" placeholder="With who?" v-model="people"></b-form-input>
 				<b-form-input class="mb-2" placeholder="What to bring" v-model="bring"></b-form-input>
 				<b-form-textarea class="textarea mb-2" v-model="notes" placeholder="Extra notes" maxRows="8" no-auto-shrink no-resize></b-form-textarea>
-				<b-form-checkbox class="mb-2" v-model="leaveReminder">Remind me when to leave</b-form-checkbox>
+				<!-- <b-form-checkbox class="mb-2" v-model="leaveReminder">Remind me when to leave</b-form-checkbox> -->
+				
+				<div>Color:</div>
+				<div class="d-flex justify-content-center mt-2"><compact-picker v-model="colors"></compact-picker></div>
 				<div>Applies:</div>
 				<b-form-datepicker v-model="date" class="mb-2" placeholder="Calendar date"></b-form-datepicker>
 				<b-button variant="outline-secondary" block class="d-flex align-items-center justify-content-between" v-b-toggle.recurring>
 					<div>Recurring</div>
 					<b-icon icon="chevron-down"></b-icon>
 				</b-button>
+
 				<b-collapse id="recurring">
 					<b-button-group vertical class="mb-2 w-100">
 						<b-button variant="outline-secondary" class="btn text-left" v-model="yearSelected" :pressed.sync="yearSelected">
@@ -52,7 +56,12 @@
 <script lang="ts">
 import { EventModel } from "@/models/scheduling";
 import { Component, Vue } from "vue-property-decorator";
-@Component({})
+import { Compact } from "vue-color";
+@Component({
+	components: {
+		"compact-picker": Compact,
+	},
+})
 export default class AddEvent extends Vue {
 	private isEdit = "";
 	private weekdays = [
@@ -64,8 +73,15 @@ export default class AddEvent extends Vue {
 		{ text: "Friday", value: "friday", index: 5 },
 		{ text: "Saturday", value: "saturday", index: 6 },
 	];
-
 	private event = new EventModel();
+
+	get colors() {
+		return this.event.color;
+	}
+
+	set colors(value) {
+		this.event.color = value;
+	}
 
 	mounted() {
 		this.isEdit = this.$route.params.id;
@@ -194,6 +210,7 @@ export default class AddEvent extends Vue {
 						recurringMonthly: this.event.recurringMonthly,
 						recurringYearly: this.event.recurringYearly,
 						days: this.event.days,
+						color: this.event.color,
 					})
 					.then(() => {
 						this.$router.replace("/events");
@@ -221,6 +238,7 @@ export default class AddEvent extends Vue {
 						recurringMonthly: this.event.recurringMonthly,
 						recurringYearly: this.event.recurringYearly,
 						days: this.event.days,
+						color: this.event.color,
 					})
 					.then(() => {
 						this.$router.replace("/events");

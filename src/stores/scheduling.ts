@@ -186,6 +186,7 @@ export default {
 					recurringMonthly: data.recurringMonthly,
 					recurringYearly: data.recurringYearly,
 					days: data.days,
+					color: data.color,
 				})
 				.then(docRef => {
 					const newId = docRef.id;
@@ -235,6 +236,7 @@ export default {
 					recurringMonthly: event.recurringMonthly,
 					recurringYearly: event.recurringYearly,
 					days: event.days,
+					color: event.color,
 				})
 				.then(() => {
 					this.getEvents;
@@ -272,6 +274,7 @@ export default {
 					dailyReminder: data.dailyReminder,
 					daysInAdvance: data.daysInAdvance,
 					notes: data.notes,
+					color: data.color,
 				})
 				.then(docRef => {
 					const newId = docRef.id;
@@ -316,6 +319,7 @@ export default {
 					dailyReminder: task.dailyReminder,
 					daysInAdvance: task.daysInAdvance,
 					notes: task.notes,
+					color: task.color,
 				})
 				.then(() => {
 					this.getTasks;

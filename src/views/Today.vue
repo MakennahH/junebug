@@ -21,7 +21,7 @@
 							{{ prettyHour(index) }}
 							<div v-for="(itemSub, index2) in item" :key="'itemSub' + index2">
 								<div v-if="itemSub.name == 'event'" v-b-toggle="itemSub.id" class="d-flex align-items-center">
-									<b-icon-calendar class="mr-2"></b-icon-calendar>
+									<b-icon-calendar class="mr-2" :style="{'color': itemSub.color ? itemSub.color.hex +'!important' : '#17a2b8'}"></b-icon-calendar>
 									{{ itemSub.title }}
 									<b-icon icon="chevron-down" class="ml-auto"></b-icon>
 								</div>
@@ -41,7 +41,7 @@
 									<div>{{ itemSub.notes }}</div>
 								</b-collapse>
 								<div v-if="itemSub.name == 'task'" v-b-toggle="itemSub.id" class="d-flex align-items-center">
-									<b-icon-clipboard class="mr-2"></b-icon-clipboard>
+									<b-icon-clipboard class="mr-2" :style="{'color': itemSub.color ? itemSub.color.hex +'!important' : '#17a2b8'}"></b-icon-clipboard>
 									{{ itemSub.title }}
 									<b-icon icon="chevron-down" class="ml-auto"></b-icon>
 								</div>

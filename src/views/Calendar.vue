@@ -17,6 +17,7 @@
 							<div v-for="event in events" :key="event.id">
 								<b-icon
 									v-if="getDate(event.date) == lastMonthNumDays - index && getMonth() - getMonth(event.date) == 1"
+									:style="{'color': event.color ? event.color.hex : '#17a2b8'}"
 									@click="scrollTo(event.id)"
 									variant="info"
 									icon="square-fill"
@@ -30,35 +31,36 @@
 							:key="index"
 							:class="{
 								'bg-today': today == index + 1,
-								'bg-emphasized': (index + 1 >= weekStart && index + 1 <= weekEnd) || (index + 1 >= weekStart && today >= weekEnd) || (today <= weekStart && index + 1 <= weekEnd),
+								'bg-emphasized': (index + 1 >= weekStart && index + 1 <= weekEnd) || (index + 1 >= weekStart && today > weekEnd) || (today < weekStart && index + 1 <= weekEnd),
 							}"
 						>
 							<div class="small position-absolute date-number">{{ index + 1 }}</div>
 							<div v-for="event in events" :key="event.id">
-								<b-icon v-if="getDate(event.date) == index + 1 && getMonth(event.date) == getMonth()" variant="info" @click="scrollTo(event.id)" icon="square-fill">{{ event }}</b-icon>
+								
+								<b-icon v-if="getDate(event.date) == index + 1 && getMonth(event.date) == getMonth()" :style="{'color': event.color ? event.color.hex : '#17a2b8'}" @click="scrollTo(event.id)" icon="square-fill">{{ event }}</b-icon>
 							</div>
 						</b-card>
 						<!-- first few days of next month -->
 						<b-card class="calendar-day" v-for="(trailingDay, index) of trailingDays" :key="'next' + index" :class="weekStart >= 23 && today > 6 ? 'bg-emphasized' : 'bg-depreciated'">
 							<div class="small position-absolute date-number">{{ index + 1 }}</div>
 							<div v-for="event in events" :key="event.id">
-								<b-icon v-if="getDate(event.date) == index + 1 && getMonth(event.date) - getMonth() == 1" @click="scrollTo(event.id)" variant="info" icon="square-fill"></b-icon>
+								<b-icon v-if="getDate(event.date) == index + 1 && getMonth(event.date) - getMonth() == 1" :style="{'color': event.color ? event.color.hex : '#17a2b8'}" @click="scrollTo(event.id)" variant="info" icon="square-fill"></b-icon>
 							</div>
 						</b-card>
 					</div>
 				</b-card>
 				<div v-if="todaysEvents.length > 0">
 					<h3 class="my-2">Today:</h3>
-					<b-card class="mt-2" v-for="(event, index) in todaysEvents" :key="event.id">
+					<b-card class="mt-2" v-for="(event) in todaysEvents" :key="event.id" :style="{'background-color': event.color ? event.color.hex +'!important' : '#17a2b8'}" :ref="`ref-${event.id}`">
 						<div class="d-flex justify-content-between align-items center small">
-							<router-link class="text-info" :to="'events/view/' + event.id" replace>
+							<router-link class="text-light" :to="'events/view/' + event.id" replace>
 								<span class="font-weight-bold">{{ event.title }}</span>
 							</router-link>
 							{{ prettyDate(event.date) }}
 							{{ prettyTime(event.startTime) }}-{{ prettyTime(event.endTime) }}
-							<b-icon icon="chevron-down" class="float-right" v-b-toggle="'desc' + index" v-if="event.location || event.people || event.bring || event.notes"></b-icon>
+							<b-icon icon="chevron-down" class="float-right" v-b-toggle="'desc' + event.id" v-if="event.location || event.people || event.bring || event.notes"></b-icon>
 						</div>
-						<b-collapse :id="'desc' + index">
+						<b-collapse :id="'desc' + event.id">
 							<div class="p-2 text-light">
 								<div v-if="event.location">
 									Location: <span class="font-weight-bold">{{ event.location }}</span>
@@ -78,16 +80,16 @@
 				<b-card v-if="upcomingEvents.length == 0" class="card-secondary text-center">
 					<b-card-text>Nothing coming up! Sit back and relax.</b-card-text>
 				</b-card>
-				<b-card v-else class="mt-2" v-for="(event, index) in upcomingEvents" :key="event.id" :ref="`ref-${event.id}`">
+				<b-card v-else class="mt-2" :style="{'background-color': event.color ? event.color.hex +'!important' : '#17a2b8'}" v-for="(event) in upcomingEvents" :key="event.id" :ref="`ref-${event.id}`">
 					<div class="d-flex justify-content-between align-items center small">
-						<router-link class="text-info" :to="'events/view/' + event.id" replace>
+						<router-link class="text-light" :to="'events/view/' + event.id" replace>
 							<span class="font-weight-bold">{{ event.title }}</span>
 						</router-link>
 						{{ prettyDate(event.date) }}
 						{{ prettyTime(event.startTime) }}-{{ prettyTime(event.endTime) }}
-						<b-icon icon="chevron-down" class="float-right" v-b-toggle="'desc' + index" v-if="event.location || event.people || event.bring || event.notes"></b-icon>
+						<b-icon icon="chevron-down" class="float-right" v-b-toggle="'desc' + event.id" v-if="event.location || event.people || event.bring || event.notes"></b-icon>
 					</div>
-					<b-collapse :id="'desc' + index">
+					<b-collapse :id="'desc' + event.id">
 						<div class="p-2 text-light">
 							<div v-if="event.location">
 								Location: <span class="font-weight-bold">{{ event.location }}</span>

@@ -11,11 +11,13 @@
 				<b-form-input class="mb-2" placeholder="Title" v-model="title"></b-form-input>
 				<b-form-datepicker class="mb-2" placeholder="Due date" v-model="dueDate"></b-form-datepicker>
 				<b-form-timepicker class="mb-2" placeholder="Time due" v-model="dueTime" required></b-form-timepicker>
-				<div>Estimated time to complete:</div>
-				<b-form-spinbutton class="mb-2" :formatter-fn="formatHours" size="sm" v-model="maxHours" wrap min="1" max="24"></b-form-spinbutton>
+				<div>Color:</div>
+				<div class="d-flex justify-content-center my-2"><compact-picker v-model="colors"></compact-picker></div>
+				<!-- <div>Estimated time to complete:</div>
+				<b-form-spinbutton class="mb-2" :formatter-fn="formatHours" size="sm" v-model="maxHours" wrap min="1" max="24"></b-form-spinbutton> -->
 				<!-- <b-form-input class="mb-2" placeholder="Event"></b-form-input> -->
-				<b-form-checkbox v-model="dailyReminder">Remind me daily:</b-form-checkbox>
-				<b-form-spinbutton class="mb-2" :formatter-fn="formatDays" size="sm" v-model="maxDays" wrap min="1" max="60"></b-form-spinbutton>
+				<!-- <b-form-checkbox v-model="dailyReminder">Remind me daily:</b-form-checkbox>
+				<b-form-spinbutton class="mb-2" :formatter-fn="formatDays" size="sm" v-model="maxDays" wrap min="1" max="60"></b-form-spinbutton> -->
 				<b-form-textarea v-model="notes" class="textarea mb-2" placeholder="Description" maxRows="8" no-auto-shrink no-resize></b-form-textarea>
 				<b-button @click="saveTask" class="btn mt-2" variant="info" block> Save </b-button>
 			</form>
@@ -26,7 +28,12 @@
 <script lang="ts">
 import { TaskModel } from "@/models/scheduling";
 import { Component, Vue } from "vue-property-decorator";
-@Component({})
+import { Compact } from "vue-color";
+@Component({
+	components: {
+		"compact-picker": Compact,
+	},
+})
 export default class AddTask extends Vue {
 	private isEdit = "";
 	private task = new TaskModel();
@@ -38,6 +45,13 @@ export default class AddTask extends Vue {
 				return task.id === this.$route.params.id;
 			});
 		}
+	}
+	get colors() {
+		return this.task.color;
+	}
+
+	set colors(value) {
+		this.task.color = value;
 	}
 
 	get tasks() {
@@ -121,6 +135,7 @@ export default class AddTask extends Vue {
 						dailyReminder: this.task.dailyReminder,
 						daysInAdvance: this.task.daysInAdvance,
 						notes: this.task.notes,
+						color: this.task.color
 					})
 					.then(() => {
 						this.$router.replace("/tasks");
@@ -143,6 +158,7 @@ export default class AddTask extends Vue {
 						dailyReminder: this.task.dailyReminder,
 						daysInAdvance: this.task.daysInAdvance,
 						notes: this.task.notes,
+						color: this.task.color
 					})
 					.then(() => {
 						this.$router.replace("/tasks");

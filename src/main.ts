@@ -17,7 +17,7 @@ Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(ToggleButton);
 
-Vue.config.productionTip = false;
+// Vue.config.productionTip = false;
 
 // new Vue({
 // 	router,

@@ -26,11 +26,9 @@
 						<span class="font-weight-bold">Bring: </span>
 						<span class="font-weight-light">{{ event.bring }}</span>
 					</div>
-
 					<div class="pt-2" v-if="event.notes != ''">
 						{{ event.notes }}
 					</div>
-
 					<b-button @click="deleteEvent" variant="danger" class="float-right mt-2"><b-icon-trash></b-icon-trash></b-button>
 				</b-card>
 			</div>
@@ -41,7 +39,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import moment from "moment";
-@Component({})
+@Component({ })
 export default class ViewEvent extends Vue {
 	private id = this.$route.params.id;
 	private loading = true;
