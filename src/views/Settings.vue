@@ -20,7 +20,7 @@
 						</div>
 						<b-form-timepicker size="sm" id="startTime" name="startTime" v-model="startTime"></b-form-timepicker>
 					</b-list-group-item>
-					<b-list-group-item class="custom d-flex justify-content-between align-items-center" v-b-toggle.meal-reminder>
+					<!-- <b-list-group-item class="custom d-flex justify-content-between align-items-center" v-b-toggle.meal-reminder>
 						<div>
 							<b-icon icon="egg-fried" scale="1.5" variant="info" class="mr-2"></b-icon>
 							Meal reminders
@@ -71,7 +71,7 @@
 						<b-card class="form-group-middle">
 							<b-form-timepicker size="sm" type="time" v-model="medTime"></b-form-timepicker>
 						</b-card>
-					</b-collapse>
+					</b-collapse> -->
 				</b-list-group>
 				<b-list-group class="pt-3">
 					<b-list-group-item to="/editprofile" class="d-flex justify-content-between align-items-center">

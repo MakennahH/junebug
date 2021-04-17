@@ -12,15 +12,15 @@
 					</div>
 					<div class="d-flex justify-content-start flex-wrap">
 						<!-- last few days of previous month -->
-						<b-card
-							class="calendar-day"
-							v-for="(leadingDay, index) of leadingDays"
-							:key="'prev' + index"
-							:class="weekEnd < 7 && today < 7 ? 'bg-emphasized': 'bg-depreciated'"
-						>
-							<div class="small position-absolute date-number">{{ (lastMonthNumDays - leadingDays) + index + 1}}</div>
+						<b-card class="calendar-day" v-for="(leadingDay, index) of leadingDays" :key="'prev' + index" :class="weekEnd < 7 && today < 7 ? 'bg-emphasized' : 'bg-depreciated'">
+							<div class="small position-absolute date-number">{{ lastMonthNumDays - leadingDays + index + 1 }}</div>
 							<div v-for="event in events" :key="event.id">
-								<b-icon v-if="getDate(event.date) == lastMonthNumDays - index && getMonth() - getMonth(event.date) == 1" variant="info" icon="square-fill"></b-icon>
+								<b-icon
+									v-if="getDate(event.date) == lastMonthNumDays - index && getMonth() - getMonth(event.date) == 1"
+									@click="scrollTo(event.id)"
+									variant="info"
+									icon="square-fill"
+								></b-icon>
 							</div>
 						</b-card>
 						<!-- current month -->
@@ -28,23 +28,21 @@
 							class="calendar-day"
 							v-for="(day, index) in days"
 							:key="index"
-							:class="{ 'bg-today': today == index + 1, 'bg-emphasized': (index+1 >= weekStart && index+1 <= weekEnd) || (index+1 >= weekStart && today >= weekEnd) || (today <= weekStart && index+1 <= weekEnd)}"
+							:class="{
+								'bg-today': today == index + 1,
+								'bg-emphasized': (index + 1 >= weekStart && index + 1 <= weekEnd) || (index + 1 >= weekStart && today >= weekEnd) || (today <= weekStart && index + 1 <= weekEnd),
+							}"
 						>
 							<div class="small position-absolute date-number">{{ index + 1 }}</div>
 							<div v-for="event in events" :key="event.id">
-								<b-icon v-if="getDate(event.date) == index + 1 && getMonth(event.date) == getMonth()" variant="info" icon="square-fill">{{event}}</b-icon>
+								<b-icon v-if="getDate(event.date) == index + 1 && getMonth(event.date) == getMonth()" variant="info" @click="scrollTo(event.id)" icon="square-fill">{{ event }}</b-icon>
 							</div>
 						</b-card>
 						<!-- first few days of next month -->
-						<b-card
-							class="calendar-day"
-							v-for="(trailingDay, index) of trailingDays"
-							:key="'next' + index"
-							:class="weekStart >= 23 && today > 6 ? 'bg-emphasized' : 'bg-depreciated'"
-						>
+						<b-card class="calendar-day" v-for="(trailingDay, index) of trailingDays" :key="'next' + index" :class="weekStart >= 23 && today > 6 ? 'bg-emphasized' : 'bg-depreciated'">
 							<div class="small position-absolute date-number">{{ index + 1 }}</div>
 							<div v-for="event in events" :key="event.id">
-								<b-icon v-if="getDate(event.date) == index + 1 && getMonth(event.date) - getMonth() == 1" variant="info" icon="square-fill"></b-icon>
+								<b-icon v-if="getDate(event.date) == index + 1 && getMonth(event.date) - getMonth() == 1" @click="scrollTo(event.id)" variant="info" icon="square-fill"></b-icon>
 							</div>
 						</b-card>
 					</div>
@@ -80,7 +78,7 @@
 				<b-card v-if="upcomingEvents.length == 0" class="card-secondary text-center">
 					<b-card-text>Nothing coming up! Sit back and relax.</b-card-text>
 				</b-card>
-				<b-card v-else class="mt-2" v-for="(event, index) in upcomingEvents" :key="event.id">
+				<b-card v-else class="mt-2" v-for="(event, index) in upcomingEvents" :key="event.id" :ref="`ref-${event.id}`">
 					<div class="d-flex justify-content-between align-items center small">
 						<router-link class="text-info" :to="'events/view/' + event.id" replace>
 							<span class="font-weight-bold">{{ event.title }}</span>
@@ -131,28 +129,13 @@ export default class Calendar extends Vue {
 		this.month = moment().format("MMMM");
 		this.days = moment().daysInMonth();
 		this.today = moment().date();
-		this.leadingDays = moment()
-			.startOf("month")
-			.day();
-		this.trailingDays =
-			7 -
-			moment()
-				.startOf("month")
-				.add(1, "months")
-				.day();
-		this.lastMonthNumDays = moment()
-			.subtract(1, "months")
-			.daysInMonth();
-		this.weekStart = moment()
-			.startOf("week")
-			.date();
-		this.weekEnd = moment()
-			.endOf("week")
-			.date();
+		this.leadingDays = moment().startOf("month").day();
+		this.trailingDays = 7 - moment().startOf("month").add(1, "months").day();
+		this.lastMonthNumDays = moment().subtract(1, "months").daysInMonth();
+		this.weekStart = moment().startOf("week").date();
+		this.weekEnd = moment().endOf("week").date();
 		for (let i = 0; i < 7; i++) {
-			this.daysOfWeek[i] = moment()
-				.day(i)
-				.format("ddd");
+			this.daysOfWeek[i] = moment().day(i).format("ddd");
 		}
 		this.$store.dispatch("getEvents").then(() => {
 			this.loading = false;
@@ -189,6 +172,13 @@ export default class Calendar extends Vue {
 
 	getMonth(value: any) {
 		return moment(value).month();
+	}
+
+	scrollTo(value: string) {
+		const refName = `ref-${value}`;
+		// (this.$refs[refName] as HTMLElement).scrollIntoView({ behavior: 'smooth' });
+		const element = (this.$refs[refName] as Element[]);
+		element[0].scrollIntoView();
 	}
 }
 </script>

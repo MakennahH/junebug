@@ -11,8 +11,13 @@
 		</div>
 		<div class="row has-header">
 			<div class="col mx-2">
+				<div class="row d-flex justify-content-end mr-1">
+					<h1 v-if="isGoing" class="border rounded text-danger px-2">{{ counter.hour }}:{{ counter.min }}:{{ counter.sec }}</h1>
+				</div>
 				<b-card>
-					<h3>{{ timelimit.title }}</h3>
+					<h3>
+						{{ timelimit.title }}
+					</h3>
 					<div class="d-flex justify-content-between">
 						<div class="font-weight-light">
 							<div class="d-flex align-items-center" :class="{ 'text-secondary': !timelimit.days[0] }">Sunday <b-icon icon="check" v-if="timelimit.days[0]"></b-icon></div>
@@ -26,7 +31,9 @@
 						<div class="text-info">{{ formatHours() }}</div>
 					</div>
 					<b-button @click="deleteTimeLimit" variant="danger" class="mt-2"><b-icon-trash></b-icon-trash></b-button>
-					<b-button v-if="isGoing" @click="stopTimeLimit" variant="warning" class="float-right mt-2 d-flex align-items-center"><b-icon-clock-history class="mr-1"></b-icon-clock-history>Stop</b-button>
+					<b-button v-if="isGoing" @click="stopTimeLimit" variant="warning" class="float-right mt-2 d-flex align-items-center"
+						><b-icon-clock-history class="mr-1"></b-icon-clock-history>Stop</b-button
+					>
 					<b-button v-else @click="startTimeLimit" variant="info" class="float-right mt-2 d-flex align-items-center"><b-icon-clock class="mr-1"></b-icon-clock>Start</b-button>
 				</b-card>
 			</div>
@@ -42,6 +49,8 @@ export default class ViewTimeLimit extends Vue {
 	private loading = true;
 	private going = false;
 	private timer = 0;
+	private counterFunction = 0;
+	private counter: { hour: number; min: number; sec: number } = { hour: 0, min: 0, sec: 0 };
 
 	mounted() {
 		this.loading = true;
@@ -94,13 +103,33 @@ export default class ViewTimeLimit extends Vue {
 	startTimeLimit() {
 		// 3600000 ms = 1 hr
 		this.timer = setTimeout(this.showModal, 3600000 * this.timelimit.duration);
-		// this.timer = setTimeout(this.showModal, 1000);
+		// this.timer = setTimeout(this.showModal, 5000);
 		// ^^ for testing
+
+		// display a countdown
+		this.counter = { hour: this.timelimit.duration, min: 0, sec: 0 };
+		this.counterFunction = setInterval(() => {
+			if (this.counter.min - 1 == -1) {
+				this.counter.hour -= 1;
+				this.counter.min = 60;
+			}
+			if (this.counter.sec - 1 == -1) {
+				this.counter.min -= 1;
+				this.counter.sec = 59;
+			} else {
+				this.counter.sec -= 1;
+			}
+			if (this.counter.hour === 0 && this.counter.min === 0 && this.counter.sec == 0) {
+				clearInterval(this.counterFunction);
+			}
+		}, 1000);
+
 		this.going = true;
 	}
 
-	stopTimeLimit(){
-		clearInterval(this.timer);
+	stopTimeLimit() {
+		clearTimeout(this.timer);
+		clearInterval(this.counterFunction);
 		this.going = false;
 	}
 

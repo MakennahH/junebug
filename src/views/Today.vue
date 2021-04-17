@@ -49,7 +49,7 @@
 									<div>Due: {{ prettyTime(itemSub.dueTime) }}</div>
 									<div>{{ itemSub.notes }}</div>
 								</b-collapse>
-								<div v-if="itemSub.name == 'alarm'" v-b-toggle="itemSub.id" class="d-flex align-items-center">
+								<!-- <div v-if="itemSub.name == 'alarm'" v-b-toggle="itemSub.id" class="d-flex align-items-center">
 									<b-icon-alarm class="mr-2"></b-icon-alarm>
 									<div class="mr-2">{{ prettyTime(itemSub.time) }}</div>
 									<div>{{ itemSub.title }}</div>
@@ -57,7 +57,7 @@
 								</div>
 								<b-collapse :id="itemSub.id" v-if="itemSub.name == 'alarm'">
 									<div>{{ itemSub.notes }}</div>
-								</b-collapse>
+								</b-collapse> -->
 							</div>
 						</b-list-group-item>
 					</div>
@@ -133,19 +133,19 @@ export default class Today extends Vue {
 									this.dayTimeLine[i].push(task);
 								}
 							}
-							for (const alarm of this.alarms) {
-								let comparison = i + this.timeToHour(this.startTime);
-								if (i + this.timeToHour(this.startTime) > 24) {
-									comparison = i + this.timeToHour(this.startTime) - 24;
-								}
-								if (this.timeToHour(alarm.time) == comparison) {
-									alarm.name = "alarm";
-									if (!this.dayTimeLine[i][0]) {
-										this.dayTimeLine[i] = [];
-									}
-									this.dayTimeLine[i].push(alarm);
-								}
-							}
+							// for (const alarm of this.alarms) {
+							// 	let comparison = i + this.timeToHour(this.startTime);
+							// 	if (i + this.timeToHour(this.startTime) > 24) {
+							// 		comparison = i + this.timeToHour(this.startTime) - 24;
+							// 	}
+							// 	if (this.timeToHour(alarm.time) == comparison) {
+							// 		alarm.name = "alarm";
+							// 		if (!this.dayTimeLine[i][0]) {
+							// 			this.dayTimeLine[i] = [];
+							// 		}
+							// 		this.dayTimeLine[i].push(alarm);
+							// 	}
+							// }
 						}
 					});
 				});
@@ -157,11 +157,11 @@ export default class Today extends Vue {
 		return this.loading;
 	}
 
-	get alarms() {
-		return this.$store.state.scheduling.alarms.filter(
-			(alarm: any) => (alarm.time >= this.startTime && alarm.days[moment().day()]) || (!alarm.days[moment().day()] && alarm.time < this.startTime && alarm.days[moment().add(1, "days").day()])
-		);
-	}
+	// get alarms() {
+	// 	return this.$store.state.scheduling.alarms.filter(
+	// 		(alarm: any) => (alarm.time >= this.startTime && alarm.days[moment().day()]) || (!alarm.days[moment().day()] && alarm.time < this.startTime && alarm.days[moment().add(1, "days").day()])
+	// 	);
+	// }
 
 	get events() {
 		return this.$store.state.scheduling.events.filter((event: any) => moment(event.date).add(event.startTime) >= this.startOfToday && moment(event.date).add(event.startTime) <= this.endOfToday);
