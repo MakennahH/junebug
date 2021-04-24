@@ -17,7 +17,7 @@
 							<div v-for="event in events" :key="event.id">
 								<b-icon
 									v-if="getDate(event.date) == lastMonthNumDays - index && getMonth() - getMonth(event.date) == 1"
-									:style="{'color': event.color ? event.color.hex : '#17a2b8'}"
+									:style="{ color: event.color ? event.color.hex : '#17a2b8' }"
 									@click="scrollTo(event.id)"
 									variant="info"
 									icon="square-fill"
@@ -36,24 +36,41 @@
 						>
 							<div class="small position-absolute date-number">{{ index + 1 }}</div>
 							<div v-for="event in events" :key="event.id">
-								
-								<b-icon v-if="getDate(event.date) == index + 1 && getMonth(event.date) == getMonth()" :style="{'color': event.color ? event.color.hex : '#17a2b8'}" @click="scrollTo(event.id)" icon="square-fill">{{ event }}</b-icon>
+								<b-icon
+									v-if="getDate(event.date) == index + 1 && getMonth(event.date) == getMonth()"
+									:style="{ color: event.color ? event.color.hex : '#17a2b8' }"
+									@click="scrollTo(event.id)"
+									icon="square-fill"
+									>{{ event }}</b-icon
+								>
 							</div>
 						</b-card>
 						<!-- first few days of next month -->
 						<b-card class="calendar-day" v-for="(trailingDay, index) of trailingDays" :key="'next' + index" :class="weekStart >= 23 && today > 6 ? 'bg-emphasized' : 'bg-depreciated'">
 							<div class="small position-absolute date-number">{{ index + 1 }}</div>
 							<div v-for="event in events" :key="event.id">
-								<b-icon v-if="getDate(event.date) == index + 1 && getMonth(event.date) - getMonth() == 1" :style="{'color': event.color ? event.color.hex : '#17a2b8'}" @click="scrollTo(event.id)" variant="info" icon="square-fill"></b-icon>
+								<b-icon
+									v-if="getDate(event.date) == index + 1 && getMonth(event.date) - getMonth() == 1"
+									:style="{ color: event.color ? event.color.hex : '#17a2b8' }"
+									@click="scrollTo(event.id)"
+									variant="info"
+									icon="square-fill"
+								></b-icon>
 							</div>
 						</b-card>
 					</div>
 				</b-card>
 				<div v-if="todaysEvents.length > 0">
 					<h3 class="my-2">Today:</h3>
-					<b-card class="mt-2" v-for="(event) in todaysEvents" :key="event.id" :style="{'background-color': event.color ? event.color.hex +'!important' : '#17a2b8'}" :ref="`ref-${event.id}`">
-						<div class="d-flex justify-content-between align-items center small">
-							<router-link class="text-light" :to="'events/view/' + event.id" replace>
+					<b-card
+						class="mt-2"
+						v-for="event in todaysEvents"
+						:key="event.id"
+						:style="{ 'background-color': event.color ? event.color.hex + '!important' : '#17a2b8' }"
+						:ref="`ref-${event.id}`"
+					>
+						<div class="d-flex justify-content-between align-items center small text-light">
+							<router-link :to="'events/view/' + event.id" replace>
 								<span class="font-weight-bold">{{ event.title }}</span>
 							</router-link>
 							{{ prettyDate(event.date) }}
@@ -80,8 +97,15 @@
 				<b-card v-if="upcomingEvents.length == 0" class="card-secondary text-center">
 					<b-card-text>Nothing coming up! Sit back and relax.</b-card-text>
 				</b-card>
-				<b-card v-else class="mt-2" :style="{'background-color': event.color ? event.color.hex +'!important' : '#17a2b8'}" v-for="(event) in upcomingEvents" :key="event.id" :ref="`ref-${event.id}`">
-					<div class="d-flex justify-content-between align-items center small">
+				<b-card
+					v-else
+					class="mt-2"
+					:style="{ 'background-color': event.color ? event.color.hex + '!important' : '#17a2b8' }"
+					v-for="event in upcomingEvents"
+					:key="event.id"
+					:ref="`ref-${event.id}`"
+				>
+					<div class="d-flex justify-content-between align-items center small text-light">
 						<router-link class="text-light" :to="'events/view/' + event.id" replace>
 							<span class="font-weight-bold">{{ event.title }}</span>
 						</router-link>
@@ -104,6 +128,39 @@
 						</div>
 					</b-collapse>
 				</b-card>
+				<h3 class="m-2 mt-4" v-if="pastEvents.length > 0" v-b-toggle="'showPast'">Past Events <b-icon icon="chevron-down" class="float-right mr-2" v-if="pastEvents.length > 0"></b-icon></h3>
+				<b-collapse :id="'showPast'">
+					<b-card
+						class="mt-2"
+						:style="{ 'background-color': event.color ? event.color.hex + '!important' : '#17a2b8' }"
+						v-for="event in pastEvents"
+						:key="event.id"
+						:ref="`ref-${event.id}`"
+					>
+						<div class="d-flex justify-content-between align-items center small text-light">
+							<router-link class="text-light" :to="'events/view/' + event.id" replace>
+								<span class="font-weight-bold">{{ event.title }}</span>
+							</router-link>
+							{{ prettyDate(event.date) }}
+							{{ prettyTime(event.startTime) }}-{{ prettyTime(event.endTime) }}
+							<b-icon icon="chevron-down" class="float-right" v-b-toggle="'desc' + event.id" v-if="event.location || event.people || event.bring || event.notes"></b-icon>
+						</div>
+						<b-collapse :id="'desc' + event.id">
+							<div class="p-2 text-light">
+								<div v-if="event.location">
+									Location: <span class="font-weight-bold">{{ event.location }}</span>
+								</div>
+								<div v-if="event.people">
+									With: <span class="font-weight-bold">{{ event.people }}</span>
+								</div>
+								<div v-if="event.bring">
+									Bring: <span class="font-weight-bold">{{ event.bring }}</span>
+								</div>
+								<div v-if="event.notes">Notes: {{ event.notes }}</div>
+							</div>
+						</b-collapse>
+					</b-card>
+				</b-collapse>
 			</div>
 			<b-spinner v-else class="m-auto" variant="info" label="Spinning"></b-spinner>
 		</div>
@@ -156,6 +213,10 @@ export default class Calendar extends Vue {
 		return this.events.filter((event: any) => moment(event.date) >= moment());
 	}
 
+	get pastEvents() {
+		return this.events.filter((event: any) => moment(event.date) < moment());
+	}
+
 	get isLoading() {
 		return this.loading;
 	}
@@ -179,7 +240,7 @@ export default class Calendar extends Vue {
 	scrollTo(value: string) {
 		const refName = `ref-${value}`;
 		// (this.$refs[refName] as HTMLElement).scrollIntoView({ behavior: 'smooth' });
-		const element = (this.$refs[refName] as Element[]);
+		const element = this.$refs[refName] as Element[];
 		element[0].scrollIntoView();
 	}
 }

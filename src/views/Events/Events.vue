@@ -15,7 +15,7 @@
 				<b-list-group v-if="upcomingEvents.length > 0" class="mx-2">
 					<b-list-group-item v-for="event in upcomingEvents" :key="event.id" :to="'events/view/' + event.id" replace>
 						<div class="d-flex justify-content-between">
-							<strong :style="{'color': event.color ? event.color.hex +'!important' : '#17a2b8'}">{{ event.title }}</strong>
+							<strong :style="{ color: event.color ? event.color.hex + '!important' : '#17a2b8' }">{{ event.title }}</strong>
 							<div class="font-weight-light">
 								<span class="small text-info">{{ prettyTime(event.startTime) }}-{{ prettyTime(event.endTime) }}</span> {{ prettyDate(event.date) }}
 							</div>
@@ -32,7 +32,7 @@
 					<b-list-group class="mx-2">
 						<b-list-group-item v-for="event in pastEvents.reverse()" :key="event.id" :to="'events/view/' + event.id" replace>
 							<div class="d-flex justify-content-between">
-								<strong :style="{'color': event.color ? event.color.hex +'!important' : '#17a2b8'}">{{ event.title }}</strong>
+								<strong :style="{ color: event.color ? event.color.hex + '!important' : '#17a2b8' }">{{ event.title }}</strong>
 								<div class="font-weight-light">
 									<span class="small text-info">{{ prettyTime(event.startTime) }}-{{ prettyTime(event.endTime) }}</span> {{ prettyDate(event.date) }}
 								</div>

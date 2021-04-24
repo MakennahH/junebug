@@ -13,12 +13,13 @@
 					<b-form-timepicker class="mb-2" placeholder="Start time" v-model="startTime" required></b-form-timepicker>
 					<b-form-timepicker class="mb-2" placeholder="End time" v-model="endTime" required></b-form-timepicker>
 				</div>
-				<b-form-input class="mb-2" placeholder="Location" v-model="location"></b-form-input>
+				<vue-google-autocomplete class="mb-2" ref="address" id="map" classname="form-control" placeholder="Location" v-model="location" v-on:placechanged="getAddressData" country="us">
+				</vue-google-autocomplete>
 				<b-form-input class="mb-2" placeholder="With who?" v-model="people"></b-form-input>
 				<b-form-input class="mb-2" placeholder="What to bring" v-model="bring"></b-form-input>
 				<b-form-textarea class="textarea mb-2" v-model="notes" placeholder="Extra notes" maxRows="8" no-auto-shrink no-resize></b-form-textarea>
 				<!-- <b-form-checkbox class="mb-2" v-model="leaveReminder">Remind me when to leave</b-form-checkbox> -->
-				
+
 				<div>Color:</div>
 				<div class="d-flex justify-content-center mt-2"><compact-picker v-model="colors"></compact-picker></div>
 				<div>Applies:</div>
@@ -53,10 +54,12 @@
 	</div>
 </template>
 
+
 <script lang="ts">
 import { EventModel } from "@/models/scheduling";
-import { Component, Vue } from "vue-property-decorator";
 import { Compact } from "vue-color";
+import { Component, Vue } from "vue-property-decorator";
+
 @Component({
 	components: {
 		"compact-picker": Compact,
@@ -90,6 +93,10 @@ export default class AddEvent extends Vue {
 				return event.id === this.$route.params.id;
 			});
 		}
+	}
+
+	getAddressData(addressData, placeResultData, id) {
+		this.event.location = placeResultData.formatted_address;
 	}
 
 	get events() {

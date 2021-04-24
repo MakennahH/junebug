@@ -16,8 +16,8 @@
 					<div class="d-flex justify-content-between">
 						<div class="font-weight-bold">{{ prettyDate(event.date) }}</div>
 						<div class="text-info">{{ prettyTime(event.startTime) }} - {{ prettyTime(event.endTime) }}</div>
-						<div class="text-secondary">{{ event.location }}</div>
 					</div>
+					<div class="text-secondary">{{ event.location }}</div>
 					<div class="pt-2 pr-2" v-if="event.people != ''">
 						<span class="font-weight-bold">With: </span>
 						<span class="font-weight-light">{{ event.people }}</span>
@@ -39,7 +39,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import moment from "moment";
-@Component({ })
+@Component({})
 export default class ViewEvent extends Vue {
 	private id = this.$route.params.id;
 	private loading = true;
@@ -74,7 +74,7 @@ export default class ViewEvent extends Vue {
 				centered: true,
 				okVariant: "info",
 			})
-			.then(value => {
+			.then((value) => {
 				if (value) {
 					try {
 						this.$store.dispatch("deleteEvent", { id: this.$route.params.id }).then(() => {

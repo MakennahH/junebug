@@ -13,6 +13,9 @@ import "@/assets/css/darkmode.css";
 
 import ToggleButton from "vue-js-toggle-button";
 
+import VueGoogleAutocomplete from "vue-google-autocomplete/src/VueGoogleAutocomplete.vue"
+Vue.component("vue-google-autocomplete", VueGoogleAutocomplete);
+
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(ToggleButton);

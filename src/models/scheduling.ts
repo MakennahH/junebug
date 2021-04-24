@@ -59,7 +59,7 @@ export class EventModel {
 	endTime: Date | null;
 	date: Date | null;
 	people: string;
-	location: string;
+	location: {};
 	bring: string;
 	notes: string;
 	leaveReminder: boolean;
@@ -75,7 +75,7 @@ export class EventModel {
 		this.endTime = null;
 		this.date = null;
 		this.people = "";
-		this.location = "";
+		this.location = {};
 		this.bring = "";
 		this.notes = "";
 		this.leaveReminder = false;
