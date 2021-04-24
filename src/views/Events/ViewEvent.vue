@@ -12,7 +12,7 @@
 		<div class="row has-header">
 			<div class="col mx-2">
 				<b-card>
-					<h3>{{ event.title }}</h3>
+					<h3 :style="{ color: event.color ? event.color.hex + '!important' : '#17a2b8' }">{{ event.title }}</h3>
 					<div class="d-flex justify-content-between">
 						<div class="font-weight-bold">{{ prettyDate(event.date) }}</div>
 						<div class="text-info">{{ prettyTime(event.startTime) }} - {{ prettyTime(event.endTime) }}</div>

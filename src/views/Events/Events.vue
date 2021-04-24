@@ -30,15 +30,15 @@
 				<h3 class="m-2 mt-4" v-if="pastEvents.length > 0" v-b-toggle="'showPast'">Past Events <b-icon icon="chevron-down" class="float-right mr-2" v-if="pastEvents.length > 0"></b-icon></h3>
 				<b-collapse :id="'showPast'">
 					<b-list-group class="mx-2">
-						<b-list-group-item v-for="event in pastEvents.reverse()" :key="event.id" :to="'events/view/' + event.id" replace>
+						<b-list-group-item v-for="event in pastEvents.reverse()" :key="event.id" :to="'events/view/' + event.id" class="bg-depreciated" replace>
 							<div class="d-flex justify-content-between">
 								<strong :style="{ color: event.color ? event.color.hex + '!important' : '#17a2b8' }">{{ event.title }}</strong>
-								<div class="font-weight-light">
+								<div class="font-weight-light text-secondary">
 									<span class="small text-info">{{ prettyTime(event.startTime) }}-{{ prettyTime(event.endTime) }}</span> {{ prettyDate(event.date) }}
 								</div>
 							</div>
-							<div>{{ event.location }}</div>
-							<div>{{ event.whatToBring }}</div>
+							<div class="text-secondary">{{ event.location }}</div>
+							<div class="text-secondary">{{ event.whatToBring }}</div>
 						</b-list-group-item>
 					</b-list-group>
 				</b-collapse>

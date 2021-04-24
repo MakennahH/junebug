@@ -16,12 +16,12 @@
 					<!-- closest deadlines bubble to the top, within 12 hours timestamp is blue, overdue timestamp is red -->
 					<b-list-group-item v-for="task in incompletedTasks" :key="task.id" :to="'tasks/view/' + task.id" replace>
 						<div class="d-flex justify-content-between">
-							<strong>{{ task.title }}</strong>
+							<strong :style="{ color: task.color ? task.color.hex + '!important' : '#17a2b8' }">{{ task.title }}</strong>
 							<div :class="{ 'text-danger': prettyDate(task.dueDate, task.dueTime).isOverDue, 'text-info': prettyDate(task.dueDate, task.dueTime).isDueSoon }">
 								{{ prettyDate(task.dueDate, task.dueTime).date }} {{ prettyTime(task.dueTime) }}
 							</div>
 						</div>
-						<div class="text-truncate">{{ task.desc }}</div>
+						<div class="text-truncate">{{ task.notes }}</div>
 					</b-list-group-item>
 				</b-list-group>
 				<b-card v-else class="card-secondary text-center mx-2">
@@ -32,14 +32,14 @@
 				</h3>
 				<b-collapse :id="'showPast'">
 					<b-list-group class="mx-2">
-						<b-list-group-item v-for="task in completedTasks" :key="task.id" :to="'tasks/view/' + task.id" replace>
-							<div class="d-flex justify-content-between text-secondary">
-								<strong>{{ task.title }}</strong>
-								<div>
+						<b-list-group-item v-for="task in completedTasks" :key="task.id" :to="'tasks/view/' + task.id" class="bg-depreciated" replace>
+							<div class="d-flex justify-content-between">
+								<strong :style="{ color: task.color ? task.color.hex + '!important' : '#17a2b8' }">{{ task.title }}</strong>
+								<div class="text-secondary">
 									{{ prettyDate(task.dueDate, task.dueTime).date }} {{ prettyTime(task.dueTime) }}
 								</div>
 							</div>
-							<div class="text-truncate">{{ task.desc }}</div>
+							<div class="text-truncate text-secondary">{{ task.notes }}</div>
 						</b-list-group-item>
 					</b-list-group>
 				</b-collapse>

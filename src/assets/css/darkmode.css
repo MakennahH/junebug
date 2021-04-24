@@ -49,3 +49,16 @@
 .dark-mode .modal-dialog > div{
 	background-color: #343a40;
 }
+
+.dark-mode .calendar-day {
+	border-color: #444;
+}
+.dark-mode .bg-emphasized {
+	background: #555 !important;
+}
+.dark-mode .bg-depreciated {
+	background: #191919 !important;
+}
+.dark-mode .bg-today {
+	background: #777 !important;
+}

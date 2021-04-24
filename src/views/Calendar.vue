@@ -254,25 +254,5 @@ export default class Calendar extends Vue {
 	top: 0;
 	left: 0;
 }
-.dark-mode .calendar-day {
-	border-color: #444;
-}
-.dark-mode .bg-emphasized {
-	background: #555 !important;
-}
-.dark-mode .bg-depreciated {
-	background: #191919 !important;
-}
-.dark-mode .bg-today {
-	background: #777 !important;
-}
-.bg-emphasized {
-	background: #eeffdb !important;
-}
-.bg-depreciated {
-	background: #f5f5f5 !important;
-}
-.bg-today {
-	background: #d9ffad !important;
-}
+
 </style>

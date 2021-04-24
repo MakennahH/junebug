@@ -12,7 +12,7 @@
 		<div class="row has-header">
 			<div class="col mx-2">
 				<b-card>
-					<h3>{{ task.title }}</h3>
+					<h3 :style="{ color: task.color ? task.color.hex + '!important' : '#17a2b8' }">{{ task.title }}</h3>
 					<div class="d-flex justify-content-between">
 						<!-- dont change this. for some reason it breaks any other way -->
 						<div class="text-secondary" :class="{ 'text-danger': isOverdue }">{{ this.isOverDue ? toNow() : fromNow() }}</div>

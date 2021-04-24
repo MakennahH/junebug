@@ -141,3 +141,13 @@ body {
 	background-color: #eeffdb !important;
 	color: #000 !important;
 }
+
+.bg-emphasized {
+	background: #eeffdb !important;
+}
+.bg-depreciated {
+	background: #f5f5f5 !important;
+}
+.bg-today {
+	background: #d9ffad !important;
+}
