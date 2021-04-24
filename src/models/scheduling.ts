@@ -102,6 +102,7 @@ export class TaskModel {
 	timeEstimate: number;
 	dailyReminder: boolean;
 	daysInAdvance: number;
+	completed: boolean;
 	notes: string;
 	color: {};
 
@@ -113,6 +114,7 @@ export class TaskModel {
 		this.timeEstimate = 1;
 		this.dailyReminder = false;
 		this.daysInAdvance = 1;
+		this.completed = false;
 		this.notes = "";
 		this.color = {
 			hex: '#17a2b8',

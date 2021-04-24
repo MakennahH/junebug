@@ -273,6 +273,7 @@ export default {
 					timeEstimate: data.timeEstimate,
 					dailyReminder: data.dailyReminder,
 					daysInAdvance: data.daysInAdvance,
+					completed: data.completed,
 					notes: data.notes,
 					color: data.color,
 				})
@@ -318,6 +319,7 @@ export default {
 					timeEstimate: task.timeEstimate,
 					dailyReminder: task.dailyReminder,
 					daysInAdvance: task.daysInAdvance,
+					completed: task.completed,
 					notes: task.notes,
 					color: task.color,
 				})

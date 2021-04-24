@@ -21,7 +21,11 @@
 					<div class="pt-2">
 						{{ task.notes }}
 					</div>
-					<b-button @click="deleteTask" variant="info" class="float-right mt-2"><b-icon-check></b-icon-check>complete</b-button>
+					<b-button @click="deleteTask" variant="danger" class="mt-2"><b-icon-trash></b-icon-trash></b-button>
+
+					<b-button @click="toggleComplete()" :variant="task.completed ? 'warning' : 'info'" class="float-right mt-2">
+						<b-icon :icon="task.completed ? 'x' : 'check'"></b-icon>{{ task.completed ? "mark as incomplete" : "done!" }}
+					</b-button>
 				</b-card>
 			</div>
 		</div>
@@ -41,7 +45,7 @@ export default class ViewTask extends Vue {
 		this.loading = true;
 		this.$store.dispatch("getTasks").finally(() => {
 			this.loading = false;
-			if (moment(this.task.dueDate).add(this.task.dueTime) < moment()) {
+			if (moment(this.task.dueDate).add(this.task.dueTime) < moment() && !this.task.completed) {
 				this.isOverdue = true;
 			}
 		});
@@ -58,15 +62,11 @@ export default class ViewTask extends Vue {
 	}
 
 	toNow() {
-		return moment(this.task.dueDate)
-			.add(this.task.dueTime)
-			.toNow();
+		return moment(this.task.dueDate).add(this.task.dueTime).toNow();
 	}
 
 	fromNow() {
-		return moment(this.task.dueDate)
-			.add(this.task.dueTime)
-			.fromNow();
+		return moment(this.task.dueDate).add(this.task.dueTime).fromNow();
 	}
 
 	prettyTime() {
@@ -77,14 +77,41 @@ export default class ViewTask extends Vue {
 		return moment(this.task.dueDate).format("dddd M/D/YY");
 	}
 
+	toggleComplete() {
+		try {
+			this.$store
+				.dispatch("updateTask", {
+					id: this.$route.params.id,
+					title: this.task.title,
+					dueDate: this.task.dueDate,
+					dueTime: this.task.dueTime,
+					timeEstimate: this.task.timeEstimate,
+					dailyReminder: this.task.dailyReminder,
+					daysInAdvance: this.task.daysInAdvance,
+					completed: !this.task.completed,
+					notes: this.task.notes,
+					color: this.task.color,
+				})
+				.then(() => {
+					this.$router.replace("/tasks");
+				});
+		} catch (error) {
+			this.$bvToast.toast(error.message, {
+				title: `Error Occured`,
+				variant: "danger",
+				solid: true,
+			});
+		}
+	}
+
 	deleteTask() {
 		this.$bvModal
-			.msgBoxConfirm("Are you sure you want to mark this task complete? It cannot be undone", {
+			.msgBoxConfirm("Are you sure you want to delete this task?", {
 				hideHeader: true,
 				centered: true,
 				okVariant: "info",
 			})
-			.then(value => {
+			.then((value) => {
 				if (value) {
 					try {
 						this.$store.dispatch("deleteTask", { id: this.$route.params.id }).then(() => {

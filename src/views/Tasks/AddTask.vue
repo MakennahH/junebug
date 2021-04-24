@@ -135,6 +135,7 @@ export default class AddTask extends Vue {
 						dailyReminder: this.task.dailyReminder,
 						daysInAdvance: this.task.daysInAdvance,
 						notes: this.task.notes,
+						completed: this.task.completed,
 						color: this.task.color
 					})
 					.then(() => {
@@ -157,6 +158,7 @@ export default class AddTask extends Vue {
 						timeEstimate: this.task.timeEstimate,
 						dailyReminder: this.task.dailyReminder,
 						daysInAdvance: this.task.daysInAdvance,
+						completed: false,
 						notes: this.task.notes,
 						color: this.task.color
 					})
