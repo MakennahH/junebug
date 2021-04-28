@@ -164,7 +164,7 @@ export default class Today extends Vue {
 	// }
 
 	get events() {
-		return this.$store.state.scheduling.events.filter((event: any) => moment(event.date).add(event.startTime) >= this.startOfToday && moment(event.date).add(event.startTime) <= this.endOfToday);
+		return this.$store.state.scheduling.events.filter((event: any) => moment(event.date).add(event.startTime) >= this.startOfToday && moment(event.date).add(event.startTime) <= this.endOfToday || (event.startTime >= this.startTime && event.days[moment().day()]) || (event.startTime < this.startTime && event.days[moment().add(1, "days").day()]));
 	}
 
 	get tasks() {

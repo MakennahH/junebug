@@ -16,10 +16,12 @@
 							<div class="small position-absolute date-number">{{ lastMonthNumDays - leadingDays + index + 1 }}</div>
 							<div v-for="event in events" :key="event.id">
 								<b-icon
-									v-if="getDate(event.date) == lastMonthNumDays - index && getMonth() - getMonth(event.date) == 1"
+									v-if="
+										(!isWeeklyRecurring(event) && getDate(event.date) == lastMonthNumDays - index && getMonth() - getMonth(event.date) == 1) ||
+										(isWeeklyRecurring(event) && checkDay(event, index, 'past'))
+									"
 									:style="{ color: event.color ? event.color.hex : '#17a2b8' }"
 									@click="scrollTo(event.id)"
-									variant="info"
 									icon="square-fill"
 								></b-icon>
 							</div>
@@ -37,7 +39,10 @@
 							<div class="small position-absolute date-number">{{ index + 1 }}</div>
 							<div v-for="event in events" :key="event.id">
 								<b-icon
-									v-if="getDate(event.date) == index + 1 && getMonth(event.date) == getMonth()"
+									v-if="
+										(!isWeeklyRecurring(event) && getDate(event.date) == index + 1 && getMonth(event.date) == getMonth()) ||
+										(isWeeklyRecurring(event) && checkDay(event, index, 'current'))
+									"
 									:style="{ color: event.color ? event.color.hex : '#17a2b8' }"
 									@click="scrollTo(event.id)"
 									icon="square-fill"
@@ -50,10 +55,12 @@
 							<div class="small position-absolute date-number">{{ index + 1 }}</div>
 							<div v-for="event in events" :key="event.id">
 								<b-icon
-									v-if="getDate(event.date) == index + 1 && getMonth(event.date) - getMonth() == 1"
+									v-if="
+										(!isWeeklyRecurring(event) && getDate(event.date) == index + 1 && getMonth(event.date) - getMonth() == 1) ||
+										(isWeeklyRecurring(event) && checkDay(event, index, 'next'))
+									"
 									:style="{ color: event.color ? event.color.hex : '#17a2b8' }"
 									@click="scrollTo(event.id)"
-									variant="info"
 									icon="square-fill"
 								></b-icon>
 							</div>
@@ -69,16 +76,16 @@
 						:style="{ 'background-color': event.color ? event.color.hex + '!important' : '#17a2b8' }"
 						:ref="`ref-${event.id}`"
 					>
-						<div class="d-flex justify-content-between align-items center small text-light">
-							<router-link :to="'events/view/' + event.id" replace>
-								<span class="font-weight-bold">{{ event.title }}</span>
+						<div class="d-flex justify-content-end align-items-center small text-light">
+							<router-link class="mr-auto" :to="'events/view/' + event.id" replace>
+								<span class="font-weight-bold text-light">{{ event.title }}</span>
 							</router-link>
-							{{ prettyDate(event.date) }}
+							{{ isWeeklyRecurring(event) ? formattedDays(event) : prettyDate(event.date) }}
 							{{ prettyTime(event.startTime) }}-{{ prettyTime(event.endTime) }}
-							<b-icon icon="chevron-down" class="float-right" v-b-toggle="'desc' + event.id" v-if="event.location || event.people || event.bring || event.notes"></b-icon>
+							<b-icon icon="chevron-down" class="ml-2" v-b-toggle="'today-desc' + event.id" v-if="event.location || event.people || event.bring || event.notes"></b-icon>
 						</div>
-						<b-collapse :id="'desc' + event.id">
-							<div class="p-2 text-light">
+						<b-collapse :id="'today-desc' + event.id">
+							<div class="py-2 text-light">
 								<div v-if="event.location">
 									Location: <span class="font-weight-bold">{{ event.location }}</span>
 								</div>
@@ -105,16 +112,16 @@
 					:key="event.id"
 					:ref="`ref-${event.id}`"
 				>
-					<div class="d-flex justify-content-between align-items center small text-light">
-						<router-link class="text-light" :to="'events/view/' + event.id" replace>
+					<div class="d-flex justify-content-end align-items-center small text-light">
+						<router-link class="text-light mr-auto" :to="'events/view/' + event.id" replace>
 							<span class="font-weight-bold">{{ event.title }}</span>
 						</router-link>
-						{{ prettyDate(event.date) }}
+						{{ isWeeklyRecurring(event) ? formattedDays(event) : prettyDate(event.date) }}
 						{{ prettyTime(event.startTime) }}-{{ prettyTime(event.endTime) }}
-						<b-icon icon="chevron-down" class="float-right" v-b-toggle="'desc' + event.id" v-if="event.location || event.people || event.bring || event.notes"></b-icon>
+						<b-icon icon="chevron-down" class="ml-2" v-b-toggle="'desc' + event.id" v-if="event.location || event.people || event.bring || event.notes"></b-icon>
 					</div>
 					<b-collapse :id="'desc' + event.id">
-						<div class="p-2 text-light">
+						<div class="py-2 text-light">
 							<div v-if="event.location">
 								Location: <span class="font-weight-bold">{{ event.location }}</span>
 							</div>
@@ -130,23 +137,17 @@
 				</b-card>
 				<h3 class="m-2 mt-4" v-if="pastEvents.length > 0" v-b-toggle="'showPast'">Past Events <b-icon icon="chevron-down" class="float-right mr-2" v-if="pastEvents.length > 0"></b-icon></h3>
 				<b-collapse :id="'showPast'">
-					<b-card
-						class="mt-2"
-						:style="{ 'background-color': event.color ? event.color.hex + '!important' : '#17a2b8' }"
-						v-for="event in pastEvents"
-						:key="event.id"
-						:ref="`ref-${event.id}`"
-					>
-						<div class="d-flex justify-content-between align-items center small text-light">
-							<router-link class="text-light" :to="'events/view/' + event.id" replace>
+					<b-card class="mt-2" :style="{ 'background-color': event.color ? event.color.hex + '!important' : '#17a2b8' }" v-for="event in pastEvents" :key="event.id" :ref="`ref-${event.id}`">
+						<div class="d-flex justify-content-end align-items-center small text-light">
+							<router-link class="text-light mr-auto" :to="'events/view/' + event.id" replace>
 								<span class="font-weight-bold">{{ event.title }}</span>
 							</router-link>
-							{{ prettyDate(event.date) }}
+							{{ isWeeklyRecurring(event) ? formattedDays(event) : prettyDate(event.date) }}
 							{{ prettyTime(event.startTime) }}-{{ prettyTime(event.endTime) }}
-							<b-icon icon="chevron-down" class="float-right" v-b-toggle="'desc' + event.id" v-if="event.location || event.people || event.bring || event.notes"></b-icon>
+							<b-icon icon="chevron-down" class="ml-2" v-b-toggle="'desc' + event.id" v-if="event.location || event.people || event.bring || event.notes"></b-icon>
 						</div>
 						<b-collapse :id="'desc' + event.id">
-							<div class="p-2 text-light">
+							<div class="py-2 text-light">
 								<div v-if="event.location">
 									Location: <span class="font-weight-bold">{{ event.location }}</span>
 								</div>
@@ -183,6 +184,15 @@ export default class Calendar extends Vue {
 	private lastMonthNumDays = 0;
 	private weekStart = 0;
 	private weekEnd = 0;
+	private theseWeekdays = [
+		{ text: "Sun", value: "sunday", index: 0 },
+		{ text: "Mon", value: "monday", index: 1 },
+		{ text: "Tue", value: "tuesday", index: 2 },
+		{ text: "Wed", value: "wednesday", index: 3 },
+		{ text: "Thu", value: "thursday", index: 4 },
+		{ text: "Fri", value: "friday", index: 5 },
+		{ text: "Sat", value: "saturday", index: 6 },
+	];
 
 	created() {
 		this.month = moment().format("MMMM");
@@ -201,20 +211,91 @@ export default class Calendar extends Vue {
 		});
 	}
 
+	formattedDays(event: any) {
+		let daysString = "";
+		let dayIndex = 0;
+		let everyDay = true;
+		let weekDays = true;
+		let weekEnds = true;
+		// check if every day
+		for (const day of event.days) {
+			if (day == true) {
+				daysString += this.theseWeekdays[dayIndex].text + " ";
+			} else {
+				everyDay = false;
+			}
+			dayIndex++;
+		}
+		// check if week days
+		if (!event.days[0] && !event.days[6]) {
+			for (let i = 1; i < 6; i++) {
+				if (!event.days[i]) {
+					weekDays = false;
+				}
+			}
+		} else {
+			weekDays = false;
+		}
+		// check if weekends
+		if (event.days[0] && event.days[6]) {
+			for (let j = 1; j < 6; j++) {
+				if (event.days[j]) {
+					weekEnds = false;
+				}
+			}
+		} else {
+			weekEnds = false;
+		}
+		return everyDay ? "Every day" : weekDays ? "Weekdays" : weekEnds ? "Weekends" : daysString;
+	}
+
+	checkDay(event, index: number, monthType: string) {
+		let data;
+		switch (monthType){
+			case "past":
+				index = this.lastMonthNumDays - this.leadingDays + index + 1
+				data = moment().subtract(1, "month").date(index);
+				break;
+			case "current":
+				index = index + 1;
+				data = moment().date(index);
+				break;
+			case "next":
+				index = index + 1;
+				data = moment().add(1, "month").date(index);
+				break;
+		}
+		
+		const refinedData = moment(data).day();
+		console.log(monthType+refinedData);
+		return event.days[refinedData];
+	}
+
 	get events() {
 		return this.$store.state.scheduling.events;
 	}
 
 	get todaysEvents() {
-		return this.events.filter((event: any) => moment(event.date) >= moment().startOf("day") && moment(event.date) <= moment().endOf("day"));
-	}
-
-	get upcomingEvents() {
-		return this.events.filter((event: any) => moment(event.date) >= moment());
+		return this.events.filter(
+			(event: any) => (moment(event.date) >= moment().startOf("day") && moment(event.date) <= moment().endOf("day")) || (this.isWeeklyRecurring(event) && event.days[moment().day()])
+		);
 	}
 
 	get pastEvents() {
-		return this.events.filter((event: any) => moment(event.date) < moment());
+		return this.events.filter((event: any) => moment(event.date) < moment() && !this.isWeeklyRecurring(event));
+	}
+
+	get upcomingEvents() {
+		return this.events.filter((event: any) => moment(event.date) >= moment() || this.isWeeklyRecurring(event));
+	}
+
+	isWeeklyRecurring(event: any) {
+		for (const day of event.days) {
+			if (day) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	get isLoading() {
@@ -254,5 +335,4 @@ export default class Calendar extends Vue {
 	top: 0;
 	left: 0;
 }
-
 </style>

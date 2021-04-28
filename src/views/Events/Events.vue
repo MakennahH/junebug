@@ -17,11 +17,12 @@
 						<div class="d-flex justify-content-between">
 							<strong :style="{ color: event.color ? event.color.hex + '!important' : '#17a2b8' }">{{ event.title }}</strong>
 							<div class="font-weight-light">
-								<span class="small text-info">{{ prettyTime(event.startTime) }}-{{ prettyTime(event.endTime) }}</span> {{ prettyDate(event.date) }}
+								{{ isWeeklyRecurring(event)? formattedDays(event) : prettyDate(event.date) }} <span class="small text-info">{{ prettyTime(event.startTime) }}-{{ prettyTime(event.endTime) }}</span>
 							</div>
 						</div>
-						<div>{{ event.location }}</div>
+						<div class="text-secondary">{{ event.location }}</div>
 						<div>{{ event.whatToBring }}</div>
+						
 					</b-list-group-item>
 				</b-list-group>
 				<b-card v-else class="card-secondary text-center mx-2">
@@ -34,7 +35,7 @@
 							<div class="d-flex justify-content-between">
 								<strong :style="{ color: event.color ? event.color.hex + '!important' : '#17a2b8' }">{{ event.title }}</strong>
 								<div class="font-weight-light text-secondary">
-									<span class="small text-info">{{ prettyTime(event.startTime) }}-{{ prettyTime(event.endTime) }}</span> {{ prettyDate(event.date) }}
+									{{ isWeeklyRecurring(event)? formattedDays(event) : prettyDate(event.date) }} <span class="small text-info">{{ prettyTime(event.startTime) }}-{{ prettyTime(event.endTime) }}</span>
 								</div>
 							</div>
 							<div class="text-secondary">{{ event.location }}</div>
@@ -58,6 +59,15 @@ import moment from "moment";
 @Component({})
 export default class Events extends Vue {
 	private loading = true;
+	private theseWeekdays = [
+		{ text: "Sun", value: "sunday", index: 0 },
+		{ text: "Mon", value: "monday", index: 1 },
+		{ text: "Tue", value: "tuesday", index: 2 },
+		{ text: "Wed", value: "wednesday", index: 3 },
+		{ text: "Thu", value: "thursday", index: 4 },
+		{ text: "Fri", value: "friday", index: 5 },
+		{ text: "Sat", value: "saturday", index: 6 },
+	];
 
 	get isLoading() {
 		return this.loading;
@@ -68,11 +78,58 @@ export default class Events extends Vue {
 	}
 
 	get pastEvents() {
-		return this.events.filter((event: any) => moment(event.date) < moment());
+		return this.events.filter((event: any) => moment(event.date) < moment() && !this.isWeeklyRecurring(event));
 	}
 
 	get upcomingEvents() {
-		return this.events.filter((event: any) => moment(event.date) >= moment());
+		return this.events.filter((event: any) => moment(event.date) >= moment() || this.isWeeklyRecurring(event));
+	}
+
+	isWeeklyRecurring(event: any) {
+		for (const day of event.days) {
+			if (day) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	formattedDays(event: any) {
+		let daysString = "";
+		let dayIndex = 0;
+		let everyDay = true;
+		let weekDays = true;
+		let weekEnds = true;
+		// check if every day
+		for (const day of event.days) {
+			if (day == true) {
+				daysString += this.theseWeekdays[dayIndex].text + " ";
+			} else {
+				everyDay = false;
+			}
+			dayIndex++;
+		}
+		// check if week days
+		if (!event.days[0] && !event.days[6]) {
+			for (let i = 1; i < 6; i++) {
+				if (!event.days[i]) {
+					weekDays = false;
+				}
+			}
+		} else {
+			weekDays = false;
+		}
+		// check if weekends
+		if (event.days[0] && event.days[6]) {
+			for (let j = 1; j < 6; j++) {
+				if (event.days[j]) {
+					weekEnds = false;
+				}
+			}
+		} else {
+			weekEnds = false;
+		}
+		return everyDay ? "Every day" : weekDays ? "Weekdays" : weekEnds ? "Weekends" : daysString;
 	}
 
 	prettyTime(data: any) {
