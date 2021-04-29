@@ -130,7 +130,7 @@ export default class Today extends Vue {
 										this.dayTimeLine[i] = [];
 									}
 									this.dayTimeLine[i].push(event);
-								} else if (i != 0 && this.timeToInt(event.startTime) == i - 1 && event.endTime > comparison) {
+								} else if (i != 0 && this.timeToInt(event.startTime) <= i - 1 && event.endTime > comparison) {
 									event.name = "event";
 									const duplicate = Object.assign({}, event);
 									duplicate.isDuplicate = true;
