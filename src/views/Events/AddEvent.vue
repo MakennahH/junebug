@@ -23,7 +23,7 @@
 				<div>Color:</div>
 				<div class="d-flex justify-content-center mt-2"><compact-picker v-model="colors"></compact-picker></div>
 				<div>Applies:</div>
-				<b-form-datepicker v-model="date" class="mb-2" placeholder="Calendar date"></b-form-datepicker>
+				<b-form-datepicker v-model="date" class="mb-2" placeholder="Calendar date" required></b-form-datepicker>
 				<b-button variant="outline-secondary" block class="d-flex align-items-center justify-content-between" v-b-toggle.recurring>
 					<div>Recurring</div>
 					<b-icon icon="chevron-down"></b-icon>

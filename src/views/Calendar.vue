@@ -40,8 +40,8 @@
 							<div v-for="event in events" :key="event.id">
 								<b-icon
 									v-if="
-										(!isWeeklyRecurring(event) && getDate(event.date) == index + 1 && getMonth(event.date) == getMonth()) ||
-										(isWeeklyRecurring(event) && checkDay(event, index, 'current'))
+										(!isWeeklyRecurring(event) && !event.recurringYearly && getDate(event.date) == index + 1 && getMonth(event.date) == getMonth() && getYear(event.date) == getYear())||
+										(isWeeklyRecurring(event) && checkDay(event, index, 'current') || event.recurringYearly && getDate(event.date) == index + 1 && getMonth(event.date) == getMonth())
 									"
 									:style="{ color: event.color ? event.color.hex : '#17a2b8' }"
 									@click="scrollTo(event.id)"
@@ -50,7 +50,7 @@
 								>
 							</div>
 						</b-card>
-						<!-- first few days of next month -->
+						<!-- first few days of next month GET MONTHLY TO SHOW UP-->
 						<b-card class="calendar-day" v-for="(trailingDay, index) of trailingDays" :key="'next' + index" :class="weekStart >= 23 && today > 6 ? 'bg-emphasized' : 'bg-depreciated'">
 							<div class="small position-absolute date-number">{{ index + 1 }}</div>
 							<div v-for="event in events" :key="event.id">
@@ -80,7 +80,15 @@
 							<router-link class="mr-auto" :to="'events/view/' + event.id" replace>
 								<span class="font-weight-bold text-light">{{ event.title }}</span>
 							</router-link>
-							{{ isWeeklyRecurring(event) ? formattedDays(event) : prettyDate(event.date) }}
+							{{
+								isWeeklyRecurring(event)
+									? formattedDays(event)
+									: event.recurringYearly
+									? prettyDateYearly(event.date)
+									: event.recurringMonthly
+									? prettyDateMonthly(event.date)
+									: prettyDate(event.date)
+							}}
 							{{ prettyTime(event.startTime) }}-{{ prettyTime(event.endTime) }}
 							<b-icon icon="chevron-down" class="ml-2" v-b-toggle="'today-desc' + event.id" v-if="event.location || event.people || event.bring || event.notes"></b-icon>
 						</div>
@@ -116,7 +124,15 @@
 						<router-link class="text-light mr-auto" :to="'events/view/' + event.id" replace>
 							<span class="font-weight-bold">{{ event.title }}</span>
 						</router-link>
-						{{ isWeeklyRecurring(event) ? formattedDays(event) : prettyDate(event.date) }}
+						{{
+							isWeeklyRecurring(event)
+								? formattedDays(event)
+								: event.recurringYearly
+								? prettyDateYearly(event.date)
+								: event.recurringMonthly
+								? prettyDateMonthly(event.date)
+								: prettyDate(event.date)
+						}}
 						{{ prettyTime(event.startTime) }}-{{ prettyTime(event.endTime) }}
 						<b-icon icon="chevron-down" class="ml-2" v-b-toggle="'desc' + event.id" v-if="event.location || event.people || event.bring || event.notes"></b-icon>
 					</div>
@@ -142,7 +158,15 @@
 							<router-link class="text-light mr-auto" :to="'events/view/' + event.id" replace>
 								<span class="font-weight-bold">{{ event.title }}</span>
 							</router-link>
-							{{ isWeeklyRecurring(event) ? formattedDays(event) : prettyDate(event.date) }}
+							{{
+								isWeeklyRecurring(event)
+									? formattedDays(event)
+									: event.recurringYearly
+									? prettyDateYearly(event.date)
+									: event.recurringMonthly
+									? prettyDateMonthly(event.date)
+									: prettyDate(event.date)
+							}}
 							{{ prettyTime(event.startTime) }}-{{ prettyTime(event.endTime) }}
 							<b-icon icon="chevron-down" class="ml-2" v-b-toggle="'desc' + event.id" v-if="event.location || event.people || event.bring || event.notes"></b-icon>
 						</div>
@@ -200,6 +224,9 @@ export default class Calendar extends Vue {
 		this.today = moment().date();
 		this.leadingDays = moment().startOf("month").day();
 		this.trailingDays = 7 - moment().startOf("month").add(1, "months").day();
+		if (this.trailingDays == 7){
+			this.trailingDays = 0;
+		}
 		this.lastMonthNumDays = moment().subtract(1, "months").daysInMonth();
 		this.weekStart = moment().startOf("week").date();
 		this.weekEnd = moment().endOf("week").date();
@@ -251,9 +278,9 @@ export default class Calendar extends Vue {
 
 	checkDay(event, index: number, monthType: string) {
 		let data;
-		switch (monthType){
+		switch (monthType) {
 			case "past":
-				index = this.lastMonthNumDays - this.leadingDays + index + 1
+				index = this.lastMonthNumDays - this.leadingDays + index + 1;
 				data = moment().subtract(1, "month").date(index);
 				break;
 			case "current":
@@ -265,7 +292,7 @@ export default class Calendar extends Vue {
 				data = moment().add(1, "month").date(index);
 				break;
 		}
-		
+
 		const refinedData = moment(data).day();
 		return event.days[refinedData];
 	}
@@ -281,7 +308,7 @@ export default class Calendar extends Vue {
 	}
 
 	get pastEvents() {
-		return this.events.filter((event: any) => moment(event.date) < moment() && !this.isWeeklyRecurring(event));
+		return this.events.filter((event: any) => moment(event.date) < moment() && !this.isWeeklyRecurring(event)).reverse();
 	}
 
 	get upcomingEvents() {
@@ -309,12 +336,24 @@ export default class Calendar extends Vue {
 		return moment(data).format("M/D/YY");
 	}
 
+	prettyDateYearly(data: any) {
+		return moment(data).format("M/D");
+	}
+
+	prettyDateMonthly(data: any) {
+		return moment().month() + 1 + "/" + moment(data).format("D");
+	}
+
 	getDate(value: any) {
 		return moment(value).date();
 	}
 
 	getMonth(value: any) {
 		return moment(value).month();
+	}
+
+	getYear(value: any) {
+		return moment(value).year();
 	}
 
 	scrollTo(value: string) {

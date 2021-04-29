@@ -14,7 +14,7 @@
 				<b-card>
 					<h3 :style="{ color: event.color ? event.color.hex + '!important' : '#17a2b8' }">{{ event.title }}</h3>
 					<div class="d-flex justify-content-between">
-						<div class="font-weight-bold">{{ isWeeklyRecurring ? formattedDays(event) : prettyDate(event.date) }}</div>
+						<div class="font-weight-bold">{{ isWeeklyRecurring ? formattedDays(event) : event.recurringYearly ? prettyDateYearly(event.date) : prettyDate(event.date) }}</div>
 						<div class="text-info">{{ prettyTime(event.startTime) }} - {{ prettyTime(event.endTime) }}</div>
 					</div>
 					<div class="text-secondary">{{ event.location }}</div>
@@ -92,6 +92,10 @@ export default class ViewEvent extends Vue {
 
 	prettyDate(data: any) {
 		return moment(data).format("ddd, MMM Do 'YY");
+	}
+
+	prettyDateYearly(data: any) {
+		return moment(data).format("MMM Do");
 	}
 
 	formattedDays(event: any) {
