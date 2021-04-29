@@ -133,7 +133,7 @@ export default class Events extends Vue {
 	}
 
 	get upcomingEvents() {
-		return this.events.filter((event: any) => moment(event.date) >= moment() && moment(event.date) <= moment().add(1, "months") || this.isWeeklyRecurring(event) || event.recurringYearly && moment(event.date).dayOfYear() > moment().dayOfYear() || event.recurringMonthly && moment(event.date).date() > moment().date());
+		return this.events.filter((event: any) => moment(event.date) >= moment() || this.isWeeklyRecurring(event) || event.recurringYearly && moment(event.date).dayOfYear() > moment().dayOfYear() || event.recurringMonthly && moment(event.date).date() > moment().date());
 	}
 
 	get yearlyEvents() {
@@ -204,7 +204,7 @@ export default class Events extends Vue {
 	}
 
 	prettyDateMonthly(data: any) {
-		return moment().month()+1 + "/" +moment(data).format("D");
+		return "Every " +moment(data).format("Do");
 	}
 
 	mounted() {

@@ -17,8 +17,10 @@
 							<div v-for="event in events" :key="event.id">
 								<b-icon
 									v-if="
-										(!isWeeklyRecurring(event) && getDate(event.date) == lastMonthNumDays - index && getMonth() - getMonth(event.date) == 1) ||
-										(isWeeklyRecurring(event) && checkDay(event, index, 'past'))
+										(!isWeeklyRecurring(event) && !event.recurringMonthly && getDate(event.date) == lastMonthNumDays - index && getMonth() - getMonth(event.date) == 1) ||
+										(isWeeklyRecurring(event) && checkDay(event, index, 'past')) ||
+										(event.recurringMonthly && getDate(event.date) == lastMonthNumDays - (index+1)) ||
+										(event.recurringYearly && getDate(event.date) == lastMonthNumDays - (index+1) && getMonth(event.date) == getMonth())
 									"
 									:style="{ color: event.color ? event.color.hex : '#17a2b8' }"
 									@click="scrollTo(event.id)"
@@ -40,8 +42,13 @@
 							<div v-for="event in events" :key="event.id">
 								<b-icon
 									v-if="
-										(!isWeeklyRecurring(event) && !event.recurringYearly && getDate(event.date) == index + 1 && getMonth(event.date) == getMonth() && getYear(event.date) == getYear())||
-										(isWeeklyRecurring(event) && checkDay(event, index, 'current') || event.recurringYearly && getDate(event.date) == index + 1 && getMonth(event.date) == getMonth())
+										(!isWeeklyRecurring(event) &&
+											!event.recurringYearly &&
+											getDate(event.date) == index + 1 &&
+											getMonth(event.date) == getMonth() &&
+											getYear(event.date) == getYear()) ||
+										(isWeeklyRecurring(event) && checkDay(event, index, 'current')) ||
+										(event.recurringYearly && getDate(event.date) == index + 1 && getMonth(event.date) == getMonth())
 									"
 									:style="{ color: event.color ? event.color.hex : '#17a2b8' }"
 									@click="scrollTo(event.id)"
@@ -56,8 +63,10 @@
 							<div v-for="event in events" :key="event.id">
 								<b-icon
 									v-if="
-										(!isWeeklyRecurring(event) && getDate(event.date) == index + 1 && getMonth(event.date) - getMonth() == 1) ||
-										(isWeeklyRecurring(event) && checkDay(event, index, 'next'))
+										(!isWeeklyRecurring(event) && !event.recurringMonthly && getDate(event.date) == index + 1 && getMonth(event.date) - getMonth() == 1) ||
+										(isWeeklyRecurring(event) && checkDay(event, index, 'next')) ||
+										(event.recurringMonthly && getDate(event.date) == index + 1) ||
+										(event.recurringYearly && getDate(event.date) == index + 1 && getMonth(event.date) == getMonth())
 									"
 									:style="{ color: event.color ? event.color.hex : '#17a2b8' }"
 									@click="scrollTo(event.id)"
@@ -86,7 +95,7 @@
 									: event.recurringYearly
 									? prettyDateYearly(event.date)
 									: event.recurringMonthly
-									? prettyDateMonthly(event.date)
+									? prettyDateMonthly(event.date, true)
 									: prettyDate(event.date)
 							}}
 							{{ prettyTime(event.startTime) }}-{{ prettyTime(event.endTime) }}
@@ -130,7 +139,7 @@
 								: event.recurringYearly
 								? prettyDateYearly(event.date)
 								: event.recurringMonthly
-								? prettyDateMonthly(event.date)
+								? prettyDateMonthly(event.date, false)
 								: prettyDate(event.date)
 						}}
 						{{ prettyTime(event.startTime) }}-{{ prettyTime(event.endTime) }}
@@ -164,7 +173,7 @@
 									: event.recurringYearly
 									? prettyDateYearly(event.date)
 									: event.recurringMonthly
-									? prettyDateMonthly(event.date)
+									? prettyDateMonthly(event.date, true)
 									: prettyDate(event.date)
 							}}
 							{{ prettyTime(event.startTime) }}-{{ prettyTime(event.endTime) }}
@@ -224,7 +233,7 @@ export default class Calendar extends Vue {
 		this.today = moment().date();
 		this.leadingDays = moment().startOf("month").day();
 		this.trailingDays = 7 - moment().startOf("month").add(1, "months").day();
-		if (this.trailingDays == 7){
+		if (this.trailingDays == 7) {
 			this.trailingDays = 0;
 		}
 		this.lastMonthNumDays = moment().subtract(1, "months").daysInMonth();
@@ -308,11 +317,11 @@ export default class Calendar extends Vue {
 	}
 
 	get pastEvents() {
-		return this.events.filter((event: any) => moment(event.date) < moment() && !this.isWeeklyRecurring(event)).reverse();
+		return this.events.filter((event: any) => moment(event.date) < moment() && moment(event.date) >= moment().subtract(1, "months") && !this.isWeeklyRecurring(event) || event.recurringYearly && moment(event.date).date() < moment().date() && moment(event.date).month() == moment().month()).reverse();
 	}
 
 	get upcomingEvents() {
-		return this.events.filter((event: any) => moment(event.date) >= moment() || this.isWeeklyRecurring(event));
+		return this.events.filter((event: any) => (moment(event.date) >= moment() && moment(event.date) <= moment().add(1, "months")) || this.isWeeklyRecurring(event) || event.recurringMonthly);
 	}
 
 	isWeeklyRecurring(event: any) {
@@ -340,8 +349,8 @@ export default class Calendar extends Vue {
 		return moment(data).format("M/D");
 	}
 
-	prettyDateMonthly(data: any) {
-		return moment().month() + 1 + "/" + moment(data).format("D");
+	prettyDateMonthly(data: any, isPast: boolean) {
+		return isPast ? moment().month() + 1 + "/" + moment(data).format("D") : moment().month() + 2 + "/" + moment(data).format("D");
 	}
 
 	getDate(value: any) {
