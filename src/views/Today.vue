@@ -5,23 +5,19 @@
 		</div>
 		<div class="row has-header">
 			<div class="col mx-2" v-if="!isLoading">
-				<div class="d-flex justify-content-between align-items-center">
+				<div class="d-flex justify-content-between align-items-center" @click="scrollTo(startTime)">
 					<h3>{{ dayOfWeek }}</h3>
 					<h3 class="text-secondary">{{ today }}</h3>
 					<!-- <b-form-checkbox switch>I took my meds today</b-form-checkbox> -->
 				</div>
 				<b-list-group class="w-100 text-left">
 					<div v-for="(item, index) in dayTimeLine" :key="index">
-						<div v-if="prettyHour(index) == '12 AM'" class="d-flex justify-content-between align-items-center pt-2">
-							<h3 >{{ tomorrowDayOfWeek }}</h3>
-							<h3 class="text-secondary">{{ tomorrow }}</h3>
-						</div>
-						<b-list-group-item>
+						<b-list-group-item :ref="`ref-${index}`">
 							<b-icon :icon="index > 15 ? 'moon' : index > 7 ? 'brightness-alt-high-fill' : 'brightness-high-fill'"></b-icon>
 							{{ prettyHour(index) }}
 							<div v-for="(itemSub, index2) in item" :key="'itemSub' + index2">
 								<div v-if="itemSub.name == 'event'" v-b-toggle="itemSub.id" class="d-flex align-items-center">
-									<b-icon-calendar class="mr-2" :style="{'color': itemSub.color ? itemSub.color.hex +'!important' : '#17a2b8'}"></b-icon-calendar>
+									<b-icon-calendar class="mr-2" :style="{ color: itemSub.color ? itemSub.color.hex + '!important' : '#17a2b8' }"></b-icon-calendar>
 									{{ itemSub.title }}
 									<b-icon icon="chevron-down" class="ml-auto"></b-icon>
 								</div>
@@ -41,7 +37,7 @@
 									<div>{{ itemSub.notes }}</div>
 								</b-collapse>
 								<div v-if="itemSub.name == 'task'" v-b-toggle="itemSub.id" class="d-flex align-items-center">
-									<b-icon-clipboard class="mr-2" :style="{'color': itemSub.color ? itemSub.color.hex +'!important' : '#17a2b8'}"></b-icon-clipboard>
+									<b-icon-clipboard class="mr-2" :style="{ color: itemSub.color ? itemSub.color.hex + '!important' : '#17a2b8' }"></b-icon-clipboard>
 									{{ itemSub.title }}
 									<b-icon icon="chevron-down" class="ml-auto"></b-icon>
 								</div>
@@ -80,7 +76,6 @@ import { AlarmModel, EventModel, TaskModel } from "@/models/scheduling";
 @Component({})
 export default class Today extends Vue {
 	private loading = true;
-	private startTime = {};
 	private startOfToday = {};
 	private endOfToday = {};
 	private dayOfWeek = {};
@@ -89,29 +84,24 @@ export default class Today extends Vue {
 	private tomorrow = {};
 	private totalHours = 24;
 	private dayTimeLine: any[] = [];
+	private startTime = 0;
 
 	mounted() {
 		this.$store.dispatch("getAlarms").then(() => {
 			this.$store.dispatch("getEvents").then(() => {
 				this.$store.dispatch("getTasks").then(() => {
 					this.$store.dispatch("getCurrentUserProfile").then(() => {
-						this.loading = false;
-						this.startTime = this.$store.state.userProfile.calendarStartHour;
-						// this.startTime = moment().get("hour");
-						this.startOfToday = moment().startOf("date").add(this.startTime);
-						this.endOfToday = moment().endOf("date").add(this.startTime);
+						this.startOfToday = moment().startOf("date");
+						this.endOfToday = moment().endOf("date");
 						this.dayOfWeek = moment().format("dddd");
 						this.tomorrowDayOfWeek = moment().add(1, "days").format("dddd");
 						this.today = moment().format("MM/D/YY");
 						this.tomorrow = moment().add(1, "days").format("MM/D/YY");
-						// this.totalHours = moment(this.endOfToday).add(1, "hours").diff(moment(this.startOfToday), "hours");
+						this.startTime = this.timeToHour(this.$store.state.userProfile.calendarStartHour) - 1;
 						for (let i = 0; i < this.totalHours; i++) {
 							this.dayTimeLine.push(i);
 							for (const event of this.events) {
-								let comparison = i + this.timeToHour(this.startTime);
-								if (i + this.timeToHour(this.startTime) > 24) {
-									comparison = i + this.timeToHour(this.startTime) - 24;
-								}
+								const comparison = this.timeToHour(i);
 								if (this.timeToHour(event.startTime) == comparison) {
 									event.name = "event";
 									if (!this.dayTimeLine[i][0]) {
@@ -121,10 +111,7 @@ export default class Today extends Vue {
 								}
 							}
 							for (const task of this.tasks) {
-								let comparison = i + this.timeToHour(this.startTime);
-								if (i + this.timeToHour(this.startTime) > 24) {
-									comparison = i + this.timeToHour(this.startTime) - 24;
-								}
+								const comparison = this.timeToHour(i);
 								if (this.timeToHour(task.dueTime) == comparison) {
 									task.name = "task";
 									if (!this.dayTimeLine[i][0]) {
@@ -147,10 +134,15 @@ export default class Today extends Vue {
 							// 	}
 							// }
 						}
+						this.loading = false;
 					});
 				});
 			});
 		});
+	}
+
+	updated(){
+		this.scrollTo(this.startTime);
 	}
 
 	get isLoading() {
@@ -164,7 +156,9 @@ export default class Today extends Vue {
 	// }
 
 	get events() {
-		return this.$store.state.scheduling.events.filter((event: any) => moment(event.date).add(event.startTime) >= this.startOfToday && moment(event.date).add(event.startTime) <= this.endOfToday || (event.startTime >= this.startTime && event.days[moment().day()]) || (event.startTime < this.startTime && event.days[moment().add(1, "days").day()]));
+		return this.$store.state.scheduling.events.filter(
+			(event: any) => (moment(event.date).add(event.startTime) >= this.startOfToday && moment(event.date).add(event.startTime) <= this.endOfToday) || event.days[moment().day()]
+		);
 	}
 
 	get tasks() {
@@ -172,7 +166,7 @@ export default class Today extends Vue {
 	}
 
 	prettyHour(value: number) {
-		return moment(moment(this.startTime, "h A").add(value, "hour")).format("h A");
+		return moment(moment(value, "hour")).format("h A");
 	}
 
 	prettyTime(time: any) {
@@ -181,6 +175,12 @@ export default class Today extends Vue {
 
 	timeToHour(time: any) {
 		return moment(time, "h:mm").hour();
+	}
+
+	scrollTo(value: any) {
+		const refName = `ref-${value}`;
+		const element = this.$refs[refName] as Element[];;
+		element[0].scrollIntoView();
 	}
 }
 </script>

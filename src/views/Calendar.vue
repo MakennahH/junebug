@@ -267,7 +267,6 @@ export default class Calendar extends Vue {
 		}
 		
 		const refinedData = moment(data).day();
-		console.log(monthType+refinedData);
 		return event.days[refinedData];
 	}
 
@@ -320,7 +319,6 @@ export default class Calendar extends Vue {
 
 	scrollTo(value: string) {
 		const refName = `ref-${value}`;
-		// (this.$refs[refName] as HTMLElement).scrollIntoView({ behavior: 'smooth' });
 		const element = this.$refs[refName] as Element[];
 		element[0].scrollIntoView();
 	}
