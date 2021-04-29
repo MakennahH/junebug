@@ -151,3 +151,9 @@ body {
 .bg-today {
 	background: #d9ffad !important;
 }
+
+/* width */
+
+.w-33{
+	width: 33%;
+}

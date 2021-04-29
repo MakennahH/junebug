@@ -11,6 +11,20 @@
 		</div>
 		<div class="row has-header">
 			<div class="col" v-if="!isLoading">
+				<h3 class="m-2">Today</h3>
+				<b-list-group v-if="todaysEvents.length > 0" class="mx-2">
+					<b-list-group-item v-for="event in todaysEvents" :key="event.id" :to="'events/view/' + event.id" replace>
+						<div class="d-flex justify-content-between">
+							<strong :style="{ color: event.color ? event.color.hex + '!important' : '#17a2b8' }">{{ event.title }}</strong>
+							<div class="font-weight-light">
+								{{ isWeeklyRecurring(event)? formattedDays(event) : prettyDate(event.date) }} <span class="small text-info">{{ prettyTime(event.startTime) }}-{{ prettyTime(event.endTime) }}</span>
+							</div>
+						</div>
+						<div class="text-secondary">{{ event.location }}</div>
+						<div>{{ event.whatToBring }}</div>
+						
+					</b-list-group-item>
+				</b-list-group>
 				<h3 class="m-2">Upcoming</h3>
 				<b-list-group v-if="upcomingEvents.length > 0" class="mx-2">
 					<b-list-group-item v-for="event in upcomingEvents" :key="event.id" :to="'events/view/' + event.id" replace>
@@ -75,6 +89,12 @@ export default class Events extends Vue {
 
 	get events() {
 		return this.$store.state.scheduling.events;
+	}
+
+	get todaysEvents() {
+		return this.events.filter(
+			(event: any) => (moment(event.date) >= moment().startOf("day") && moment(event.date) <= moment().endOf("day")) || (this.isWeeklyRecurring(event) && event.days[moment().day()])
+		);
 	}
 
 	get pastEvents() {

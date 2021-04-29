@@ -1,22 +1,22 @@
 <template>
 	<nav id="tabs" class="bar bar-tab d-none">
-		<router-link class="tab-item" v-bind:class="{ active: isActive('today') }" to="/today">
+		<router-link class="tab-item" :class="{ active: isActive('today') }" to="/today">
 			<b-icon icon="house-door-fill" class="icon"></b-icon>
 			<span class="tab-label">Home</span>
 		</router-link>
-		<router-link class="tab-item" v-bind:class="{ active: isActive('calendar') }" to="/calendar">
+		<router-link class="tab-item" :class="{ active: isActive('calendar') }" to="/calendar">
 			<b-icon icon="calendar3-week-fill" class="icon"></b-icon>
 			<span class="tab-label">Calendar</span>
 		</router-link>
-		<router-link class="tab-item" v-bind:class="{ active: isActive('planner') }" to="/planner">
+		<router-link class="tab-item" :class="{ active: isActive('planner') }" to="/planner">
 			<b-icon icon="file-text-fill" class="icon"></b-icon>
 			<span class="tab-label">Planner</span>
 		</router-link>
-		<router-link class="tab-item" v-bind:class="{ active: isActive('notes') }" to="/notes">
+		<router-link class="tab-item" :class="{ active: isActive('notes') }" to="/notes">
 			<b-icon icon="pen-fill" class="icon"></b-icon>
 			<span class="tab-label">Notes</span>
 		</router-link>
-		<router-link class="tab-item" v-bind:class="{ active: isActive('settings') }" to="/settings">
+		<router-link class="tab-item" :class="{ active: isActive('settings') }" to="/settings">
 			<b-icon icon="gear-fill" class="icon"></b-icon>
 			<span class="tab-label">Settings</span>
 		</router-link>

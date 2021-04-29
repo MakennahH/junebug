@@ -1,40 +1,52 @@
 <template>
 	<div class="home pb-2">
-		<div class="base-header text-center">
+		<div class="base-header text-center d-flex justify-content-between" @click="scrollTo(startTime)">
+			<div :class="isLoading ? 'w-33' : ''">
+				<div v-if="!isLoading" class="text-light">{{ dayOfWeek }}</div>
+				<b-skeleton v-else></b-skeleton>
+			</div>
 			<div>Home</div>
+			<div :class="isLoading ? 'w-33' : ''">
+				<div v-if="!isLoading" class="text-light">{{ today }}</div>
+				<b-skeleton v-else></b-skeleton>
+			</div>
 		</div>
 		<div class="row has-header">
 			<div class="col mx-2" v-if="!isLoading">
-				<div class="d-flex justify-content-between align-items-center" @click="scrollTo(startTime)">
-					<h3>{{ dayOfWeek }}</h3>
-					<h3 class="text-secondary">{{ today }}</h3>
+				<div class="d-flex justify-content-between align-items-center">
 					<!-- <b-form-checkbox switch>I took my meds today</b-form-checkbox> -->
 				</div>
 				<b-list-group class="w-100 text-left">
 					<div v-for="(item, index) in dayTimeLine" :key="index">
 						<b-list-group-item :ref="`ref-${index}`">
-							<b-icon :icon="index > 15 ? 'moon' : index > 7 ? 'brightness-alt-high-fill' : 'brightness-high-fill'"></b-icon>
+							<b-icon
+								:icon="index < 5 || index > 20 ? 'moon' : (index <= 8 && index >= 5) || (index <= 20 && index >= 17) ? 'brightness-alt-high-fill' : 'brightness-high-fill'"
+							></b-icon>
 							{{ prettyHour(index) }}
 							<div v-for="(itemSub, index2) in item" :key="'itemSub' + index2">
-								<div v-if="itemSub.name == 'event'" v-b-toggle="itemSub.id" class="d-flex align-items-center">
+								<div v-if="itemSub.name == 'event' && itemSub.isDuplicate" class="d-flex align-items-center">
 									<b-icon-calendar class="mr-2" :style="{ color: itemSub.color ? itemSub.color.hex + '!important' : '#17a2b8' }"></b-icon-calendar>
 									{{ itemSub.title }}
+								</div>
+								<div v-if="itemSub.name == 'event' && !itemSub.isDuplicate" v-b-toggle="itemSub.id" class="d-flex align-items-center">
+									<b-icon-calendar class="mr-2" :style="{ color: itemSub.color ? itemSub.color.hex + '!important' : '#17a2b8' }"></b-icon-calendar>
+									{{ prettyTime(itemSub.startTime) }} {{ itemSub.title }}
 									<b-icon icon="chevron-down" class="ml-auto"></b-icon>
 								</div>
 								<b-collapse :id="itemSub.id" v-if="itemSub.name == 'event'">
 									<div>
 										<span class="font-weight-bold">{{ prettyTime(itemSub.startTime) }}-{{ prettyTime(itemSub.endTime) }}</span>
 									</div>
-									<div>
+									<div v-if="itemSub.location">
 										Location: <span class="font-weight-bold">{{ itemSub.location }}</span>
 									</div>
-									<div>
+									<div v-if="itemSub.people">
 										With: <span class="font-weight-bold">{{ itemSub.people }}</span>
 									</div>
-									<div>
+									<div v-if="itemSub.bring">
 										Bring: <span class="font-weight-bold">{{ itemSub.bring }}</span>
 									</div>
-									<div>{{ itemSub.notes }}</div>
+									<div v-if="itemSub.notes">{{ itemSub.notes }}</div>
 								</b-collapse>
 								<div v-if="itemSub.name == 'task'" v-b-toggle="itemSub.id" class="d-flex align-items-center">
 									<b-icon-clipboard class="mr-2" :style="{ color: itemSub.color ? itemSub.color.hex + '!important' : '#17a2b8' }"></b-icon-clipboard>
@@ -43,7 +55,7 @@
 								</div>
 								<b-collapse :id="itemSub.id" v-if="itemSub.name == 'task'">
 									<div>Due: {{ prettyTime(itemSub.dueTime) }}</div>
-									<div>{{ itemSub.notes }}</div>
+									<div v-if="itemSub.notes">{{ itemSub.notes }}</div>
 								</b-collapse>
 								<!-- <div v-if="itemSub.name == 'alarm'" v-b-toggle="itemSub.id" class="d-flex align-items-center">
 									<b-icon-alarm class="mr-2"></b-icon-alarm>
@@ -97,27 +109,36 @@ export default class Today extends Vue {
 						this.tomorrowDayOfWeek = moment().add(1, "days").format("dddd");
 						this.today = moment().format("MM/D/YY");
 						this.tomorrow = moment().add(1, "days").format("MM/D/YY");
-						this.startTime = this.timeToHour(this.$store.state.userProfile.calendarStartHour) - 1;
+						this.startTime = this.timeToInt(this.$store.state.userProfile.calendarStartHour) - 1;
 						for (let i = 0; i < this.totalHours; i++) {
 							this.dayTimeLine.push(i);
-							for (const event of this.events) {
-								const comparison = this.timeToHour(i);
-								if (this.timeToHour(event.startTime) == comparison) {
-									event.name = "event";
-									if (!this.dayTimeLine[i][0]) {
-										this.dayTimeLine[i] = [];
-									}
-									this.dayTimeLine[i].push(event);
-								}
-							}
 							for (const task of this.tasks) {
-								const comparison = this.timeToHour(i);
-								if (this.timeToHour(task.dueTime) == comparison) {
+								if (this.timeToInt(task.dueTime) == i) {
 									task.name = "task";
 									if (!this.dayTimeLine[i][0]) {
 										this.dayTimeLine[i] = [];
 									}
 									this.dayTimeLine[i].push(task);
+								}
+							}
+							for (const event of this.events) {
+								const comparison = this.intToTime(i);
+								if (this.timeToInt(event.startTime) == i) {
+									event.name = "event";
+									event.isDuplicate = false;
+									if (!this.dayTimeLine[i][0]) {
+										this.dayTimeLine[i] = [];
+									}
+									this.dayTimeLine[i].push(event);
+								} else if (i != 0 && this.timeToInt(event.startTime) == i - 1 && event.endTime > comparison) {
+									event.name = "event";
+									const duplicate = Object.assign({}, event);
+									duplicate.isDuplicate = true;
+									duplicate.id = null;
+									if (!this.dayTimeLine[i][0]) {
+										this.dayTimeLine[i] = [];
+									}
+									this.dayTimeLine[i].push(duplicate);
 								}
 							}
 							// for (const alarm of this.alarms) {
@@ -141,7 +162,7 @@ export default class Today extends Vue {
 		});
 	}
 
-	updated(){
+	updated() {
 		this.scrollTo(this.startTime);
 	}
 
@@ -173,13 +194,17 @@ export default class Today extends Vue {
 		return moment(moment(time, "h:mmA")).format("h:mmA");
 	}
 
-	timeToHour(time: any) {
-		return moment(time, "h:mm").hour();
+	timeToInt(time: any) {
+		return moment(time, "h:mmA").hour();
+	}
+
+	intToTime(int: number) {
+		return moment().hour(int).minute(0).format("H:mm:ss");
 	}
 
 	scrollTo(value: any) {
 		const refName = `ref-${value}`;
-		const element = this.$refs[refName] as Element[];;
+		const element = this.$refs[refName] as Element[];
 		element[0].scrollIntoView();
 	}
 }

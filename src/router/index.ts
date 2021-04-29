@@ -5,7 +5,7 @@ import NotFound from "../views/Auth/NotFound.vue";
 import ForgotPassword from "../views/Auth/ForgotPassword.vue";
 import SignUp from "../views/Auth/SignUp.vue";
 import Login from "../views/Auth/Login.vue";
-import { auth } from "../firebase";
+import { auth } from "@/firebase";
 
 Vue.use(VueRouter);
 

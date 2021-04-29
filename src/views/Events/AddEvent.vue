@@ -7,7 +7,7 @@
 			<div>{{ isEdit ? "Edit Event" : "Add an Event" }}</div>
 		</div>
 		<div class="row has-header">
-			<form class="col mx-2">
+			<b-form class="col mx-2" @submit.prevent="saveEvent">
 				<b-form-input class="mb-2" placeholder="Title" v-model="title" required></b-form-input>
 				<div class="d-flex">
 					<b-form-timepicker class="mb-2" placeholder="Start time" v-model="startTime" required></b-form-timepicker>
@@ -48,8 +48,8 @@
 						</b-button>
 					</b-button-group>
 				</b-collapse>
-				<b-button @click="saveEvent" class="btn mt-2" variant="info" block> Save </b-button>
-			</form>
+				<b-button type="submit" class="btn mt-2" variant="info" block> Save </b-button>
+			</b-form>
 		</div>
 	</div>
 </template>
