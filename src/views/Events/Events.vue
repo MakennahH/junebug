@@ -31,7 +31,15 @@
 						<div class="d-flex justify-content-between">
 							<strong :style="{ color: event.color ? event.color.hex + '!important' : '#17a2b8' }">{{ event.title }}</strong>
 							<div class="font-weight-light">
-								{{ isWeeklyRecurring(event) ? formattedDays(event) : event.recurringYearly ? prettyDateYearly(event.date) : event.recurringMonthly ? prettyDateMonthly(event.date) : prettyDate(event.date) }}
+								{{
+									isWeeklyRecurring(event)
+										? formattedDays(event)
+										: event.recurringYearly
+										? prettyDateYearly(event.date)
+										: event.recurringMonthly
+										? prettyDateMonthly(event.date)
+										: prettyDate(event.date)
+								}}
 								<span class="small text-info">{{ prettyTime(event.startTime) }}-{{ prettyTime(event.endTime) }}</span>
 							</div>
 						</div>
@@ -44,18 +52,18 @@
 				</b-card>
 				<h3 v-if="monthlyEvents.length > 0" v-b-toggle="'showMonthly'" class="m-2 mt-4">Monthly Events<b-icon icon="chevron-down" class="float-right mr-2"></b-icon></h3>
 				<b-collapse :id="'showMonthly'">
-				<b-list-group v-if="monthlyEvents.length > 0" class="mx-2">
-					<b-list-group-item v-for="event in monthlyEvents" :key="event.id" :to="'events/view/' + event.id" replace>
-						<div class="d-flex justify-content-between">
-							<strong :style="{ color: event.color ? event.color.hex + '!important' : '#17a2b8' }">{{ event.title }}</strong>
-							<div class="font-weight-light">
-								{{ prettyDateMonthly(event.date) }} <span class="small text-info">{{ prettyTime(event.startTime) }}-{{ prettyTime(event.endTime) }}</span>
+					<b-list-group v-if="monthlyEvents.length > 0" class="mx-2">
+						<b-list-group-item v-for="event in monthlyEvents" :key="event.id" :to="'events/view/' + event.id" replace>
+							<div class="d-flex justify-content-between">
+								<strong :style="{ color: event.color ? event.color.hex + '!important' : '#17a2b8' }">{{ event.title }}</strong>
+								<div class="font-weight-light">
+									{{ prettyDateMonthly(event.date) }} <span class="small text-info">{{ prettyTime(event.startTime) }}-{{ prettyTime(event.endTime) }}</span>
+								</div>
 							</div>
-						</div>
-						<div class="text-secondary">{{ event.location }}</div>
-						<div>{{ event.bring }}</div>
-					</b-list-group-item>
-				</b-list-group>
+							<div class="text-secondary">{{ event.location }}</div>
+							<div>{{ event.bring }}</div>
+						</b-list-group-item>
+					</b-list-group>
 				</b-collapse>
 				<h3 v-if="yearlyEvents.length > 0" v-b-toggle="'showYearly'" class="m-2 mt-4">Yearly Events<b-icon icon="chevron-down" class="float-right mr-2"></b-icon></h3>
 				<b-collapse :id="'showYearly'">
@@ -133,7 +141,13 @@ export default class Events extends Vue {
 	}
 
 	get upcomingEvents() {
-		return this.events.filter((event: any) => moment(event.date) >= moment() || this.isWeeklyRecurring(event) || event.recurringYearly && moment(event.date).dayOfYear() > moment().dayOfYear() || event.recurringMonthly && moment(event.date).date() > moment().date());
+		return this.events.filter(
+			(event: any) =>
+				moment(event.date) >= moment() ||
+				this.isWeeklyRecurring(event) ||
+				(event.recurringYearly && moment(event.date).dayOfYear() > moment().dayOfYear()) ||
+				(event.recurringMonthly && moment(event.date).date() > moment().date())
+		);
 	}
 
 	get yearlyEvents() {
@@ -204,7 +218,7 @@ export default class Events extends Vue {
 	}
 
 	prettyDateMonthly(data: any) {
-		return "Every " +moment(data).format("Do");
+		return "Every " + moment(data).format("Do");
 	}
 
 	mounted() {

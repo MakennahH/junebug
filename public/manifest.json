@@ -1,0 +1,16 @@
+{
+    "name": "Junebug",
+    "short_name": "Junebug",
+    "start_url": "index.html",
+    "icons": [
+        {
+            "src": "../src/assets/logo-white.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        }
+    ],
+    "background_color": "#234C6C",
+    "display": "standalone",
+    "theme_color": "#3A7CA5",
+    "apple-touch-icon": "../src/assets/logo-white.png" 
+}

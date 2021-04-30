@@ -54,7 +54,6 @@
 	</div>
 </template>
 
-
 <script lang="ts">
 import { EventModel } from "@/models/scheduling";
 import { Compact } from "vue-color";
