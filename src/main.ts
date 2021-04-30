@@ -16,7 +16,7 @@ import ToggleButton from "vue-js-toggle-button";
 import VueGoogleAutocomplete from "vue-google-autocomplete/src/VueGoogleAutocomplete.vue";
 Vue.component("vue-google-autocomplete", VueGoogleAutocomplete);
 
-import Vuelidate from 'vuelidate';
+import Vuelidate from "vuelidate";
 Vue.use(Vuelidate);
 
 Vue.use(BootstrapVue);
