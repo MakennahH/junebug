@@ -82,7 +82,7 @@ export default class ViewTimeLimit extends Vue {
 				centered: true,
 				okVariant: "info",
 			})
-			.then(value => {
+			.then((value) => {
 				if (value) {
 					try {
 						this.$store.dispatch("deleteTimeLimit", { id: this.$route.params.id }).then(() => {

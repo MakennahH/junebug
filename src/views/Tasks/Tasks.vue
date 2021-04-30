@@ -35,7 +35,9 @@
 						<b-list-group-item v-for="task in completedTasks" :key="task.id" :to="'tasks/view/' + task.id" class="bg-depreciated" replace>
 							<div class="d-flex justify-content-between">
 								<strong :style="{ color: task.color ? task.color.hex + '!important' : '#17a2b8' }">{{ task.title }}</strong>
-								<div class="text-secondary">{{ prettyDate(task.dueDate, task.dueTime).date }} {{ prettyTime(task.dueTime) }}</div>
+								<div class="text-secondary">
+									{{ prettyDate(task.dueDate, task.dueTime).date }} {{ prettyTime(task.dueTime) }}
+								</div>
 							</div>
 							<div class="text-truncate text-secondary">{{ task.notes }}</div>
 						</b-list-group-item>
@@ -83,11 +85,7 @@ export default class Tasks extends Vue {
 
 		if (moment(date).add(time) < moment()) {
 			isOverDue = true;
-		} else if (
-			moment(date)
-				.add(time)
-				.diff(moment()) < 43200000
-		) {
+		} else if (moment(date).add(time).diff(moment()) < 43200000) {
 			// roughly 12 hours
 			isDueSoon = true;
 		}

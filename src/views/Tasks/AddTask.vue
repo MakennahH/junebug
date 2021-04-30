@@ -48,7 +48,7 @@ export default class AddTask extends Vue {
 		}
 	}
 
-	get isSubmitting() {
+	get isSubmitting(){
 		return this.submitting;
 	}
 
@@ -143,7 +143,7 @@ export default class AddTask extends Vue {
 						daysInAdvance: this.task.daysInAdvance,
 						notes: this.task.notes,
 						completed: this.task.completed,
-						color: this.task.color,
+						color: this.task.color
 					})
 					.then(() => {
 						this.$router.replace("/tasks");
@@ -168,7 +168,7 @@ export default class AddTask extends Vue {
 						daysInAdvance: this.task.daysInAdvance,
 						completed: false,
 						notes: this.task.notes,
-						color: this.task.color,
+						color: this.task.color
 					})
 					.then(() => {
 						this.$router.replace("/tasks");

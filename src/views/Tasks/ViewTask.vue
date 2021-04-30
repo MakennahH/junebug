@@ -62,15 +62,11 @@ export default class ViewTask extends Vue {
 	}
 
 	toNow() {
-		return moment(this.task.dueDate)
-			.add(this.task.dueTime)
-			.toNow();
+		return moment(this.task.dueDate).add(this.task.dueTime).toNow();
 	}
 
 	fromNow() {
-		return moment(this.task.dueDate)
-			.add(this.task.dueTime)
-			.fromNow();
+		return moment(this.task.dueDate).add(this.task.dueTime).fromNow();
 	}
 
 	prettyTime() {
@@ -115,7 +111,7 @@ export default class ViewTask extends Vue {
 				centered: true,
 				okVariant: "info",
 			})
-			.then(value => {
+			.then((value) => {
 				if (value) {
 					try {
 						this.$store.dispatch("deleteTask", { id: this.$route.params.id }).then(() => {

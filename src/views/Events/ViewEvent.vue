@@ -67,8 +67,8 @@ export default class ViewEvent extends Vue {
 	mounted() {
 		this.loading = true;
 		this.$store.dispatch("getEvents").finally(() => {
-			for (const day of this.event.days) {
-				if (day) {
+			for(const day of this.event.days){
+				if(day){
 					this.isWeeklyRecurring = true;
 				}
 			}
@@ -143,7 +143,7 @@ export default class ViewEvent extends Vue {
 				centered: true,
 				okVariant: "info",
 			})
-			.then(value => {
+			.then((value) => {
 				if (value) {
 					try {
 						this.$store.dispatch("deleteEvent", { id: this.$route.params.id }).then(() => {

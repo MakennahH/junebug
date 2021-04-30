@@ -6,20 +6,13 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <link rel="icon" href="<%= BASE_URL %>favicon.png">
-  <!-- attempt at making it a PWA  -->
-  <!-- <link rel="preconnect" href="https://www.googleapis.com">
-  <link rel="preconnect" href="https://firestore.googleapis.com"> -->
-  <title>
-    <%= htmlWebpackPlugin.options.title %>
-  </title>
+  <title><%= htmlWebpackPlugin.options.title %></title>
 
-  <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjp9IiHIwQjfhOFtGzsxf1lxrqPx0BJsU&libraries=places"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjp9IiHIwQjfhOFtGzsxf1lxrqPx0BJsU&libraries=places"></script>
 
   <!-- The core Firebase JS SDK is always required and must be listed first -->
   <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
-
-  <link rel=”manifest” href=”manifest.json”>
+  
 
   <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
@@ -28,23 +21,8 @@
 <body>
   <noscript>
     <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled.
-        Please enable it to continue.</strong>
+      Please enable it to continue.</strong>
   </noscript>
-  <script>
-    // attempt at making it PWA
-    // got this from https://medium.com/swlh/converting-existing-react-app-to-pwa-3c7e4e773db3
-    // if ('serviceWorker' in navigator) {
-    //   window.addEventListener('load', function () {
-    //     navigator.serviceWorker.register('serviceWorker.js').then(function (registration) {
-    //       // Registration was successful
-    //       console.log('ServiceWorker registration successful with scope: ', registration.scope);
-    //     }, function (err) {
-    //       // registration failed
-    //       console.log('ServiceWorker registration failed: ', err);
-    //     });
-    //   });
-    // }
-  </script>
   <div id="app"></div>
   <!-- built files will be auto injected -->
 </body>

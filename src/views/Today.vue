@@ -106,13 +106,9 @@ export default class Today extends Vue {
 						this.startOfToday = moment().startOf("date");
 						this.endOfToday = moment().endOf("date");
 						this.dayOfWeek = moment().format("dddd");
-						this.tomorrowDayOfWeek = moment()
-							.add(1, "days")
-							.format("dddd");
+						this.tomorrowDayOfWeek = moment().add(1, "days").format("dddd");
 						this.today = moment().format("MM/D/YY");
-						this.tomorrow = moment()
-							.add(1, "days")
-							.format("MM/D/YY");
+						this.tomorrow = moment().add(1, "days").format("MM/D/YY");
 						this.startTime = this.timeToInt(this.$store.state.userProfile.calendarStartHour) - 1;
 						for (let i = 0; i < this.totalHours; i++) {
 							this.dayTimeLine.push(i);
@@ -203,10 +199,7 @@ export default class Today extends Vue {
 	}
 
 	intToTime(int: number) {
-		return moment()
-			.hour(int)
-			.minute(0)
-			.format("H:mm:ss");
+		return moment().hour(int).minute(0).format("H:mm:ss");
 	}
 
 	scrollTo(value: any) {
