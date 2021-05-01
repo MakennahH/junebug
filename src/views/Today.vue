@@ -1,12 +1,12 @@
 <template>
 	<div class="home pb-2">
 		<div class="base-header text-center d-flex justify-content-between" @click="scrollTo(startTime)">
-			<div :class="isLoading ? 'w-33' : ''">
+			<div class="w-33">
 				<div v-if="!isLoading" class="text-light">{{ dayOfWeek }}</div>
 				<b-skeleton v-else></b-skeleton>
 			</div>
 			<div>Home</div>
-			<div :class="isLoading ? 'w-33' : ''">
+			<div class="w-33">
 				<div v-if="!isLoading" class="text-light">{{ today }}</div>
 				<b-skeleton v-else></b-skeleton>
 			</div>

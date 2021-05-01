@@ -5,7 +5,7 @@
 		</div>
 		<div class="row has-header">
 			<div class="col mx-2" v-if="!isLoading">
-				<h3>{{ month }}</h3>
+				<h3>{{ month }} {{ year }}</h3>
 				<b-card no-body>
 					<div class="d-flex text-center my-1">
 						<div class="calendar-day" v-for="(dayOfWeek, index) in daysOfWeek" :key="'weekday' + index">{{ dayOfWeek }}</div>
@@ -219,6 +219,7 @@ import { Component, Vue } from "vue-property-decorator";
 export default class Calendar extends Vue {
 	private loading = true;
 	private month = "";
+	private year = "";
 	private daysOfWeek: string[] = [];
 	private days = 0;
 	private today = 0;
@@ -239,6 +240,7 @@ export default class Calendar extends Vue {
 
 	created() {
 		this.month = moment().format("MMMM");
+		this.year = moment().format("YYYY");
 		this.days = moment().daysInMonth();
 		this.today = moment().date();
 		this.leadingDays = moment().startOf("month").day();
@@ -257,6 +259,8 @@ export default class Calendar extends Vue {
 		});
 	}
 
+	// if you saw this exact method in other files... no you didnt
+	// its not easy to declare global methods
 	formattedDays(event: any) {
 		let daysString = "";
 		let dayIndex = 0;

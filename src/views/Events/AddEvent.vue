@@ -182,14 +182,6 @@ export default class AddEvent extends Vue {
 		this.event.notes = value;
 	}
 
-	get leaveReminder() {
-		return this.event.leaveReminder;
-	}
-
-	set leaveReminder(value) {
-		this.event.leaveReminder = value;
-	}
-
 	get date() {
 		return this.event.date;
 	}
@@ -212,7 +204,6 @@ export default class AddEvent extends Vue {
 						location: this.event.location,
 						bring: this.event.bring,
 						notes: this.event.notes,
-						leaveReminder: this.event.leaveReminder,
 						recurringMonthly: this.event.recurringMonthly,
 						recurringYearly: this.event.recurringYearly,
 						days: this.event.days,
@@ -240,7 +231,6 @@ export default class AddEvent extends Vue {
 						location: this.event.location,
 						bring: this.event.bring,
 						notes: this.event.notes,
-						leaveReminder: this.event.leaveReminder,
 						recurringMonthly: this.event.recurringMonthly,
 						recurringYearly: this.event.recurringYearly,
 						days: this.event.days,

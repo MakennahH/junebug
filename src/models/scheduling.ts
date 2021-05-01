@@ -62,7 +62,6 @@ export class EventModel {
 	location: string;
 	bring: string;
 	notes: string;
-	leaveReminder: boolean;
 	recurringMonthly: boolean;
 	recurringYearly: boolean;
 	days: boolean[];
@@ -78,7 +77,6 @@ export class EventModel {
 		this.location = "";
 		this.bring = "";
 		this.notes = "";
-		this.leaveReminder = false;
 		this.date = null;
 		this.recurringMonthly = false;
 		this.recurringYearly = false;
@@ -99,9 +97,6 @@ export class TaskModel {
 	title: string;
 	dueDate: Date | null;
 	dueTime: Date | null;
-	timeEstimate: number;
-	dailyReminder: boolean;
-	daysInAdvance: number;
 	completed: boolean;
 	notes: string;
 	color: {};
@@ -111,9 +106,6 @@ export class TaskModel {
 		this.title = "";
 		this.dueDate = null;
 		this.dueTime = null;
-		this.timeEstimate = 1;
-		this.dailyReminder = false;
-		this.daysInAdvance = 1;
 		this.completed = false;
 		this.notes = "";
 		this.color = {

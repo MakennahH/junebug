@@ -2,7 +2,8 @@
 	<div class="auth-wrapper">
 		<form class="col">
 			<div class="d-flex justify-content-center">
-				<img src="@/assets/logo-white.png" height="65" />
+				<img v-if="isDarkmode()" src="@/assets/logo-white.png" height="65" />
+				<img v-else src="@/assets/logo-black.png" height="65" />
 			</div>
 			<h1 class="text-center">Forgot Password</h1>
 			<div class="my-2">Happens to the best of us. Give us your email and we'll get you back on track.</div>
@@ -22,6 +23,10 @@ import { Component, Vue } from "vue-property-decorator";
 @Component
 export default class ForgotPassword extends Vue {
 	private email = "";
+
+	isDarkmode() {
+		return document.documentElement.classList.contains("dark-mode");
+	}
 
 	get emailModel() {
 		return this.email;

@@ -13,7 +13,7 @@
 			<div class="col" v-if="!isLoading">
 				<h3 class="m-2">Upcoming</h3>
 				<b-list-group v-if="incompletedTasks.length > 0" class="mx-2">
-					<!-- closest deadlines bubble to the top, within 12 hours timestamp is blue, overdue timestamp is red -->
+					<!-- within 12 hours timestamp is blue, overdue timestamp is red -->
 					<b-list-group-item v-for="task in incompletedTasks" :key="task.id" :to="'tasks/view/' + task.id" replace>
 						<div class="d-flex justify-content-between">
 							<strong :style="{ color: task.color ? task.color.hex + '!important' : '#17a2b8' }">{{ task.title }}</strong>
@@ -83,11 +83,7 @@ export default class Tasks extends Vue {
 
 		if (moment(date).add(time) < moment()) {
 			isOverDue = true;
-		} else if (
-			moment(date)
-				.add(time)
-				.diff(moment()) < 43200000
-		) {
+		} else if (moment(date).add(time).diff(moment()) < 43200000) {
 			// roughly 12 hours
 			isDueSoon = true;
 		}
@@ -96,7 +92,9 @@ export default class Tasks extends Vue {
 
 	mounted() {
 		this.loading = true;
-		this.$store.dispatch("getTasks").finally(() => (this.loading = false));
+		this.$store.dispatch("getTasks").then(() => {
+			this.loading = false;
+		});
 	}
 }
 </script>

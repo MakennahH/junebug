@@ -29,6 +29,7 @@
 import { TaskModel } from "@/models/scheduling";
 import { Component, Vue } from "vue-property-decorator";
 import { Compact } from "vue-color";
+import moment from "moment";
 @Component({
 	components: {
 		"compact-picker": Compact,
@@ -88,44 +89,12 @@ export default class AddTask extends Vue {
 		this.task.dueTime = value;
 	}
 
-	get dailyReminder() {
-		return this.task.dailyReminder;
-	}
-
-	set dailyReminder(value) {
-		this.task.dailyReminder = value;
-	}
-
 	get notes() {
 		return this.task.notes;
 	}
 
 	set notes(value) {
 		this.task.notes = value;
-	}
-
-	get maxHours() {
-		return this.task.timeEstimate;
-	}
-
-	set maxHours(value) {
-		this.task.timeEstimate = value;
-	}
-
-	formatHours() {
-		return this.task.timeEstimate == 1 ? this.task.timeEstimate + " hr" : this.task.timeEstimate + " hrs";
-	}
-
-	get maxDays() {
-		return this.task.daysInAdvance;
-	}
-
-	set maxDays(value) {
-		this.task.daysInAdvance = value;
-	}
-
-	formatDays() {
-		return this.task.daysInAdvance == 1 ? this.task.daysInAdvance + " day in advance" : this.task.daysInAdvance + " days in advance";
 	}
 
 	saveTask() {
@@ -138,9 +107,6 @@ export default class AddTask extends Vue {
 						title: this.task.title,
 						dueDate: this.task.dueDate,
 						dueTime: this.task.dueTime,
-						timeEstimate: this.task.timeEstimate,
-						dailyReminder: this.task.dailyReminder,
-						daysInAdvance: this.task.daysInAdvance,
 						notes: this.task.notes,
 						completed: this.task.completed,
 						color: this.task.color,
@@ -158,14 +124,12 @@ export default class AddTask extends Vue {
 			}
 		} else {
 			try {
+
 				this.$store
 					.dispatch("addTask", {
 						title: this.task.title,
 						dueDate: this.task.dueDate,
 						dueTime: this.task.dueTime,
-						timeEstimate: this.task.timeEstimate,
-						dailyReminder: this.task.dailyReminder,
-						daysInAdvance: this.task.daysInAdvance,
 						completed: false,
 						notes: this.task.notes,
 						color: this.task.color,
