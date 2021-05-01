@@ -25,6 +25,9 @@
 						<div>{{ event.bring }}</div>
 					</b-list-group-item>
 				</b-list-group>
+				<b-card v-else class="card-secondary text-center mx-2">
+					<b-card-text>Nothing planned for today!</b-card-text>
+				</b-card>
 				<h3 class="m-2">Upcoming</h3>
 				<b-list-group v-if="upcomingEvents.length > 0" class="mx-2">
 					<b-list-group-item v-for="event in upcomingEvents" :key="event.id" :to="'events/view/' + event.id" replace>
